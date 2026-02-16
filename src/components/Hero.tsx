@@ -10,55 +10,93 @@ const words = [
   "empowers clinicians",
 ];
 
-function ParticleField() {
-  const [particles, setParticles] = useState<Array<{id: number; x: number; y: number; size: number; duration: number; delay: number}>>([]);
-  
-  useEffect(() => {
-    const p = Array.from({ length: 50 }, (_, i) => ({
+function generateParticles() {
+  const colors = [
+    { color: "rgba(59,130,246,0.7)", glow: "rgba(59,130,246,0.3)" },
+    { color: "rgba(6,182,212,0.6)", glow: "rgba(6,182,212,0.25)" },
+    { color: "rgba(139,92,246,0.5)", glow: "rgba(139,92,246,0.2)" },
+    { color: "rgba(99,160,240,0.6)", glow: "rgba(99,160,240,0.25)" },
+  ];
+  return Array.from({ length: 100 }, (_, i) => {
+    const c = colors[i % colors.length];
+    return {
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 3 + 1,
-      duration: Math.random() * 20 + 10,
-      delay: Math.random() * 5,
-    }));
-    setParticles(p);
-  }, []);
+      size: Math.random() * 3 + 1.5,       // 1.5-4.5px — tiny crystals
+      duration: Math.random() * 20 + 18,    // 18-38s — much longer cycles
+      delay: Math.random() * 15,            // stagger up to 15s
+      rotation: Math.random() * 360,
+      driftX: (Math.random() - 0.5) * 50,
+      driftY: -40 - Math.random() * 60,
+      color: c.color,
+      glow: c.glow,
+    };
+  });
+}
+
+type Particle = ReturnType<typeof generateParticles>[number];
+
+function ParticleField() {
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  // Generate on client only — Math.random() causes hydration mismatch during SSR
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setParticles(generateParticles()); }, []);
 
   return (
     <div className="absolute inset-0 overflow-hidden">
       {/* Gradient orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#3B82F6]/10 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#06B6D4]/8 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "2s" }} />
-      <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-[#3B82F6]/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "4s" }} />
-      
-      {/* Particles */}
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#3B82F6]/20 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-[#06B6D4]/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "2s" }} />
+      <div className="absolute top-2/3 left-1/2 w-80 h-80 bg-[#8B5CF6]/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "4s" }} />
+
+      {/* Crystal particles */}
       {particles.map((p) => (
         <motion.div
           key={p.id}
-          className="absolute rounded-full bg-[#3B82F6]/50"
+          className="absolute"
           style={{
             left: `${p.x}%`,
             top: `${p.y}%`,
-            width: p.size * 2,
-            height: p.size * 2,
+            width: p.size,
+            height: p.size,
+            clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
+            backgroundColor: p.color,
+            boxShadow: `0 0 ${p.size * 2}px ${p.size}px ${p.glow}`,
           }}
           animate={{
-            y: [0, -50, 0],
-            opacity: [0.3, 0.8, 0.3],
+            y: [0, p.driftY * 0.3, p.driftY * 0.7, p.driftY, p.driftY * 0.7, p.driftY * 0.3, 0],
+            x: [0, p.driftX * 0.3, p.driftX * 0.6, p.driftX, p.driftX * 0.6, p.driftX * 0.3, 0],
+            opacity: [0, 0, 0.5, 0.8, 0.5, 0, 0],
+            scale: [0.6, 0.8, 1, 1.15, 1, 0.8, 0.6],
+            rotate: [p.rotation, p.rotation + 60, p.rotation + 120, p.rotation + 180, p.rotation + 240, p.rotation + 300, p.rotation + 360],
+            filter: [
+              "blur(3px)", "blur(1px)", "blur(0px)", "blur(0px)",
+              "blur(0px)", "blur(1px)", "blur(3px)",
+            ],
           }}
           transition={{
             duration: p.duration,
             repeat: Infinity,
             delay: p.delay,
             ease: "easeInOut",
+            times: [0, 0.08, 0.25, 0.5, 0.75, 0.92, 1],
           }}
         />
       ))}
 
+      {/* Floating connection lines (subtle) */}
+      <svg className="absolute inset-0 w-full h-full opacity-[0.06]">
+        <line x1="10%" y1="20%" x2="40%" y2="60%" stroke="#3B82F6" strokeWidth="1" />
+        <line x1="60%" y1="10%" x2="80%" y2="50%" stroke="#06B6D4" strokeWidth="1" />
+        <line x1="30%" y1="70%" x2="70%" y2="30%" stroke="#3B82F6" strokeWidth="1" />
+        <line x1="85%" y1="20%" x2="50%" y2="80%" stroke="#06B6D4" strokeWidth="1" />
+      </svg>
+
       {/* Grid lines */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.04]"
         style={{
           backgroundImage: `linear-gradient(#3B82F6 1px, transparent 1px), linear-gradient(90deg, #3B82F6 1px, transparent 1px)`,
           backgroundSize: "60px 60px",
