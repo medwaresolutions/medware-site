@@ -81,6 +81,15 @@ export default function ArticleContent() {
             <strong>Llama</strong> (Meta) is open source, which means you can run it locally on your own hardware. Important for privacy-sensitive work and for the open-source community pushing things forward.
           </p>
           <p>
+            <strong>Grok</strong> (xAI, Elon Musk&apos;s company) is the newest serious contender. Strong reasoning, real-time web access, and it&apos;s improving fast. One to watch.
+          </p>
+          <p>
+            <strong>DeepSeek</strong> (Chinese lab) shocked the industry with models that rival the best at a fraction of the training cost. Open weights, strong at coding and maths. A reminder that this isn&apos;t just a Silicon Valley race.
+          </p>
+          <p>
+            <strong>Qwen</strong> (Alibaba) and <strong>Mistral</strong> (French startup) round out the global picture — both producing excellent open-weight models that push the whole ecosystem forward.
+          </p>
+          <p>
             One distinction that trips people up: <strong>training</strong> versus <strong>inference</strong>. Training is when the model learns — it costs millions of dollars and takes months. Inference is when you use it — that&apos;s the chat, the API call, the prompt. When you&apos;re talking to ChatGPT, you&apos;re not teaching it anything. You&apos;re using what it already knows. Your conversations don&apos;t change the model.
           </p>
           <p>I learned all of this in my 50s. Age is irrelevant. Curiosity isn&apos;t.</p>
