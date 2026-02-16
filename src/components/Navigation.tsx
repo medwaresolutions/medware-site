@@ -32,6 +32,10 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <a href="#" className="flex items-center gap-3">
           <img src="/logo.png" alt="Medware" className="h-8 w-auto" />
+          <span className="text-xl font-bold tracking-wider">
+            <span className="text-[#3B82F6]">MED</span>
+            <span className="text-[#F9FAFB]">WARE</span>
+          </span>
         </a>
 
         {/* Desktop */}
