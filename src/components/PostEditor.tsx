@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import Link from "next/link";
 
 interface PostData {
   id?: string;
@@ -142,12 +141,12 @@ export default function PostEditor({
       <header className="border-b border-[#1F2937] bg-[#0a0a1a]/90 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link
+            <a
               href="/admin/dashboard"
               className="text-sm text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
             >
               &larr; Back
-            </Link>
+            </a>
             <span className="text-[#1F2937]">|</span>
             <span className="text-sm text-[#9CA3AF]">
               {isEditing ? "Edit Post" : "New Post"}

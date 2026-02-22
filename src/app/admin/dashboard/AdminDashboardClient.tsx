@@ -59,10 +59,10 @@ export default function AdminDashboardClient({
       <header className="border-b border-[#1F2937] bg-[#0a0a1a]/90 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/" className="text-xl font-bold tracking-wider">
+            <a href="/" className="text-xl font-bold tracking-wider">
               <span className="text-[#3B82F6]">MED</span>
               <span className="text-[#F9FAFB]">WARE</span>
-            </Link>
+            </a>
             <span className="text-[#1F2937]">|</span>
             <span className="text-sm text-[#9CA3AF]">The Signal Admin</span>
           </div>
