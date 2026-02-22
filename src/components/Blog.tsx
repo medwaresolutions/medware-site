@@ -71,12 +71,21 @@ export default function Blog() {
         </div>
       </div>
 
-      <div className="text-center">
+      <div className="flex items-center justify-center gap-4 flex-wrap">
         <a
           href="/blog/12000-hours"
           className="inline-flex items-center gap-2 px-6 py-3 bg-[#111827] border border-[#1F2937] hover:border-[#3B82F6]/50 rounded-lg text-sm font-medium text-[#F9FAFB] transition-all duration-200"
         >
           Read the full article
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+          </svg>
+        </a>
+        <a
+          href="/blog"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg text-sm font-medium text-[#F9FAFB] transition-all duration-200"
+        >
+          View The Signal
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
           </svg>
