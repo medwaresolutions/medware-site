@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 interface PostData {
@@ -50,7 +49,6 @@ export default function PostEditor({
   const [error, setError] = useState("");
   const [preview, setPreview] = useState(false);
   const supabase = createClient();
-  const router = useRouter();
 
   function generateSlug(title: string) {
     return title
@@ -101,8 +99,7 @@ export default function PostEditor({
       return;
     }
 
-    router.push("/admin/dashboard");
-    router.refresh();
+    window.location.href = "/admin/dashboard";
   }
 
   function renderMarkdown(content: string) {

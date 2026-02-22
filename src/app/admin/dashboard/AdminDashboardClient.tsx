@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 interface Post {
   id: string;
@@ -25,20 +23,17 @@ export default function AdminDashboardClient({
 }) {
   const [deleting, setDeleting] = useState<string | null>(null);
   const supabase = createClient();
-  const router = useRouter();
 
   async function handleSignOut() {
     await supabase.auth.signOut();
-    router.push("/admin/login");
-    router.refresh();
+    window.location.href = "/admin/login";
   }
 
   async function handleDelete(id: string) {
     if (!confirm("Are you sure you want to delete this post?")) return;
     setDeleting(id);
     await supabase.from("posts").delete().eq("id", id);
-    router.refresh();
-    setDeleting(null);
+    window.location.reload();
   }
 
   async function togglePublish(id: string, currentlyPublished: boolean) {
@@ -49,7 +44,7 @@ export default function AdminDashboardClient({
         published_at: !currentlyPublished ? new Date().toISOString() : null,
       })
       .eq("id", id);
-    router.refresh();
+    window.location.reload();
   }
 
   function getLinkedInShareUrl(post: Post) {
@@ -92,24 +87,24 @@ export default function AdminDashboardClient({
               {posts.length} {posts.length === 1 ? "post" : "posts"} total
             </p>
           </div>
-          <Link
+          <a
             href="/admin/dashboard/new"
             className="bg-[#3B82F6] hover:bg-[#2563EB] text-[#F9FAFB] font-medium px-5 py-2.5 rounded-lg transition-colors text-sm"
           >
             New Post
-          </Link>
+          </a>
         </div>
 
         {/* Posts Table */}
         {posts.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-[#9CA3AF] text-lg mb-4">No posts yet</p>
-            <Link
+            <a
               href="/admin/dashboard/new"
               className="text-[#3B82F6] hover:text-[#60A5FA] transition-colors"
             >
               Create your first post
-            </Link>
+            </a>
           </div>
         ) : (
           <div className="space-y-3">
@@ -167,12 +162,12 @@ export default function AdminDashboardClient({
                       Share
                     </span>
                   </a>
-                  <Link
+                  <a
                     href={`/admin/dashboard/edit/${post.id}`}
                     className="text-xs px-3 py-1.5 rounded-lg border border-[#1F2937] text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#3B82F6]/50 transition-all"
                   >
                     Edit
-                  </Link>
+                  </a>
                   <button
                     onClick={() => handleDelete(post.id)}
                     disabled={deleting === post.id}
