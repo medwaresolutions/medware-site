@@ -10,20 +10,22 @@ export default function AdminLoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const supabase = createClient();
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     setLoading(true);
 
+    const supabase = createClient();
+    console.log("[v0] Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
     console.log("[v0] Attempting login with email:", email);
+
     const { data, error: authError } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    console.log("[v0] Auth response:", { user: data?.user?.email, session: !!data?.session, error: authError?.message });
+    console.log("[v0] Auth response:", { user: data?.user?.email, session: !!data?.session, error: authError?.message, errorStatus: authError?.status });
 
     if (authError) {
       setError(authError.message);
@@ -31,7 +33,7 @@ export default function AdminLoginPage() {
       return;
     }
 
-    console.log("[v0] Login successful, redirecting to dashboard");
+    console.log("[v0] Login successful, session token exists:", !!data?.session?.access_token);
     router.push("/admin/dashboard");
     router.refresh();
   }
