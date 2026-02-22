@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -49,6 +49,11 @@ export default function PostEditor({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [preview, setPreview] = useState(false);
+  const [uploading, setUploading] = useState<string | null>(null);
+  const contentRef = useRef<HTMLTextAreaElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const videoInputRef = useRef<HTMLInputElement>(null);
+  const audioInputRef = useRef<HTMLInputElement>(null);
   const supabase = createClient();
   const router = useRouter();
 
@@ -105,8 +110,53 @@ export default function PostEditor({
     router.refresh();
   }
 
+  function insertBlock(template: string) {
+    const el = contentRef.current;
+    if (!el) {
+      setForm((prev) => ({ ...prev, content: prev.content + "\n\n" + template }));
+      return;
+    }
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    const current = form.content;
+    const newContent =
+      current.slice(0, start) + "\n\n" + template + "\n\n" + current.slice(end);
+    setForm((prev) => ({ ...prev, content: newContent }));
+    setTimeout(() => {
+      el.focus();
+      const pos = start + template.length + 4;
+      el.selectionStart = pos;
+      el.selectionEnd = pos;
+    }, 0);
+  }
+
+  async function uploadAndInsert(file: File, type: "image" | "video" | "audio") {
+    setUploading(type);
+    const fd = new FormData();
+    fd.append("file", file);
+    try {
+      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      insertBlock(`::${type}[${data.url}]`);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Upload failed");
+    } finally {
+      setUploading(null);
+    }
+  }
+
   function renderMarkdown(content: string) {
-    let html = content
+    // Raw HTML passthrough blocks
+    let html = content.replace(/:::html\n([\s\S]*?)\n:::/g, (_, inner) => inner);
+
+    // Media shortcodes
+    html = html.replace(/^::image\[(.+)\]$/gim, '<img src="$1" alt="" class="w-full rounded-xl my-8 border border-[#1F2937]" />');
+    html = html.replace(/^::video\[(.+)\]$/gim, '<video src="$1" controls class="w-full rounded-xl my-8 border border-[#1F2937]"></video>');
+    html = html.replace(/^::audio\[(.+)\]$/gim, '<audio src="$1" controls class="w-full my-8"></audio>');
+    html = html.replace(/^::iframe\[(.+)\]$/gim, '<div class="relative w-full aspect-video my-8 rounded-xl overflow-hidden border border-[#1F2937]"><iframe src="$1" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" class="w-full h-full"></iframe></div>');
+
+    html = html
       .replace(/^### (.*$)/gim, '<h3 class="text-xl font-bold text-[#F9FAFB] mt-8 mb-3">$1</h3>')
       .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold text-[#F9FAFB] mt-12 mb-4">$1</h2>')
       .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold text-[#F9FAFB] mt-12 mb-4">$1</h1>')
@@ -122,14 +172,7 @@ export default function PostEditor({
     const result: string[] = [];
     for (const line of lines) {
       const trimmed = line.trim();
-      if (
-        trimmed &&
-        !trimmed.startsWith("<h") &&
-        !trimmed.startsWith("<hr") &&
-        !trimmed.startsWith("<ul") &&
-        !trimmed.startsWith("<li") &&
-        !trimmed.startsWith("</")
-      ) {
+      if (trimmed && !trimmed.startsWith("<")) {
         result.push(`<p class="text-[#9CA3AF] leading-relaxed mb-6">${trimmed}</p>`);
       } else {
         result.push(line);
@@ -252,10 +295,53 @@ export default function PostEditor({
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#9CA3AF] mb-2">
-                  Content (Markdown)
-                </label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-sm font-medium text-[#9CA3AF]">
+                    Content (Markdown)
+                  </label>
+                  <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                    <button
+                      type="button"
+                      onClick={() => imageInputRef.current?.click()}
+                      disabled={!!uploading}
+                      className="text-xs px-2.5 py-1.5 rounded-md border border-[#1F2937] text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#3B82F6]/50 transition-all disabled:opacity-50"
+                    >
+                      {uploading === "image" ? "Uploading..." : "📷 Image"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => videoInputRef.current?.click()}
+                      disabled={!!uploading}
+                      className="text-xs px-2.5 py-1.5 rounded-md border border-[#1F2937] text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#3B82F6]/50 transition-all disabled:opacity-50"
+                    >
+                      {uploading === "video" ? "Uploading..." : "🎬 Video"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => audioInputRef.current?.click()}
+                      disabled={!!uploading}
+                      className="text-xs px-2.5 py-1.5 rounded-md border border-[#1F2937] text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#3B82F6]/50 transition-all disabled:opacity-50"
+                    >
+                      {uploading === "audio" ? "Uploading..." : "🎵 Audio"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => insertBlock("::iframe[https://www.youtube.com/embed/VIDEO_ID]")}
+                      className="text-xs px-2.5 py-1.5 rounded-md border border-[#1F2937] text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#3B82F6]/50 transition-all"
+                    >
+                      {"</>"} iFrame
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => insertBlock(":::html\n<div>\n\n</div>\n:::")}
+                      className="text-xs px-2.5 py-1.5 rounded-md border border-[#1F2937] text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#3B82F6]/50 transition-all"
+                    >
+                      {"{ }"} HTML
+                    </button>
+                  </div>
+                </div>
                 <textarea
+                  ref={contentRef}
                   value={form.content}
                   onChange={(e) =>
                     setForm((prev) => ({ ...prev, content: e.target.value }))
@@ -264,6 +350,13 @@ export default function PostEditor({
                   className="w-full bg-[#111827] border border-[#1F2937] rounded-lg px-4 py-3 text-[#9CA3AF] placeholder-[#4B5563] focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent transition-all resize-y font-mono text-sm leading-relaxed"
                   placeholder={"Write your post in markdown...\n\n## Section Heading\n\nParagraph text here.\n\n- Bullet point\n- Another point\n\n**Bold text** and *italic text*"}
                 />
+                {/* Hidden file inputs */}
+                <input ref={imageInputRef} type="file" accept="image/*" className="hidden"
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadAndInsert(f, "image"); e.target.value = ""; }} />
+                <input ref={videoInputRef} type="file" accept="video/*" className="hidden"
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadAndInsert(f, "video"); e.target.value = ""; }} />
+                <input ref={audioInputRef} type="file" accept="audio/*" className="hidden"
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadAndInsert(f, "audio"); e.target.value = ""; }} />
               </div>
             </div>
 

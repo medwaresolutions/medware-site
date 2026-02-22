@@ -22,7 +22,16 @@ function estimateReadTime(content: string): number {
 }
 
 function renderMarkdown(content: string) {
-  let html = content
+  // Raw HTML passthrough blocks
+  let html = content.replace(/:::html\n([\s\S]*?)\n:::/g, (_, inner) => inner);
+
+  // Media shortcodes
+  html = html.replace(/^::image\[(.+)\]$/gim, '<img src="$1" alt="" class="w-full rounded-xl my-8 border border-[#1F2937]" />');
+  html = html.replace(/^::video\[(.+)\]$/gim, '<video src="$1" controls class="w-full rounded-xl my-8 border border-[#1F2937]"></video>');
+  html = html.replace(/^::audio\[(.+)\]$/gim, '<audio src="$1" controls class="w-full my-8"></audio>');
+  html = html.replace(/^::iframe\[(.+)\]$/gim, '<div class="relative w-full aspect-video my-8 rounded-xl overflow-hidden border border-[#1F2937]"><iframe src="$1" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" class="w-full h-full"></iframe></div>');
+
+  html = html
     .replace(/^### (.*$)/gim, '<h3 class="text-xl font-bold text-[#F9FAFB] mt-8 mb-3">$1</h3>')
     .replace(/^## (.*$)/gim, '<h2 class="text-2xl md:text-3xl font-bold text-[#F9FAFB] mt-16 mb-6">$1</h2>')
     .replace(/^# (.*$)/gim, '<h1 class="text-3xl md:text-4xl font-bold text-[#F9FAFB] mt-16 mb-6">$1</h1>')
@@ -38,14 +47,7 @@ function renderMarkdown(content: string) {
   const result: string[] = [];
   for (const line of lines) {
     const trimmed = line.trim();
-    if (
-      trimmed &&
-      !trimmed.startsWith("<h") &&
-      !trimmed.startsWith("<hr") &&
-      !trimmed.startsWith("<ul") &&
-      !trimmed.startsWith("<li") &&
-      !trimmed.startsWith("</")
-    ) {
+    if (trimmed && !trimmed.startsWith("<")) {
       result.push(`<p class="text-[#9CA3AF] leading-relaxed mb-6">${trimmed}</p>`);
     } else {
       result.push(line);
