@@ -14,20 +14,33 @@ export default function AdminLoginPage() {
     setError("");
     setLoading(true);
 
-    const supabase = createClient();
+    try {
+      const supabase = createClient();
 
-    const { error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (authError) {
-      setError(authError.message);
+      if (authError) {
+        setError(authError.message);
+        setLoading(false);
+        return;
+      }
+
+      if (!data.session) {
+        setError("Login succeeded but no session was created. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      // Small delay to ensure auth cookies are fully written
+      await new Promise((resolve) => setTimeout(resolve, 200));
+      window.location.href = "/admin/dashboard";
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An unexpected error occurred");
       setLoading(false);
-      return;
     }
-
-    window.location.href = "/admin/dashboard";
   }
 
   return (
