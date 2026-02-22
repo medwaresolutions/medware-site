@@ -21,11 +21,6 @@ function estimateReadTime(content: string): number {
   return Math.max(1, Math.ceil(words / 200));
 }
 
-function getLinkedInShareUrl(slug: string) {
-  const articleUrl = `https://medware.com.au/blog/${slug}`;
-  return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(articleUrl)}`;
-}
-
 export default function BlogFeed({ posts }: { posts: Post[] }) {
   const featured = posts[0];
   const rest = posts.slice(1);
