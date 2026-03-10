@@ -41,6 +41,24 @@ const products = [
     color: "#10B981",
     image: "/1-framewright.png",
   },
+  {
+    name: "My Practice",
+    tag: "Referral Intelligence",
+    description:
+      "Referral mapping and revenue intelligence for US specialist physicians. Maps GP and specialist referral patterns, develops targeted outreach campaigns, and places dollar values on referral relationships to help practices grow revenue.",
+    link: "",
+    color: "#EF4444",
+    image: "/1-mypactice.png",
+  },
+  {
+    name: "The Hub by MedFlow",
+    tag: "Patient Education",
+    description:
+      "Patient information delivery platform for clinics. Package reputable health content and deliver it via SMS or email with personalised patient web pages. Track engagement and set up timed campaign sequences.",
+    link: "https://hub.medflow.com.au",
+    color: "#F59E0B",
+    image: "/1-thehub.png",
+  },
 ];
 
 export default function Work() {
