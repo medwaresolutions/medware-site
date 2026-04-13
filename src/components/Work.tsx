@@ -59,11 +59,29 @@ const products = [
     color: "#F59E0B",
     image: "/1-thehub.png",
   },
+  {
+    name: "EarPiece",
+    tag: "AI Meeting Coach",
+    description:
+      "An AI meeting coach for iPhone, powered by Claude. Listens through your AirPods, reads the room in under three seconds, and whispers the perfect response directly into your ear — invisible to everyone else. Built for professionals who want a quiet edge in every conversation.",
+    link: "https://earpiece-landing.vercel.app",
+    color: "#EC4899",
+    image: "/earpiece.png",
+  },
+  {
+    name: "Constellation",
+    tag: "Memory for AI",
+    description:
+      "Persistent memory for AI, built for the startup entrepreneur. Constellation captures the decisions, context, and threads across your tools and conversations so your AI actually remembers what matters — letting you pick up where you left off without repeating yourself.",
+    link: "",
+    color: "#14B8A6",
+    image: "/constellation.png",
+  },
 ];
 
 export default function Work() {
   return (
-    <SectionWrapper id="work">
+    <SectionWrapper id="work" style={{ background: "radial-gradient(ellipse at top right, rgba(99,102,241,0.18), transparent 60%), radial-gradient(ellipse at bottom left, rgba(14,165,233,0.12), transparent 65%)" }}>
       <div className="text-center mb-16">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Work</h2>
         <p className="text-[#9CA3AF] max-w-xl mx-auto">

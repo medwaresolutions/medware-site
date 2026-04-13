@@ -182,16 +182,18 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-start justify-center overflow-hidden pt-24 md:pt-28">
       <ParticleField />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
+        <div className="flex flex-col items-center gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="w-full text-center"
+          >
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6">
             We build AI that
             <br />
             <span className="relative inline-block h-[1.2em] overflow-hidden">
@@ -220,26 +222,32 @@ export default function Hero() {
             understand healthcare.
           </motion.p>
 
-          <motion.div
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="text-sm md:text-base text-[#6B7280] italic"
           >
-            <a
-              href="#work"
-              className="px-8 py-4 border border-[#1F2937] hover:border-[#3B82F6] text-[#F9FAFB] font-semibold rounded-lg transition-all duration-200 hover:bg-[#3B82F6]/10"
-            >
-              Our Work
-            </a>
-            <a
-              href="#contact"
-              className="px-8 py-4 border border-[#1F2937] hover:border-[#3B82F6] text-[#F9FAFB] font-semibold rounded-lg transition-all duration-200 hover:bg-[#3B82F6]/10"
-            >
-              Get in Touch
-            </a>
+            Tap to initiate signal. Hold mouse and move to rotate model.
+          </motion.p>
           </motion.div>
-        </motion.div>
+          <div className="w-full flex flex-col md:flex-row gap-6">
+            <div className="w-full md:flex-1 aspect-square md:aspect-auto md:h-[600px] rounded-3xl overflow-hidden border border-[#1F2937]">
+              <iframe
+                src="/neuron.html"
+                className="w-full h-full border-0"
+                title="Neuron"
+              />
+            </div>
+            <div className="w-full md:flex-1 aspect-square md:aspect-auto md:h-[600px] rounded-3xl overflow-hidden border border-[#1F2937]">
+              <iframe
+                src="/neural.html"
+                className="w-full h-full border-0"
+                title="Neural"
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Scroll indicator */}

@@ -23,7 +23,7 @@ const offerings = [
 
 export default function Training() {
   return (
-    <SectionWrapper id="training">
+    <SectionWrapper id="training" style={{ background: "radial-gradient(ellipse at top right, rgba(245,158,11,0.12), transparent 65%)" }}>
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Training</h2>

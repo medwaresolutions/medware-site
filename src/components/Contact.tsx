@@ -5,7 +5,7 @@ import SectionWrapper from "./SectionWrapper";
 
 export default function Contact() {
   return (
-    <SectionWrapper id="contact">
+    <SectionWrapper id="contact" style={{ background: "radial-gradient(ellipse at center, rgba(236,72,153,0.12), transparent 65%)" }}>
       <div className="max-w-2xl mx-auto text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">Get in Touch</h2>
         <p className="text-[#9CA3AF] mb-10">

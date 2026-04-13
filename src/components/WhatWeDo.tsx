@@ -35,7 +35,7 @@ const services = [
 
 export default function WhatWeDo() {
   return (
-    <SectionWrapper id="services">
+    <SectionWrapper id="services" style={{ background: "radial-gradient(ellipse at top, rgba(59,130,246,0.12), transparent 65%)" }}>
       <div className="text-center mb-16">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">What We Do</h2>
         <p className="text-[#9CA3AF] max-w-xl mx-auto">

@@ -1,5 +1,3 @@
-"use client";
-
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import WhatWeDo from "@/components/WhatWeDo";
@@ -9,8 +7,17 @@ import Blog from "@/components/Blog";
 import Training from "@/components/Training";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import { createClient } from "@/lib/supabase/server";
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+  const { data: posts } = await supabase
+    .from("posts")
+    .select("id, title, slug, excerpt, cover_image, published_at, category")
+    .eq("published", true)
+    .order("published_at", { ascending: false })
+    .limit(3);
+
   return (
     <main>
       <Navigation />
@@ -18,7 +25,7 @@ export default function Home() {
       <WhatWeDo />
       <Work />
       <About />
-      <Blog />
+      <Blog posts={posts ?? []} />
       <Training />
       <Contact />
       <Footer />

@@ -13,7 +13,7 @@ const stats = [
 
 export default function About() {
   return (
-    <SectionWrapper id="about">
+    <SectionWrapper id="about" style={{ background: "radial-gradient(ellipse at top left, rgba(139,92,246,0.12), transparent 65%)" }}>
       <div className="grid lg:grid-cols-2 gap-16 items-center">
         <div>
           <div className="flex items-center gap-5 mb-6">
