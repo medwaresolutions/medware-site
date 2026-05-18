@@ -552,9 +552,9 @@ function CompanyColumn({
   return (
     <div className="flex flex-col gap-4">
       {/* Company card */}
-      <div className="bg-[#111827] border border-[#1F2937] rounded-2xl overflow-hidden">
+      <div className="bg-[#111827] border border-[#1F2937] rounded-2xl overflow-hidden flex flex-col min-h-[320px]">
         <div className="h-1" style={{ background: company.accent }} />
-        <div className="p-5">
+        <div className="p-5 flex flex-col flex-1">
           <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex items-center gap-3">
               <div
@@ -610,7 +610,7 @@ function CompanyColumn({
               </div>
             ))}
           </div>
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center justify-between gap-3 mt-auto">
             <a
               href={company.link}
               target="_blank"
