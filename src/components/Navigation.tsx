@@ -7,7 +7,7 @@ const links = [
   { href: "#work", label: "Work" },
   { href: "#about", label: "About" },
   { href: "/blog", label: "The Signal" },
-  { href: "#training", label: "Training" },
+  { href: "#training", label: "AI Advisory" },
   { href: "#contact", label: "Contact" },
 ];
 
