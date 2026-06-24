@@ -1,15 +1,22 @@
 /* Medware Group — industry enquiry handler (Next.js API route).
- * Replaces the old Netlify Forms submission. Emails the enquiry (contact
- * details + shortlist + rollout dates) to the team via Resend.
+ * Replaces the old Netlify Forms submission. Sends two emails via Resend:
+ *   1. the enquiry (contact details + shortlist + dates) to the team
+ *      (matt@medware.com.au, or ENQUIRY_TO), reply-to the enquirer;
+ *   2. a confirmation + copy to the person who enquired, reply-to matt@.
  * Requires RESEND_API_KEY. Optional RESEND_FROM (a verified sender on your
- * Resend domain; defaults to a noreply@medware.com.au address). */
+ * Resend domain; defaults to noreply@medware.com.au) and ENQUIRY_TO. */
 
 import { NextRequest } from "next/server";
 
 export const runtime = "nodejs";
 
-const TO = ["matt@medware.com.au", "admin@medware.com.au"];
-const FROM = process.env.RESEND_FROM || "Medware Industry <noreply@medware.com.au>";
+// Where the enquiry notification is sent (override with ENQUIRY_TO, comma-separated).
+const TEAM_TO = (process.env.ENQUIRY_TO || "matt@medware.com.au")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+const FROM = process.env.RESEND_FROM || "Medware Group <noreply@medware.com.au>";
+const REPLY_TO = "matt@medware.com.au";
 
 const esc = (s: string) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c] ?? c);
 
@@ -54,18 +61,13 @@ export async function POST(req: NextRequest) {
       ? `<tr><td style="padding:6px 14px;color:#6B7C90;font:600 13px Arial,sans-serif;white-space:nowrap;vertical-align:top">${label}</td><td style="padding:6px 14px;font:14px Arial,sans-serif;color:#0E1B2A">${esc(val).replace(/\n/g, "<br>")}</td></tr>`
       : "";
 
-  const html = `<div style="max-width:640px;margin:0 auto;font-family:Arial,sans-serif">
-    <h2 style="color:#0E1B2A;margin:0 0 16px">New industry enquiry</h2>
-    <table style="border-collapse:collapse;width:100%;border:1px solid #E4EAF0;border-radius:8px">
+  const detailsTable = `<table style="border-collapse:collapse;width:100%;border:1px solid #E4EAF0;border-radius:8px">
       ${row("Name", name)}${row("Work email", email)}${row("Company", company)}${row("Role", role)}
       ${row("Department", department)}${row("Overall timing", timing)}
       ${row("Shortlist", products)}${row("Involved with", involved)}${row("Message", message)}
-    </table>
-  </div>`;
+    </table>`;
 
-  const text = `New industry enquiry
-
-Name: ${name}
+  const detailsText = `Name: ${name}
 Work email: ${email}
 Company: ${company}
 Role: ${role}
@@ -80,18 +82,57 @@ Involved with: ${involved}
 Message:
 ${message}`;
 
-  try {
-    const r = await fetch("https://api.resend.com/emails", {
+  // 1) Notification to the team.
+  const notifyHtml = `<div style="max-width:640px;margin:0 auto;font-family:Arial,sans-serif">
+    <h2 style="color:#0E1B2A;margin:0 0 16px">New industry enquiry</h2>
+    ${detailsTable}
+  </div>`;
+  const notifyText = `New industry enquiry\n\n${detailsText}`;
+
+  // 2) Confirmation + copy to the person who enquired.
+  const confirmHtml = `<div style="max-width:640px;margin:0 auto;font-family:Arial,sans-serif;color:#0E1B2A">
+    <h2 style="margin:0 0 12px">Thanks, ${esc(name)} — we have your enquiry</h2>
+    <p style="font:15px Arial,sans-serif;color:#33465B;margin:0 0 18px">
+      We will be in touch shortly with how each solution works, the benefit to you, and the cost.
+      Here is a copy of what you sent:
+    </p>
+    ${detailsTable}
+    <p style="font:13px Arial,sans-serif;color:#6B7C90;margin:18px 0 0">
+      Medware Group · reply to this email or contact matt@medware.com.au.
+    </p>
+  </div>`;
+  const confirmText = `Thanks, ${name} — we have your enquiry.
+
+We will be in touch shortly with how each solution works, the benefit to you, and the cost.
+Here is a copy of what you sent:
+
+${detailsText}
+
+Medware Group · reply to this email or contact matt@medware.com.au.`;
+
+  const send = (to: string[], subject: string, html: string, text: string, replyTo: string) =>
+    fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: FROM, to: TO, reply_to: email, subject: `Industry enquiry — ${company}`, html, text }),
+      body: JSON.stringify({ from: FROM, to, reply_to: replyTo, subject, html, text }),
     });
+
+  // The team notification is the critical send — fail the request if it errors.
+  try {
+    const r = await send(TEAM_TO, `Industry enquiry — ${company}`, notifyHtml, notifyText, email);
     if (!r.ok) {
       const d = (await r.json().catch(() => ({}))) as { message?: string };
       return Response.json({ error: d?.message || "Could not send your enquiry." }, { status: 502 });
     }
   } catch {
     return Response.json({ error: "Could not reach the email service." }, { status: 502 });
+  }
+
+  // Confirmation to the enquirer is best-effort — never lose the lead over it.
+  try {
+    await send([email], "We have received your enquiry — Medware Group", confirmHtml, confirmText, REPLY_TO);
+  } catch {
+    /* ignore — the team notification already captured the lead */
   }
 
   return Response.json({ ok: true });
