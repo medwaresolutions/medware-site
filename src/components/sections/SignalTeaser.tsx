@@ -15,7 +15,8 @@ export interface SignalPost {
 
 export default function SignalTeaser({ posts }: { posts: SignalPost[] }) {
   return (
-    <section id="signal" style={{ ...mwWrap, padding: "80px 24px" }}>
+    <section id="signal" style={{ background: "var(--md-sys-color-surface-container-lowest)" }}>
+      <div style={{ ...mwWrap, padding: "80px 24px" }}>
       <div style={{ textAlign: "center", maxWidth: 620, margin: "0 auto 44px" }}>
         <span
           className="md-typescale-title-small"
@@ -85,6 +86,7 @@ export default function SignalTeaser({ posts }: { posts: SignalPost[] }) {
         <Button variant="tonal" href="/blog" trailingIcon="arrow_forward">
           Read The Signal
         </Button>
+      </div>
       </div>
     </section>
   );

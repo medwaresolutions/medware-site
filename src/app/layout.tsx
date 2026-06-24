@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
@@ -6,6 +6,13 @@ export const metadata: Metadata = {
   title: "Medware — AI for healthcare",
   description:
     "We build AI that transforms medicine. Medical software, AI consulting, and training by Medware Solutions.",
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F9FDFF" },
+    { media: "(prefers-color-scheme: dark)", color: "#15181A" },
+  ],
 };
 
 // Set the saved theme on <html> before first paint to avoid a flash of the
