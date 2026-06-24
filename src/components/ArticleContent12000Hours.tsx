@@ -4,17 +4,17 @@ import { motion } from "framer-motion";
 
 export default function ArticleContent() {
   return (
-    <div className="min-h-screen bg-[#0a0a1a]">
+    <div className="min-h-screen bg-[var(--md-sys-color-background)]">
       {/* Nav back */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a1a]/90 backdrop-blur-md border-b border-[#1F2937]">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--md-sys-color-background)]/90 backdrop-blur-md border-b border-[var(--md-sys-color-outline-variant)]">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
           <a href="/" className="text-xl font-bold tracking-wider">
-            <span className="text-[#3B82F6]">MED</span>
-            <span className="text-[#F9FAFB]">WARE</span>
+            <span className="text-[var(--md-sys-color-primary)]">MED</span>
+            <span className="text-[var(--md-sys-color-on-surface)]">WARE</span>
           </a>
           <a
             href="/"
-            className="text-sm text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
+            className="text-sm text-[var(--md-sys-color-on-surface-variant)] hover:text-[var(--md-sys-color-on-surface)] transition-colors"
           >
             ← Back
           </a>
@@ -28,18 +28,18 @@ export default function ArticleContent() {
         className="max-w-3xl mx-auto px-6 pt-32 pb-24"
       >
         <header className="mb-16 text-center">
-          <div className="text-sm text-[#3B82F6] font-medium uppercase tracking-wider mb-4">
+          <div className="text-sm text-[var(--md-sys-color-primary)] font-medium uppercase tracking-wider mb-4">
             Blog
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
             What I Learned After 12,000 Hours with AI
           </h1>
-          <p className="text-[#9CA3AF] text-lg">
+          <p className="text-[var(--md-sys-color-on-surface-variant)] text-lg">
             By Matt Martin, Founder of Medware Solutions
           </p>
         </header>
 
-        <div className="prose prose-invert prose-lg max-w-none [&>p]:text-[#9CA3AF] [&>p]:leading-relaxed [&>p]:mb-6 [&>h2]:text-[#F9FAFB] [&>h2]:text-2xl [&>h2]:md:text-3xl [&>h2]:font-bold [&>h2]:mt-16 [&>h2]:mb-6 [&>strong]:text-[#F9FAFB] [&>p>strong]:text-[#F9FAFB] [&>ul]:text-[#9CA3AF] [&>ul]:mb-6 [&>ul]:space-y-2 [&>ul>li]:leading-relaxed [&>a]:text-[#3B82F6] [&>a]:underline [&>p>a]:text-[#3B82F6] [&>p>a]:underline [&>hr]:border-[#1F2937] [&>hr]:my-12">
+        <div className="prose prose-invert prose-lg max-w-none [&>p]:text-[var(--md-sys-color-on-surface-variant)] [&>p]:leading-relaxed [&>p]:mb-6 [&>h2]:text-[var(--md-sys-color-on-surface)] [&>h2]:text-2xl [&>h2]:md:text-3xl [&>h2]:font-bold [&>h2]:mt-16 [&>h2]:mb-6 [&>strong]:text-[var(--md-sys-color-on-surface)] [&>p>strong]:text-[var(--md-sys-color-on-surface)] [&>ul]:text-[var(--md-sys-color-on-surface-variant)] [&>ul]:mb-6 [&>ul]:space-y-2 [&>ul>li]:leading-relaxed [&>a]:text-[var(--md-sys-color-primary)] [&>a]:underline [&>p>a]:text-[var(--md-sys-color-primary)] [&>p>a]:underline [&>hr]:border-[var(--md-sys-color-outline-variant)] [&>hr]:my-12">
 
           <p>
             At the end of last year, I promised on LinkedIn that I&apos;d run an AI training course. Life got in the way — client work, product launches, the usual chaos of running a health tech company in Sydney.
@@ -219,7 +219,7 @@ export default function ArticleContent() {
           <p>
             I started in my 50s with no coding background, and now I have production software in the market, an open-source tool helping others build better, and more energy for this work than I&apos;ve had for anything in decades.
           </p>
-          <p className="text-[#F9FAFB] font-medium text-xl">
+          <p className="text-[var(--md-sys-color-on-surface)] font-medium text-xl">
             The best time to start was three years ago. The second best time is today.
           </p>
 

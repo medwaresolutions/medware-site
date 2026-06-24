@@ -1,7 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
 import Link from "next/link";
+import Header from "@/components/sections/Header";
+import Footer from "@/components/sections/Footer";
+import { Button } from "@/components/ds";
+import { LegalDialog, type LegalDoc } from "@/components/sections/dialogs";
 
 interface Post {
   id: string;
@@ -26,29 +30,32 @@ function renderMarkdown(content: string) {
   let html = content.replace(/:::html\n([\s\S]*?)\n:::/g, (_, inner) => inner);
 
   // Media shortcodes
-  html = html.replace(/^::image\[(.+)\]$/gim, '<img src="$1" alt="" class="w-full rounded-xl my-8 border border-[#1F2937]" />');
-  html = html.replace(/^::video\[(.+)\]$/gim, '<video src="$1" controls class="w-full rounded-xl my-8 border border-[#1F2937]"></video>');
-  html = html.replace(/^::audio\[(.+)\]$/gim, '<audio src="$1" controls class="w-full my-8"></audio>');
-  html = html.replace(/^::iframe\[(.+)\]$/gim, '<div class="relative w-full aspect-video my-8 rounded-xl overflow-hidden border border-[#1F2937]"><iframe src="$1" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" class="w-full h-full"></iframe></div>');
+  html = html.replace(/^::image\[(.+)\]$/gim, '<img src="$1" alt="" class="mw-prose-media" />');
+  html = html.replace(/^::video\[(.+)\]$/gim, '<video src="$1" controls class="mw-prose-media"></video>');
+  html = html.replace(/^::audio\[(.+)\]$/gim, '<audio src="$1" controls style="width:100%;margin:24px 0;"></audio>');
+  html = html.replace(
+    /^::iframe\[(.+)\]$/gim,
+    '<div class="mw-embed"><iframe src="$1" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>',
+  );
 
   html = html
-    .replace(/^### (.*$)/gim, '<h3 class="text-xl font-bold text-[#F9FAFB] mt-8 mb-3">$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2 class="text-2xl md:text-3xl font-bold text-[#F9FAFB] mt-16 mb-6">$1</h2>')
-    .replace(/^# (.*$)/gim, '<h1 class="text-3xl md:text-4xl font-bold text-[#F9FAFB] mt-16 mb-6">$1</h1>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong class="text-[#F9FAFB]">$1</strong>')
+    .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+    .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+    .replace(/^# (.*$)/gim, "<h1>$1</h1>")
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
     .replace(/\*(.*?)\*/g, "<em>$1</em>")
-    .replace(/^---$/gim, '<hr class="border-[#1F2937] my-12" />')
-    .replace(/^\- (.*$)/gim, '<li class="text-[#9CA3AF] leading-relaxed">$1</li>')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-[#3B82F6] underline hover:text-[#60A5FA] transition-colors" target="_blank" rel="noopener noreferrer">$1</a>');
+    .replace(/^---$/gim, "<hr />")
+    .replace(/^- (.*$)/gim, "<li>$1</li>")
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
 
-  html = html.replace(/((<li.*<\/li>\n?)+)/g, '<ul class="list-disc list-inside space-y-2 mb-6">$1</ul>');
+  html = html.replace(/((<li.*<\/li>\n?)+)/g, "<ul>$1</ul>");
 
   const lines = html.split("\n");
   const result: string[] = [];
   for (const line of lines) {
     const trimmed = line.trim();
     if (trimmed && !trimmed.startsWith("<")) {
-      result.push(`<p class="text-[#9CA3AF] leading-relaxed mb-6">${trimmed}</p>`);
+      result.push(`<p>${trimmed}</p>`);
     } else {
       result.push(line);
     }
@@ -58,118 +65,89 @@ function renderMarkdown(content: string) {
 }
 
 export default function BlogArticle({ post }: { post: Post }) {
+  const [legal, setLegal] = useState<LegalDoc | null>(null);
   const linkedInShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-    `https://medware.com.au/blog/${post.slug}`
+    `https://medware.com.au/blog/${post.slug}`,
   )}`;
+  const dateStr = new Date(post.published_at ?? post.created_at).toLocaleDateString("en-AU", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 
   return (
-    <div className="min-h-screen bg-[#0a0a1a]">
-      {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a1a]/90 backdrop-blur-md border-b border-[#1F2937]">
-        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="text-xl font-bold tracking-wider">
-              <span className="text-[#3B82F6]">MED</span>
-              <span className="text-[#F9FAFB]">WARE</span>
-            </Link>
-            <span className="text-[#1F2937]">|</span>
-            <Link
-              href="/blog"
-              className="text-sm text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
-            >
-              The Signal
-            </Link>
-          </div>
-          <div className="flex items-center gap-4">
-            <a
-              href={linkedInShareUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-sm text-[#9CA3AF] hover:text-[#0A66C2] transition-colors"
-              title="Share on LinkedIn"
-            >
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-              </svg>
-              <span className="hidden sm:inline">Share</span>
-            </a>
-            <Link
-              href="/blog"
-              className="text-sm text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
-            >
-              &larr; Feed
-            </Link>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero / Cover Image */}
-      {post.cover_image && (
-        <div className="relative w-full aspect-[21/9] mt-[61px]">
-          <img
-            src={post.cover_image}
-            alt={post.title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a1a] via-[#0a0a1a]/50 to-transparent" />
-        </div>
-      )}
-
-      <motion.article
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className={`max-w-3xl mx-auto px-6 pb-24 ${post.cover_image ? "-mt-32 relative z-10" : "pt-32"}`}
-      >
-        <header className="mb-12">
-          {post.category && (
-            <span className="inline-block text-xs font-medium uppercase tracking-wider text-[#3B82F6] bg-[#3B82F6]/10 px-3 py-1 rounded-full mb-4">
-              {post.category}
+    <>
+      <Header />
+      <article style={{ maxWidth: 760, margin: "0 auto", padding: "48px 24px 64px" }}>
+        <header style={{ marginBottom: 32 }}>
+          <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 14 }}>
+            {post.category ? (
+              <span
+                className="md-typescale-label-medium"
+                style={{ color: "var(--md-sys-color-primary)", textTransform: "uppercase", letterSpacing: 0.8 }}
+              >
+                {post.category}
+              </span>
+            ) : null}
+            <span className="md-typescale-label-medium" style={{ color: "var(--md-sys-color-on-surface-variant)" }}>
+              {dateStr}
             </span>
-          )}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#F9FAFB] leading-tight mb-4 text-balance">
+          </div>
+          <h1 className="md-typescale-display-small" style={{ margin: "0 0 16px", color: "var(--md-sys-color-on-surface)" }}>
             {post.title}
           </h1>
-          {post.excerpt && (
-            <p className="text-lg text-[#9CA3AF] mb-6 leading-relaxed">{post.excerpt}</p>
-          )}
-          <div className="flex items-center gap-4 text-sm text-[#9CA3AF]">
-            <span>By {post.author_name ?? "Matt Martin"}</span>
-            <span className="text-[#1F2937]">&middot;</span>
-            <span>
-              {new Date(post.published_at ?? post.created_at).toLocaleDateString(
-                "en-AU",
-                { day: "numeric", month: "long", year: "numeric" }
-              )}
-            </span>
-            <span className="text-[#1F2937]">&middot;</span>
-            <span>{estimateReadTime(post.content)} min read</span>
+          {post.excerpt ? (
+            <p className="md-typescale-body-large" style={{ margin: "0 0 16px", color: "var(--md-sys-color-on-surface-variant)" }}>
+              {post.excerpt}
+            </p>
+          ) : null}
+          <div className="md-typescale-label-large" style={{ color: "var(--md-sys-color-on-surface-variant)" }}>
+            By {post.author_name ?? "Matt Martin"} · {estimateReadTime(post.content)} min read
           </div>
         </header>
 
-        <div dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }} />
+        {post.cover_image ? (
+          <img
+            src={post.cover_image}
+            alt={post.title}
+            style={{
+              width: "100%",
+              borderRadius: "var(--md-sys-shape-corner-extra-large)",
+              border: "1px solid var(--md-sys-color-outline-variant)",
+              marginBottom: 32,
+              display: "block",
+            }}
+          />
+        ) : null}
 
-        {/* Bottom share */}
-        <div className="mt-16 pt-8 border-t border-[#1F2937] flex items-center justify-between">
+        <div className="mw-prose" dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }} />
+
+        <div
+          style={{
+            marginTop: 48,
+            paddingTop: 24,
+            borderTop: "1px solid var(--md-sys-color-outline-variant)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 16,
+            flexWrap: "wrap",
+          }}
+        >
           <Link
             href="/blog"
-            className="text-sm text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
+            className="md-typescale-label-large mw-contact-link"
+            style={{ color: "var(--md-sys-color-on-surface-variant)", textDecoration: "none" }}
           >
-            &larr; Back to The Signal
+            ← Back to The Signal
           </Link>
-          <a
-            href={linkedInShareUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-sm text-[#9CA3AF] hover:text-[#0A66C2] transition-colors border border-[#1F2937] hover:border-[#0A66C2]/50 rounded-lg px-4 py-2"
-          >
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-            </svg>
+          <Button variant="outlined" href={linkedInShareUrl} target="_blank" rel="noopener noreferrer" icon="share">
             Share on LinkedIn
-          </a>
+          </Button>
         </div>
-      </motion.article>
-    </div>
+      </article>
+      <Footer onOpenLegal={setLegal} />
+      <LegalDialog doc={legal} onClose={() => setLegal(null)} />
+    </>
   );
 }

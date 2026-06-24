@@ -1,0 +1,31 @@
+/* Medware Design System — Motion Tokens
+ * Material Design 3 motion: easing curves + duration scale.
+ * "Emphasized" is the signature M3 curve (used for the largest, most
+ * expressive transitions). "Standard" is for small utility transitions.
+ */
+:root {
+  /* Easing */
+  --md-sys-motion-easing-linear: cubic-bezier(0, 0, 1, 1); /* @kind other */
+  --md-sys-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1); /* @kind other */
+  --md-sys-motion-easing-standard-accelerate: cubic-bezier(0.3, 0, 1, 1); /* @kind other */
+  --md-sys-motion-easing-standard-decelerate: cubic-bezier(0, 0, 0, 1); /* @kind other */
+  --md-sys-motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1); /* @kind other */
+  --md-sys-motion-easing-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15); /* @kind other */
+  --md-sys-motion-easing-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1); /* @kind other */
+
+  /* Duration */
+  --md-sys-motion-duration-short-1:50ms; /* @kind other */
+  --md-sys-motion-duration-short-2:100ms; /* @kind other */
+  --md-sys-motion-duration-short-3:150ms; /* @kind other */
+  --md-sys-motion-duration-short-4:200ms; /* @kind other */
+  --md-sys-motion-duration-medium-1:250ms; /* @kind other */
+  --md-sys-motion-duration-medium-2:300ms; /* @kind other */
+  --md-sys-motion-duration-medium-3:350ms; /* @kind other */
+  --md-sys-motion-duration-medium-4:400ms; /* @kind other */
+  --md-sys-motion-duration-long-1:450ms; /* @kind other */
+  --md-sys-motion-duration-long-2:500ms; /* @kind other */
+  --md-sys-motion-duration-long-3:550ms; /* @kind other */
+  --md-sys-motion-duration-long-4:600ms; /* @kind other */
+  --md-sys-motion-duration-extra-long-1:700ms; /* @kind other */
+  --md-sys-motion-duration-extra-long-2:800ms; /* @kind other */
+}

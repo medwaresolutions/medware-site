@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# design source material (kept local, not part of the app)
+/Medware website redesign/
+/medware_products/
+/medware_products_industry/

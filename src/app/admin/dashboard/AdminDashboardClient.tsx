@@ -59,23 +59,23 @@ export default function AdminDashboardClient({
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a1a]">
+    <div className="min-h-screen bg-[var(--md-sys-color-background)]">
       {/* Header */}
-      <header className="border-b border-[#1F2937] bg-[#0a0a1a]/90 backdrop-blur-md sticky top-0 z-50">
+      <header className="border-b border-[var(--md-sys-color-outline-variant)] bg-[var(--md-sys-color-background)]/90 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="text-xl font-bold tracking-wider">
-              <span className="text-[#3B82F6]">MED</span>
-              <span className="text-[#F9FAFB]">WARE</span>
+              <span className="text-[var(--md-sys-color-primary)]">MED</span>
+              <span className="text-[var(--md-sys-color-on-surface)]">WARE</span>
             </Link>
-            <span className="text-[#1F2937]">|</span>
-            <span className="text-sm text-[#9CA3AF]">The Signal Admin</span>
+            <span className="text-[var(--md-sys-color-outline-variant)]">|</span>
+            <span className="text-sm text-[var(--md-sys-color-on-surface-variant)]">The Signal Admin</span>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-[#9CA3AF] hidden sm:inline">{userEmail}</span>
+            <span className="text-sm text-[var(--md-sys-color-on-surface-variant)] hidden sm:inline">{userEmail}</span>
             <button
               onClick={handleSignOut}
-              className="text-sm text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
+              className="text-sm text-[var(--md-sys-color-on-surface-variant)] hover:text-[var(--md-sys-color-on-surface)] transition-colors"
             >
               Sign Out
             </button>
@@ -87,14 +87,14 @@ export default function AdminDashboardClient({
         {/* Title + Actions */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10">
           <div>
-            <h1 className="text-3xl font-bold text-[#F9FAFB] mb-1">Posts</h1>
-            <p className="text-[#9CA3AF] text-sm">
+            <h1 className="text-3xl font-bold text-[var(--md-sys-color-on-surface)] mb-1">Posts</h1>
+            <p className="text-[var(--md-sys-color-on-surface-variant)] text-sm">
               {posts.length} {posts.length === 1 ? "post" : "posts"} total
             </p>
           </div>
           <Link
             href="/admin/dashboard/new"
-            className="bg-[#3B82F6] hover:bg-[#2563EB] text-[#F9FAFB] font-medium px-5 py-2.5 rounded-lg transition-colors text-sm"
+            className="bg-[var(--md-sys-color-primary)] hover:bg-[var(--md-sys-color-primary)] text-[var(--md-sys-color-on-surface)] font-medium px-5 py-2.5 rounded-lg transition-colors text-sm"
           >
             New Post
           </Link>
@@ -103,10 +103,10 @@ export default function AdminDashboardClient({
         {/* Posts Table */}
         {posts.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-[#9CA3AF] text-lg mb-4">No posts yet</p>
+            <p className="text-[var(--md-sys-color-on-surface-variant)] text-lg mb-4">No posts yet</p>
             <Link
               href="/admin/dashboard/new"
-              className="text-[#3B82F6] hover:text-[#60A5FA] transition-colors"
+              className="text-[var(--md-sys-color-primary)] hover:text-[var(--md-sys-color-primary)] transition-colors"
             >
               Create your first post
             </Link>
@@ -116,27 +116,27 @@ export default function AdminDashboardClient({
             {posts.map((post) => (
               <div
                 key={post.id}
-                className="bg-[#111827] border border-[#1F2937] rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:border-[#3B82F6]/30 transition-colors"
+                className="bg-[var(--md-sys-color-surface-container)] border border-[var(--md-sys-color-outline-variant)] rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:border-[var(--md-sys-color-primary)]/30 transition-colors"
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-1.5">
-                    <h3 className="text-[#F9FAFB] font-semibold truncate">{post.title}</h3>
+                    <h3 className="text-[var(--md-sys-color-on-surface)] font-semibold truncate">{post.title}</h3>
                     <span
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         post.published
-                          ? "bg-emerald-500/10 text-emerald-400"
-                          : "bg-amber-500/10 text-amber-400"
+                          ? "bg-emerald-500/10 text-emerald-700"
+                          : "bg-amber-500/10 text-amber-700"
                       }`}
                     >
                       {post.published ? "Published" : "Draft"}
                     </span>
                     {post.category && (
-                      <span className="text-xs text-[#9CA3AF] bg-[#1F2937] px-2 py-0.5 rounded">
+                      <span className="text-xs text-[var(--md-sys-color-on-surface-variant)] bg-[var(--md-sys-color-outline-variant)] px-2 py-0.5 rounded">
                         {post.category}
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-[#9CA3AF]">
+                  <p className="text-sm text-[var(--md-sys-color-on-surface-variant)]">
                     /blog/{post.slug} &middot;{" "}
                     {new Date(post.created_at).toLocaleDateString("en-AU", {
                       day: "numeric",
@@ -149,7 +149,7 @@ export default function AdminDashboardClient({
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <button
                     onClick={() => togglePublish(post.id, post.published)}
-                    className="text-xs px-3 py-1.5 rounded-lg border border-[#1F2937] text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#3B82F6]/50 transition-all"
+                    className="text-xs px-3 py-1.5 rounded-lg border border-[var(--md-sys-color-outline-variant)] text-[var(--md-sys-color-on-surface-variant)] hover:text-[var(--md-sys-color-on-surface)] hover:border-[var(--md-sys-color-primary)]/50 transition-all"
                   >
                     {post.published ? "Unpublish" : "Publish"}
                   </button>
@@ -157,7 +157,7 @@ export default function AdminDashboardClient({
                     href={getLinkedInShareUrl(post)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs px-3 py-1.5 rounded-lg border border-[#1F2937] text-[#9CA3AF] hover:text-[#0A66C2] hover:border-[#0A66C2]/50 transition-all"
+                    className="text-xs px-3 py-1.5 rounded-lg border border-[var(--md-sys-color-outline-variant)] text-[var(--md-sys-color-on-surface-variant)] hover:text-[#0A66C2] hover:border-[#0A66C2]/50 transition-all"
                     title="Share on LinkedIn"
                   >
                     <span className="flex items-center gap-1.5">
@@ -169,14 +169,14 @@ export default function AdminDashboardClient({
                   </a>
                   <Link
                     href={`/admin/dashboard/edit/${post.id}`}
-                    className="text-xs px-3 py-1.5 rounded-lg border border-[#1F2937] text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#3B82F6]/50 transition-all"
+                    className="text-xs px-3 py-1.5 rounded-lg border border-[var(--md-sys-color-outline-variant)] text-[var(--md-sys-color-on-surface-variant)] hover:text-[var(--md-sys-color-on-surface)] hover:border-[var(--md-sys-color-primary)]/50 transition-all"
                   >
                     Edit
                   </Link>
                   <button
                     onClick={() => handleDelete(post.id)}
                     disabled={deleting === post.id}
-                    className="text-xs px-3 py-1.5 rounded-lg border border-[#1F2937] text-[#9CA3AF] hover:text-red-400 hover:border-red-500/50 transition-all disabled:opacity-50"
+                    className="text-xs px-3 py-1.5 rounded-lg border border-[var(--md-sys-color-outline-variant)] text-[var(--md-sys-color-on-surface-variant)] hover:text-red-700 hover:border-red-500/50 transition-all disabled:opacity-50"
                   >
                     {deleting === post.id ? "..." : "Delete"}
                   </button>

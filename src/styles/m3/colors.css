@@ -1,0 +1,187 @@
+/* Medware Design System — Color Tokens
+ * Material Design 3 color scheme — RESEEDED.
+ * Seeds: Primary #0284C7 (sky blue) · Secondary #C74502 (orange) · Tertiary #02C7BB (teal) · grey neutrals.
+ * Tonal palettes generated per HCT/OKLCH. Error retains the M3 baseline red.
+ *
+ * Layer 1 — Reference tonal palettes (--md-ref-palette-*): the raw tones.
+ * Layer 2 — System color roles (--md-sys-color-*): semantic, theme-aware.
+ * Light scheme on :root; dark scheme on [data-theme="dark"] and .dark.
+ */
+
+:root {
+  /* ---- Reference tonal palettes (tone 0–100) ---- */
+  /* Primary — sky blue */
+  --md-ref-palette-primary0:#000000;
+  --md-ref-palette-primary10:#00192E;
+  --md-ref-palette-primary20:#002E4C;
+  --md-ref-palette-primary30:#00456D;
+  --md-ref-palette-primary40:#006094;
+  --md-ref-palette-primary50:#007BBB;
+  --md-ref-palette-primary60:#3699DA;
+  --md-ref-palette-primary70:#63B5F0;
+  --md-ref-palette-primary80:#90CFFF;
+  --md-ref-palette-primary90:#CAE7FF;
+  --md-ref-palette-primary95:#E4F3FF;
+  --md-ref-palette-primary99:#F9FDFF;
+  --md-ref-palette-primary100:#FFFFFF;
+  /* Secondary — orange */
+  --md-ref-palette-secondary0:#000000;
+  --md-ref-palette-secondary10:#310500;
+  --md-ref-palette-secondary20:#501300;
+  --md-ref-palette-secondary30:#732200;
+  --md-ref-palette-secondary40:#9C3200;
+  --md-ref-palette-secondary50:#C54300;
+  --md-ref-palette-secondary60:#E36536;
+  --md-ref-palette-secondary70:#FA885F;
+  --md-ref-palette-secondary80:#FFB297;
+  --md-ref-palette-secondary90:#FFDACC;
+  --md-ref-palette-secondary95:#FFECE6;
+  --md-ref-palette-secondary99:#FFFBFA;
+  --md-ref-palette-secondary100:#FFFFFF;
+  /* Tertiary — teal */
+  --md-ref-palette-tertiary0:#000000;
+  --md-ref-palette-tertiary10:#001D1A;
+  --md-ref-palette-tertiary20:#003430;
+  --md-ref-palette-tertiary30:#004C47;
+  --md-ref-palette-tertiary40:#006963;
+  --md-ref-palette-tertiary50:#00877E;
+  --md-ref-palette-tertiary60:#00A79D;
+  --md-ref-palette-tertiary70:#44C3B8;
+  --md-ref-palette-tertiary80:#7DDBD1;
+  --md-ref-palette-tertiary90:#B7F0E9;
+  --md-ref-palette-tertiary95:#D7F9F5;
+  --md-ref-palette-tertiary99:#F3FFFD;
+  --md-ref-palette-tertiary100:#FFFFFF;
+  /* Error — M3 baseline red */
+  --md-ref-palette-error0:#000000;
+  --md-ref-palette-error10:#410E0B;
+  --md-ref-palette-error20:#601410;
+  --md-ref-palette-error30:#8C1D18;
+  --md-ref-palette-error40:#B3261E;
+  --md-ref-palette-error50:#DC362E;
+  --md-ref-palette-error60:#E46962;
+  --md-ref-palette-error70:#EC928E;
+  --md-ref-palette-error80:#F2B8B5;
+  --md-ref-palette-error90:#F9DEDC;
+  --md-ref-palette-error95:#FCEEEE;
+  --md-ref-palette-error99:#FFFBF9;
+  --md-ref-palette-error100:#FFFFFF;
+  /* Neutral — grey */
+  --md-ref-palette-neutral0:#000000;
+  --md-ref-palette-neutral10:#15181A;
+  --md-ref-palette-neutral20:#292C2E;
+  --md-ref-palette-neutral30:#3E4144;
+  --md-ref-palette-neutral40:#585B5E;
+  --md-ref-palette-neutral50:#717578;
+  --md-ref-palette-neutral60:#8E9194;
+  --md-ref-palette-neutral70:#A9ADB0;
+  --md-ref-palette-neutral80:#C4C8CB;
+  --md-ref-palette-neutral90:#E0E3E7;
+  --md-ref-palette-neutral95:#EDF1F4;
+  --md-ref-palette-neutral99:#F9FDFF;
+  --md-ref-palette-neutral100:#FFFFFF;
+  /* Neutral variant — grey (cooler) */
+  --md-ref-palette-neutral-variant0:#000000;
+  --md-ref-palette-neutral-variant10:#11181E;
+  --md-ref-palette-neutral-variant20:#252C33;
+  --md-ref-palette-neutral-variant30:#3A4249;
+  --md-ref-palette-neutral-variant40:#535C63;
+  --md-ref-palette-neutral-variant50:#6D767D;
+  --md-ref-palette-neutral-variant60:#89929A;
+  --md-ref-palette-neutral-variant70:#A4AEB6;
+  --md-ref-palette-neutral-variant80:#BFC9D1;
+  --md-ref-palette-neutral-variant90:#DAE5ED;
+  --md-ref-palette-neutral-variant95:#E8F2FB;
+  --md-ref-palette-neutral-variant99:#F9FDFF;
+  --md-ref-palette-neutral-variant100:#FFFFFF;
+
+  /* ---- System color roles — LIGHT ---- */
+  --md-sys-color-primary:#006094;
+  --md-sys-color-on-primary:#FFFFFF;
+  --md-sys-color-primary-container:#CAE7FF;
+  --md-sys-color-on-primary-container:#00192E;
+  --md-sys-color-secondary:#9C3200;
+  --md-sys-color-on-secondary:#FFFFFF;
+  --md-sys-color-secondary-container:#FFDACC;
+  --md-sys-color-on-secondary-container:#310500;
+  --md-sys-color-tertiary:#006963;
+  --md-sys-color-on-tertiary:#FFFFFF;
+  --md-sys-color-tertiary-container:#B7F0E9;
+  --md-sys-color-on-tertiary-container:#001D1A;
+  --md-sys-color-error:#B3261E;
+  --md-sys-color-on-error:#FFFFFF;
+  --md-sys-color-error-container:#F9DEDC;
+  --md-sys-color-on-error-container:#410E0B;
+
+  --md-sys-color-background:#F9FDFF;
+  --md-sys-color-on-background:#15181A;
+  --md-sys-color-surface:#F9FDFF;
+  --md-sys-color-on-surface:#15181A;
+  --md-sys-color-surface-variant:#DAE5ED;
+  --md-sys-color-on-surface-variant:#3A4249;
+  --md-sys-color-outline:#6D767D;
+  --md-sys-color-outline-variant:#BFC9D1;
+  --md-sys-color-shadow:#000000;
+  --md-sys-color-scrim:#000000;
+  --md-sys-color-inverse-surface:#292C2E;
+  --md-sys-color-inverse-on-surface:#EDF1F4;
+  --md-sys-color-inverse-primary:#90CFFF;
+
+  /* Surface containers (M3 elevation-by-tone) */
+  --md-sys-color-surface-dim:#E0E3E7;
+  --md-sys-color-surface-bright:#F9FDFF;
+  --md-sys-color-surface-container-lowest:#FFFFFF;
+  --md-sys-color-surface-container-low:#EDF1F4;
+  --md-sys-color-surface-container:#EEF2F5;
+  --md-sys-color-surface-container-high:#E8ECF0;
+  --md-sys-color-surface-container-highest:#E0E3E7;
+  --md-sys-color-surface-tint:#006094;
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"],
+.dark {
+  /* ---- System color roles — DARK ---- */
+  --md-sys-color-primary:#90CFFF;
+  --md-sys-color-on-primary:#002E4C;
+  --md-sys-color-primary-container:#00456D;
+  --md-sys-color-on-primary-container:#CAE7FF;
+  --md-sys-color-secondary:#FFB297;
+  --md-sys-color-on-secondary:#501300;
+  --md-sys-color-secondary-container:#732200;
+  --md-sys-color-on-secondary-container:#FFDACC;
+  --md-sys-color-tertiary:#7DDBD1;
+  --md-sys-color-on-tertiary:#003430;
+  --md-sys-color-tertiary-container:#004C47;
+  --md-sys-color-on-tertiary-container:#B7F0E9;
+  --md-sys-color-error:#F2B8B5;
+  --md-sys-color-on-error:#601410;
+  --md-sys-color-error-container:#8C1D18;
+  --md-sys-color-on-error-container:#F9DEDC;
+
+  --md-sys-color-background:#15181A;
+  --md-sys-color-on-background:#E0E3E7;
+  --md-sys-color-surface:#15181A;
+  --md-sys-color-on-surface:#E0E3E7;
+  --md-sys-color-surface-variant:#3A4249;
+  --md-sys-color-on-surface-variant:#BFC9D1;
+  --md-sys-color-outline:#89929A;
+  --md-sys-color-outline-variant:#3A4249;
+  --md-sys-color-shadow:#000000;
+  --md-sys-color-scrim:#000000;
+  --md-sys-color-inverse-surface:#E0E3E7;
+  --md-sys-color-inverse-on-surface:#292C2E;
+  --md-sys-color-inverse-primary:#006094;
+
+  --md-sys-color-surface-dim:#15181A;
+  --md-sys-color-surface-bright:#383A3D;
+  --md-sys-color-surface-container-lowest:#0F1112;
+  --md-sys-color-surface-container-low:#15181A;
+  --md-sys-color-surface-container:#1D2022;
+  --md-sys-color-surface-container-high:#272A2C;
+  --md-sys-color-surface-container-highest:#323537;
+  --md-sys-color-surface-tint:#90CFFF;
+
+  color-scheme: dark;
+}

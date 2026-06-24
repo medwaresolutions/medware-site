@@ -1,0 +1,37 @@
+/* Medware Design System — Base / Reset
+ * Minimal foundation applied on top of tokens. Sets default surface, text
+ * color and font so any consuming page inherits the M3 look.
+ */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--md-sys-color-background);
+  color: var(--md-sys-color-on-background);
+  font-family: var(--md-sys-typescale-font-plain);
+  font-size: var(--md-sys-typescale-body-large-size);
+  line-height: var(--md-sys-typescale-body-large-line);
+  letter-spacing: var(--md-sys-typescale-body-large-tracking);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Reusable state-layer primitive.
+ * Put .md-state-layer on a positioned element; it paints currentColor at the
+ * right opacity on hover/active. Components use their own scoped versions too. */
+.md-state-layer {
+  position: relative;
+  isolation: isolate;
+}
+.md-state-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--md-sys-motion-duration-short-2) var(--md-sys-motion-easing-standard);
+  border-radius: inherit;
+}
+.md-state-layer:hover::after { opacity: var(--md-sys-state-hover-opacity); }
+.md-state-layer:active::after { opacity: var(--md-sys-state-pressed-opacity); }

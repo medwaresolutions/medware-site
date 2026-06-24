@@ -1,0 +1,12 @@
+/* Medware Design System — State Tokens
+ * Material Design 3 state-layer opacities. A "state layer" is a translucent
+ * overlay of the content color, applied on hover/focus/press/drag.
+ */
+:root {
+  --md-sys-state-hover-opacity:0.08; /* @kind other */
+  --md-sys-state-focus-opacity:0.12; /* @kind other */
+  --md-sys-state-pressed-opacity:0.12; /* @kind other */
+  --md-sys-state-dragged-opacity:0.16; /* @kind other */
+  --md-sys-state-disabled-content-opacity:0.38; /* @kind other */
+  --md-sys-state-disabled-container-opacity:0.12; /* @kind other */
+}
