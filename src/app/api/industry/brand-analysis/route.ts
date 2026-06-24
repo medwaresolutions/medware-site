@@ -8,7 +8,9 @@
 import { NextRequest } from "next/server";
 
 export const runtime = "nodejs";
-export const maxDuration = 60;
+// Web search + generation can take ~30-60s; allow headroom (needs a Vercel
+// plan that permits long functions — Hobby caps at 60s).
+export const maxDuration = 120;
 
 const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-4-6";
 
@@ -56,7 +58,7 @@ export async function POST(req: NextRequest) {
   const catalogueText = CATALOGUE.map((c) => `- ${c[0]} | ${c[1]}: ${c[2]}`).join("\n");
 
   const system = `You are a pharmaceutical brand strategy analyst working for the Medware Group, which sells software and services to pharmaceutical companies.
-Use web search to research the brand "${brand}" in "${country}": its therapeutic area, indication, mechanism, competitors, market access and PBS status where relevant, and recent commercial activity. Australian context and PBS apply when the country is Australia.
+Run no more than three focused web searches to research the brand "${brand}" in "${country}": its therapeutic area, indication, mechanism, competitors, market access and PBS status where relevant, and recent commercial activity. Then write the brief from what you have found — do not keep searching for completeness. Australian context and PBS apply when the country is Australia.
 
 Then produce a concise one-page brief for a Medware sales conversation. Be specific and commercially useful. Use Australian spelling. Do not use em-dashes or emojis.
 
@@ -83,51 +85,71 @@ Return ONLY a JSON object, no preamble, no markdown fences, in exactly this shap
   "summary": string
 }`;
 
-  const payload = {
-    model: MODEL,
-    max_tokens: 2200,
-    system,
-    tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 6 }],
-    messages: [{ role: "user", content: `Brand: ${brand}\nCountry: ${country}\n\nResearch this and return the JSON brief.` }],
-  };
+  type Block = { type: string; text?: string };
+  type ApiBody = { content?: Block[]; stop_reason?: string; error?: { message?: string } };
+  type Msg = { role: string; content: unknown };
 
-  let data: { content?: { type: string; text?: string }[]; error?: { message?: string } };
-  try {
+  const messages: Msg[] = [
+    { role: "user", content: `Brand: ${brand}\nCountry: ${country}\n\nResearch this and return the JSON brief.` },
+  ];
+
+  const callAnthropic = async (msgs: Msg[]): Promise<{ ok: boolean; body: ApiBody }> => {
     const r = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
-      },
-      body: JSON.stringify(payload),
+      headers: { "content-type": "application/json", "x-api-key": apiKey, "anthropic-version": "2023-06-01" },
+      body: JSON.stringify({
+        model: MODEL,
+        max_tokens: 3000,
+        system,
+        // Basic web search (no code-exec dynamic-filtering overhead); cap uses
+        // low so the server-tool loop finishes in one pass without a pause_turn.
+        tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 3 }],
+        messages: msgs,
+      }),
     });
-    data = await r.json();
-    if (!r.ok) {
-      return Response.json({ error: data?.error?.message || "AI request failed." }, { status: 502 });
+    return { ok: r.ok, body: (await r.json()) as ApiBody };
+  };
+
+  let final: ApiBody = {};
+  try {
+    // The web-search server tool runs its own loop; if it exceeds ~10 iterations
+    // the response comes back with stop_reason:"pause_turn" and no final JSON.
+    // Re-send the conversation (no extra user turn) until the model finishes.
+    for (let i = 0; i < 5; i++) {
+      const { ok, body } = await callAnthropic(messages);
+      if (!ok) return Response.json({ error: body?.error?.message || "AI request failed." }, { status: 502 });
+      final = body;
+      if (body.stop_reason === "pause_turn" && body.content) {
+        messages.push({ role: "assistant", content: body.content });
+        continue;
+      }
+      break;
     }
   } catch (e) {
     return Response.json({ error: "Could not reach the AI service.", detail: String(e) }, { status: 502 });
   }
 
-  const text = (data.content || [])
+  let text = (final.content || [])
     .filter((b) => b.type === "text")
-    .map((b) => b.text)
+    .map((b) => b.text || "")
     .join("\n")
     .trim();
+  // Strip any markdown code fences the model may have added.
+  text = text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
 
-  let parsed: { recommendations?: { key: string; why: string }[] } | null = null;
-  try {
-    parsed = JSON.parse(text);
-  } catch {
-    const m = text.match(/\{[\s\S]*\}/);
-    if (m) {
-      try {
-        parsed = JSON.parse(m[0]);
-      } catch {
-        parsed = null;
-      }
+  const tryParse = (s: string): { recommendations?: { key: string; why: string }[] } | null => {
+    try {
+      return JSON.parse(s);
+    } catch {
+      return null;
     }
+  };
+
+  let parsed = tryParse(text);
+  if (!parsed) {
+    const a = text.indexOf("{");
+    const b = text.lastIndexOf("}");
+    if (a >= 0 && b > a) parsed = tryParse(text.slice(a, b + 1));
   }
   if (!parsed) {
     return Response.json({ error: "The AI returned an unexpected format. Please try again." }, { status: 502 });

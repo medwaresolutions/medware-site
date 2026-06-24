@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Header from "@/components/sections/Header";
 import Footer from "@/components/sections/Footer";
 import { CookieBanner, LegalDialog, type LegalDoc } from "@/components/sections/dialogs";
@@ -407,11 +407,7 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
               AI generated from public information for discussion only. Always verify before acting.
             </div>
 
-            {aiLoading ? (
-              <div className="md-typescale-body-medium" style={{ marginTop: 18, color: "var(--md-sys-color-on-surface-variant)" }}>
-                Researching {aiBrand} in {aiCountry} and building your one-pager. This can take up to a minute.
-              </div>
-            ) : null}
+            {aiLoading ? <LoadingFacts brand={aiBrand} country={aiCountry} /> : null}
             {aiError ? (
               <div
                 className="md-typescale-body-medium"
@@ -1160,6 +1156,91 @@ function OnePager({
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap", padding: "0 26px 24px" }}>
         <Button variant="filled" onClick={addAll}>Add all to my shortlist</Button>
         <Button variant="outlined" icon="print" onClick={print}>Print or save as PDF</Button>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- AI planner loading state: rotating product facts ---------- */
+function LoadingFacts({ brand, country }: { brand: string; country: string }) {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setI((n) => (n + 1) % PRODUCTS.length), 3800);
+    return () => clearInterval(t);
+  }, []);
+  const p = PRODUCTS[i];
+  return (
+    <div style={{ marginTop: 18 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, color: "var(--md-sys-color-on-surface-variant)" }}>
+        <span className="material-symbols-rounded mw-spin" style={{ fontSize: 20, color: "var(--md-sys-color-primary)" }}>
+          progress_activity
+        </span>
+        <span className="md-typescale-body-medium">
+          Researching {brand || "your brand"} in {country || "Australia"} and building your one-pager — this can take up to a
+          minute. While you wait…
+        </span>
+      </div>
+      <div
+        style={{
+          marginTop: 16,
+          border: "1px solid var(--md-sys-color-outline-variant)",
+          borderRadius: "var(--md-sys-shape-corner-large)",
+          background: "var(--md-sys-color-surface-container-low)",
+          padding: 20,
+        }}
+      >
+        <div
+          className="md-typescale-label-medium"
+          style={{ color: "var(--md-sys-color-primary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 }}
+        >
+          From the Medware Group
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+          <span
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: 9,
+              display: "grid",
+              placeItems: "center",
+              background: "var(--md-sys-color-primary-container)",
+              color: "var(--md-sys-color-on-primary-container)",
+              fontWeight: 800,
+              fontSize: 13,
+              flex: "none",
+            }}
+          >
+            {initials(p.title)}
+          </span>
+          <div>
+            <div className="md-typescale-title-medium" style={{ color: "var(--md-sys-color-on-surface)" }}>
+              {p.title}
+            </div>
+            <div className="md-typescale-label-medium" style={{ color: "var(--md-sys-color-on-surface-variant)", textTransform: "none" }}>
+              {p.aud}
+            </div>
+          </div>
+        </div>
+        <p className="md-typescale-body-medium" style={{ margin: "0 0 6px", color: "var(--md-sys-color-on-surface)", fontWeight: 500 }}>
+          {p.impact}
+        </p>
+        <p className="md-typescale-body-medium mw-clamp2" style={{ margin: 0, color: "var(--md-sys-color-on-surface-variant)" }}>
+          {p.short}
+        </p>
+        <div style={{ display: "flex", gap: 5, marginTop: 14, flexWrap: "wrap" }}>
+          {PRODUCTS.map((_, n) => (
+            <span
+              key={n}
+              style={{
+                width: n === i ? 18 : 6,
+                height: 6,
+                borderRadius: 999,
+                background: n === i ? "var(--md-sys-color-primary)" : "var(--md-sys-color-outline-variant)",
+                transition: "width .2s",
+              }}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

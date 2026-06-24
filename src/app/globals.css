@@ -90,6 +90,10 @@ a { -webkit-tap-highlight-color: transparent; }
 .mw-ecg { stroke-dasharray: 520; stroke-dashoffset: 520; animation: mwTrace 3.2s linear infinite; }
 @keyframes mwTrace { to { stroke-dashoffset: 0; } }
 
+/* Spinner (AI planner loading) */
+.mw-spin { animation: mwSpin 0.8s linear infinite; display: inline-block; }
+@keyframes mwSpin { to { transform: rotate(360deg); } }
+
 @media (prefers-reduced-motion: reduce) {
   .mw-ecg { animation: none; stroke-dashoffset: 0; }
   .mw-pulse-dot { animation: none; }

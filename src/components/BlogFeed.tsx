@@ -6,7 +6,7 @@ import Header from "@/components/sections/Header";
 import Footer from "@/components/sections/Footer";
 import { Card } from "@/components/ds";
 import { LegalDialog, type LegalDoc } from "@/components/sections/dialogs";
-import { mwWrap } from "@/components/sections/shared";
+import { mwWrap, formatPostDateLong } from "@/components/sections/shared";
 
 interface Post {
   id: string;
@@ -27,7 +27,7 @@ function estimateReadTime(content: string): number {
 }
 
 function fmtDate(value: string): string {
-  return new Date(value).toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" });
+  return formatPostDateLong(value);
 }
 
 function CategoryDate({ category, date }: { category: string | null; date: string }) {

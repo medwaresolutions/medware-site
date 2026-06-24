@@ -6,6 +6,7 @@ import Header from "@/components/sections/Header";
 import Footer from "@/components/sections/Footer";
 import { Button } from "@/components/ds";
 import { LegalDialog, type LegalDoc } from "@/components/sections/dialogs";
+import { formatPostDateLong } from "@/components/sections/shared";
 
 interface Post {
   id: string;
@@ -69,11 +70,7 @@ export default function BlogArticle({ post }: { post: Post }) {
   const linkedInShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
     `https://medware.com.au/blog/${post.slug}`,
   )}`;
-  const dateStr = new Date(post.published_at ?? post.created_at).toLocaleDateString("en-AU", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const dateStr = formatPostDateLong(post.published_at ?? post.created_at);
 
   return (
     <>

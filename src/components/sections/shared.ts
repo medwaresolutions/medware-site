@@ -26,9 +26,29 @@ export const NAV = [
   { href: "/#contact", label: "Contact" },
 ];
 
-export function formatPostDate(value?: string | null): string {
-  if (!value) return "";
+// Deterministic, locale- and timezone-independent date formatting.
+// Using toLocaleDateString caused a hydration mismatch: Node's ICU rendered
+// "June" for month:"short" while the browser rendered "Jun". UTC getters keep
+// server and client identical regardless of the runtime timezone.
+const MONTHS_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const MONTHS_LONG = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+
+function dateParts(value?: string | null): [number, number, number] | null {
+  if (!value) return null;
   const d = new Date(value);
-  if (Number.isNaN(d.getTime())) return "";
-  return d.toLocaleDateString("en-AU", { day: "2-digit", month: "short", year: "numeric" });
+  if (Number.isNaN(d.getTime())) return null;
+  return [d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()];
+}
+
+export function formatPostDate(value?: string | null): string {
+  const p = dateParts(value);
+  return p ? `${p[2]} ${MONTHS_SHORT[p[1]]} ${p[0]}` : "";
+}
+
+export function formatPostDateLong(value?: string | null): string {
+  const p = dateParts(value);
+  return p ? `${p[2]} ${MONTHS_LONG[p[1]]} ${p[0]}` : "";
 }
