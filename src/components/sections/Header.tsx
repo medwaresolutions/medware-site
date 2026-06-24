@@ -26,9 +26,7 @@ export default function Header() {
         position: "sticky",
         top: 0,
         zIndex: 50,
-        background: "color-mix(in srgb, var(--md-sys-color-surface) 86%, transparent)",
-        backdropFilter: "saturate(180%) blur(8px)",
-        WebkitBackdropFilter: "saturate(180%) blur(8px)",
+        background: "var(--md-sys-color-surface-container-lowest)",
         borderBottom: "1px solid var(--md-sys-color-outline-variant)",
       }}
     >

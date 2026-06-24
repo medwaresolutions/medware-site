@@ -104,6 +104,7 @@ function HeroMonitor() {
   return (
     <Card
       variant="elevated"
+      className="mw-monitor"
       style={{
         borderRadius: "var(--md-sys-shape-corner-extra-large)",
         overflow: "hidden",
@@ -116,19 +117,21 @@ function HeroMonitor() {
           alignItems: "center",
           gap: 8,
           padding: "12px 16px",
-          background: "var(--md-sys-color-surface-container-lowest)",
-          borderBottom: "1px solid var(--md-sys-color-outline-variant)",
+          background: "var(--md-sys-color-primary)",
         }}
       >
-        <span className="material-symbols-rounded" style={{ fontSize: 20, color: "var(--md-sys-color-primary)" }}>
+        <span className="material-symbols-rounded" style={{ fontSize: 20, color: "var(--md-sys-color-on-primary)" }}>
           monitor_heart
         </span>
-        <span className="md-typescale-label-large" style={{ color: "var(--md-sys-color-on-surface)" }}>
+        <span className="md-typescale-label-large" style={{ color: "var(--md-sys-color-on-primary)" }}>
           Medware · live
         </span>
         <div style={{ flex: 1 }} />
-        <span className="mw-pulse-dot" />
-        <span className="md-typescale-label-medium" style={{ color: "var(--md-sys-color-on-surface-variant)" }}>
+        <span className="mw-pulse-dot" style={{ background: "var(--md-sys-color-on-primary)" }} />
+        <span
+          className="md-typescale-label-medium"
+          style={{ color: "color-mix(in srgb, var(--md-sys-color-on-primary) 80%, transparent)" }}
+        >
           streaming
         </span>
       </div>
@@ -165,9 +168,17 @@ function HeroMonitor() {
             </span>
           </Badge>
         </div>
-        <List>
-          <ListItem
-            avatar="MC"
+        <div
+          style={{
+            background: "var(--md-sys-color-surface-container-lowest)",
+            border: "1px solid var(--md-sys-color-outline-variant)",
+            borderRadius: "var(--md-sys-shape-corner-medium)",
+            overflow: "hidden",
+          }}
+        >
+          <List>
+            <ListItem
+              avatar="MC"
             headline="Medcast Specialist"
             supportingText="Audio briefings · live"
             trailing={
@@ -187,7 +198,8 @@ function HeroMonitor() {
               </span>
             }
           />
-        </List>
+          </List>
+        </div>
         <div style={{ padding: "10px 16px 4px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
             <span className="md-typescale-label-medium" style={{ color: "var(--md-sys-color-on-surface-variant)" }}>
