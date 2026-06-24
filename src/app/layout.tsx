@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
-const SITE_URL = "https://medware.com.au";
+const SITE_URL = "https://www.medware.com.au";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
