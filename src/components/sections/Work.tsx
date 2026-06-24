@@ -41,6 +41,8 @@ export default function Work({ onOpenProduct }: { onOpenProduct: (p: Product) =>
             <img
               src={co.img}
               alt={co.name}
+              loading="lazy"
+              decoding="async"
               style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
             />
           </div>

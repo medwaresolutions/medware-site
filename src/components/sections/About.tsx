@@ -27,6 +27,10 @@ export default function About() {
             <img
               src="/matt.png"
               alt="Matt Martin"
+              width={76}
+              height={76}
+              loading="lazy"
+              decoding="async"
               style={{ width: 76, height: 76, borderRadius: "50%", objectFit: "cover", border: "1px solid var(--md-sys-color-outline-variant)" }}
             />
             <div>

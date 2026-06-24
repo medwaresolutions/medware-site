@@ -107,6 +107,8 @@ export default function BlogArticle({ post }: { post: Post }) {
           <img
             src={post.cover_image}
             alt={post.title}
+            fetchPriority="high"
+            decoding="async"
             style={{
               width: "100%",
               borderRadius: "var(--md-sys-shape-corner-extra-large)",

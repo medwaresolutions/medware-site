@@ -1,6 +1,11 @@
+import type { Metadata } from "next";
 import SiteShell from "@/components/SiteShell";
 import type { SignalPost } from "@/components/sections/SignalTeaser";
 import { createClient } from "@/lib/supabase/server";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default async function Home() {
   const supabase = await createClient();

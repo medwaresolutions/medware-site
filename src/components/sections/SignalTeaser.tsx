@@ -46,7 +46,13 @@ export default function SignalTeaser({ posts }: { posts: SignalPost[] }) {
               >
                 <div style={{ height: 168, background: "var(--md-sys-color-surface-container)", overflow: "hidden" }}>
                   {p.cover_image ? (
-                    <img src={p.cover_image} alt={p.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    <img
+                      src={p.cover_image}
+                      alt={p.title}
+                      loading="lazy"
+                      decoding="async"
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
                   ) : null}
                 </div>
                 <div style={{ padding: 20, display: "flex", flexDirection: "column", flex: 1 }}>

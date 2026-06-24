@@ -89,6 +89,8 @@ export default function BlogFeed({ posts }: { posts: Post[] }) {
                         <img
                           src={featured.cover_image}
                           alt={featured.title}
+                          fetchPriority="high"
+                          decoding="async"
                           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
                         />
                       </div>
@@ -129,7 +131,13 @@ export default function BlogFeed({ posts }: { posts: Post[] }) {
                     >
                       {post.cover_image ? (
                         <div style={{ height: 168, background: "var(--md-sys-color-surface-container)", overflow: "hidden" }}>
-                          <img src={post.cover_image} alt={post.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                          <img
+                            src={post.cover_image}
+                            alt={post.title}
+                            loading="lazy"
+                            decoding="async"
+                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                          />
                         </div>
                       ) : null}
                       <div style={{ padding: 20, display: "flex", flexDirection: "column", flex: 1 }}>

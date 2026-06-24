@@ -22,7 +22,7 @@ export async function generateMetadata({
   const supabase = await createClient();
   const { data: post } = await supabase
     .from("posts")
-    .select("title, excerpt")
+    .select("title, excerpt, cover_image, published_at")
     .eq("slug", slug)
     .eq("published", true)
     .single();
@@ -31,9 +31,19 @@ export async function generateMetadata({
     return { title: "Post Not Found — The Signal" };
   }
 
+  const description = post.excerpt ?? `Read "${post.title}" on The Signal.`;
   return {
     title: `${post.title} — The Signal | Medware Solutions`,
-    description: post.excerpt ?? `Read "${post.title}" on The Signal.`,
+    description,
+    alternates: { canonical: `/blog/${slug}` },
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description,
+      url: `/blog/${slug}`,
+      ...(post.published_at ? { publishedTime: post.published_at } : {}),
+      ...(post.cover_image ? { images: [{ url: post.cover_image }] } : {}),
+    },
   };
 }
 

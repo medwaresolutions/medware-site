@@ -77,6 +77,8 @@ function Media({ p, height }: { p: IndustryProduct; height: number }) {
           src={p.img as string}
           alt={p.title}
           onError={() => setErr(true)}
+          loading="lazy"
+          decoding="async"
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
       ) : (
@@ -316,7 +318,11 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
 
       {/* ===== HERO ===== */}
       <section style={{ background: "var(--md-sys-color-surface-container-low)", borderBottom: "1px solid var(--md-sys-color-outline-variant)" }}>
-        <div style={{ ...mwWrap, padding: "72px 24px 64px" }}>
+        <div
+          className="mw-hero-grid"
+          style={{ ...mwWrap, padding: "72px 24px 64px", display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: 48, alignItems: "center" }}
+        >
+          <div>
           <div
             className="md-typescale-label-large"
             style={{ fontWeight: 700, letterSpacing: ".05em", textTransform: "uppercase", color: "var(--md-sys-color-primary)", marginBottom: 16 }}
@@ -355,6 +361,25 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
                 </div>
               </div>
             ))}
+          </div>
+          </div>
+          <div className="mw-hero-art">
+            <img
+              src="/industry/medware-industry.jpg"
+              alt="The Medware Group — software for doctors and patients"
+              width={2000}
+              height={2000}
+              fetchPriority="high"
+              decoding="async"
+              style={{
+                width: "100%",
+                aspectRatio: "1 / 1",
+                objectFit: "cover",
+                borderRadius: "var(--md-sys-shape-corner-extra-large)",
+                border: "1px solid var(--md-sys-color-outline-variant)",
+                boxShadow: "var(--md-sys-elevation-level-3)",
+              }}
+            />
           </div>
         </div>
       </section>
