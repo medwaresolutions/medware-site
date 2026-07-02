@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Header from "@/components/sections/Header";
 import Footer from "@/components/sections/Footer";
+import SoundwaveBackground from "@/components/sections/SoundwaveBackground";
 import { CookieBanner, LegalDialog, type LegalDoc } from "@/components/sections/dialogs";
 import { Button } from "@/components/ds";
 import { mwWrap } from "@/components/sections/shared";
@@ -123,6 +124,193 @@ function PriceLine({ p }: { p: IndustryProduct }) {
   );
 }
 
+/* Styled multi-select dropdown (replaces the native <select>): a field-styled
+   trigger, a checkbox option list, and removable chips for the selection. */
+function MultiSelect({
+  placeholder,
+  options,
+  values,
+  onChange,
+}: {
+  placeholder: string;
+  options: { value: string; label: string }[];
+  values: string[];
+  onChange: (next: string[]) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: PointerEvent) => {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  const toggle = (v: string) =>
+    onChange(values.includes(v) ? values.filter((x) => x !== v) : [...values, v]);
+  const byValue = Object.fromEntries(options.map((o) => [o.value, o.label]));
+
+  return (
+    <div ref={rootRef} style={{ position: "relative" }}>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        className="mw-field md-typescale-body-medium"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 10,
+          cursor: "pointer",
+          textAlign: "left",
+          color: values.length ? "var(--md-sys-color-on-surface)" : "var(--md-sys-color-on-surface-variant)",
+          borderColor: open ? "var(--md-sys-color-primary)" : undefined,
+        }}
+      >
+        <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          {values.length ? `${values.length} selected` : placeholder}
+        </span>
+        <span
+          className="material-symbols-rounded"
+          style={{
+            fontSize: 20,
+            flex: "none",
+            color: "var(--md-sys-color-on-surface-variant)",
+            transform: open ? "rotate(180deg)" : "none",
+            transition: "transform 180ms ease",
+          }}
+        >
+          expand_more
+        </span>
+      </button>
+
+      {open ? (
+        <div
+          role="listbox"
+          aria-multiselectable="true"
+          style={{
+            position: "absolute",
+            top: "calc(100% + 6px)",
+            left: 0,
+            right: 0,
+            zIndex: 40,
+            background: "var(--md-sys-color-surface-container)",
+            border: "1px solid var(--md-sys-color-outline-variant)",
+            borderRadius: "var(--md-sys-shape-corner-medium)",
+            boxShadow: "var(--md-sys-elevation-level-2)",
+            maxHeight: 300,
+            overflowY: "auto",
+            padding: 6,
+          }}
+        >
+          {options.map((o) => {
+            const on = values.includes(o.value);
+            return (
+              <button
+                key={o.value}
+                type="button"
+                role="option"
+                aria-selected={on}
+                onClick={() => toggle(o.value)}
+                className="md-typescale-body-medium mw-msopt"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  width: "100%",
+                  border: 0,
+                  background: "transparent",
+                  cursor: "pointer",
+                  textAlign: "left",
+                  padding: "10px 10px",
+                  borderRadius: "var(--md-sys-shape-corner-small)",
+                  color: "var(--md-sys-color-on-surface)",
+                }}
+              >
+                <span
+                  aria-hidden
+                  style={{
+                    flex: "none",
+                    width: 18,
+                    height: 18,
+                    borderRadius: 5,
+                    display: "grid",
+                    placeItems: "center",
+                    border: on ? "0" : "2px solid var(--md-sys-color-outline)",
+                    background: on ? "var(--md-sys-color-primary)" : "transparent",
+                    color: "var(--md-sys-color-on-primary)",
+                    fontSize: 14,
+                    fontWeight: 800,
+                    lineHeight: 1,
+                  }}
+                >
+                  {on ? "✓" : ""}
+                </span>
+                {o.label}
+              </button>
+            );
+          })}
+        </div>
+      ) : null}
+
+      {values.length ? (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 }}>
+          {values.map((v) => (
+            <span
+              key={v}
+              className="md-typescale-label-medium"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "5px 6px 5px 11px",
+                borderRadius: 999,
+                background: "var(--md-sys-color-secondary-container)",
+                color: "var(--md-sys-color-on-secondary-container)",
+                textTransform: "none",
+              }}
+            >
+              {byValue[v] ?? v}
+              <button
+                type="button"
+                onClick={() => toggle(v)}
+                aria-label={`Remove ${byValue[v] ?? v}`}
+                style={{
+                  width: 18,
+                  height: 18,
+                  borderRadius: "50%",
+                  border: 0,
+                  cursor: "pointer",
+                  display: "grid",
+                  placeItems: "center",
+                  fontSize: 12,
+                  lineHeight: 1,
+                  background: "color-mix(in srgb, var(--md-sys-color-on-secondary-container) 15%, transparent)",
+                  color: "var(--md-sys-color-on-secondary-container)",
+                }}
+              >
+                ×
+              </button>
+            </span>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 const sectionHead = (kicker: string, title: string, sub: string, onDark = false) => (
   <div style={{ maxWidth: "62ch", marginBottom: 34 }}>
     <div
@@ -145,8 +333,8 @@ export default function IndustryPage() {
   const [selected, setSelected] = useState<string[]>([]);
   const [dates, setDates] = useState<Record<string, string>>({});
   const [involved, setInvolved] = useState<string[]>([]);
-  const [dept, setDept] = useState("");
-  const [groupFilter, setGroupFilter] = useState<GroupKey | "all">("all");
+  const [depts, setDepts] = useState<string[]>([]);
+  const [groupFilter, setGroupFilter] = useState<GroupKey | "all" | null>(null);
   const [modalKey, setModalKey] = useState<string | null>(null);
   const [legal, setLegal] = useState<LegalDoc | null>(null);
 
@@ -176,34 +364,38 @@ export default function IndustryPage() {
     });
   }, [selected]);
   const addSelect = useCallback((k: string) => setSelected((prev) => (prev.includes(k) ? prev : [...prev, k])), []);
-  const toggleInvolved = useCallback(
-    (k: string) => setInvolved((prev) => (prev.includes(k) ? prev.filter((x) => x !== k) : [...prev, k])),
-    [],
-  );
 
   const count = selected.length;
 
   /* ----- recommender matches ----- */
   const fit = useMemo(() => {
-    let keys: string[] = [];
+    const keys: string[] = [];
     let read = "";
     let heading = "";
-    if (dept) {
-      const d = DEPARTMENTS.find((x) => x.key === dept)!;
-      keys = [...d.products];
-      read = d.read;
-      heading = "Recommended for " + d.label;
+    const chosen = DEPARTMENTS.filter((d) => depts.includes(d.key));
+    chosen.forEach((d) => {
+      d.products.forEach((k) => {
+        if (!keys.includes(k)) keys.push(k);
+      });
+    });
+    if (chosen.length === 1) {
+      read = chosen[0].read;
+      heading = "Recommended for " + chosen[0].label;
+    } else if (chosen.length > 1) {
+      heading = "Recommended for " + chosen.map((d) => d.label).join(" · ");
+      read =
+        "Here is the combined shortlist across the teams you picked — the products that would make the biggest difference to each, with the overlaps shown once.";
     }
     involved.forEach((k) => {
       if (!keys.includes(k)) keys.push(k);
     });
-    if (!dept && involved.length) {
-      heading = "Based on the products you selected";
+    if (!chosen.length && involved.length) {
+      heading = "Based on the products you know";
       read =
-        "Here is how the products you are involved with work together, plus a couple that pair naturally with them. Add any you would like a tailored proposal on.";
+        "Here is how the products you have experience with work together, plus a couple that pair naturally with them. Add any you would like a tailored proposal on.";
     }
     return { keys: keys.map((k) => BY_KEY[k]).filter(Boolean), read, heading };
-  }, [dept, involved]);
+  }, [depts, involved]);
 
   /* ----- AI planner ----- */
   async function generateBrand() {
@@ -254,7 +446,9 @@ export default function IndustryPage() {
       .map((k) => `${BY_KEY[k].title}${dates[k] ? ` (target: ${fmtDate(dates[k])})` : ""}`)
       .join("\n");
     const involved_with = involved.map((k) => BY_KEY[k].title).join(", ");
-    const department = dept ? DEPARTMENTS.find((x) => x.key === dept)?.label ?? "" : "";
+    const department = DEPARTMENTS.filter((x) => depts.includes(x.key))
+      .map((x) => x.label)
+      .join(", ");
     try {
       const res = await fetch("/api/industry/enquiry", {
         method: "POST",
@@ -271,8 +465,8 @@ export default function IndustryPage() {
     }
   }
 
-  /* ----- print one-pager ----- */
-  function printOnePager() {
+  /* ----- open one-pager in a new tab (user prints / saves as PDF from there) ----- */
+  function openOnePager() {
     if (!plan) return;
     const d = plan;
     const sw = d.swot || {};
@@ -292,7 +486,11 @@ h1{font-size:22px;margin:0}.cat{color:#0B5B63;font-weight:bold;font-size:13px;ma
 h2{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:#0E7C86;border-bottom:1px solid #E4EAF0;padding-bottom:4px;margin:20px 0 8px}
 .swot{display:grid;grid-template-columns:1fr 1fr;gap:10px}.b{border:1px solid #E4EAF0;border-radius:8px;padding:8px 12px}.b h3{font-size:11px;color:#6B7C90;margin:0 0 4px;text-transform:uppercase}ul{margin:0;padding-left:16px;font-size:13px}
 .r{border:1px solid #EEF2F6;border-radius:8px;padding:8px 12px;margin-bottom:8px}.r b{font-size:14px}.r div{font-size:13px;color:#33465B}
-.note{font-size:11px;color:#6B7C90;margin-top:20px}</style></head><body>
+.note{font-size:11px;color:#6B7C90;margin-top:20px}
+.toolbar{display:flex;align-items:center;gap:14px;background:#F1F6FB;border:1px solid #DCE7F0;border-radius:10px;padding:12px 16px;margin-bottom:24px;font-size:13px;color:#33465B}
+.toolbar button{border:0;border-radius:999px;background:#0D2033;color:#fff;font-weight:bold;font-size:13px;padding:9px 18px;cursor:pointer}
+@media print{.toolbar{display:none}}</style></head><body>
+<div class="toolbar"><button onclick="window.print()">Print or save as PDF</button><span>Use your browser&rsquo;s print dialog and choose &ldquo;Save as PDF&rdquo; to keep a copy.</span></div>
 <h1>${esc(d.brand || "")}${d.country ? " &middot; " + esc(d.country) : ""}</h1>${d.category ? `<div class="cat">${esc(d.category)}</div>` : ""}
 ${d.overview ? `<h2>Brand overview</h2><p>${esc(d.overview)}</p>` : ""}
 <h2>SWOT</h2><div class="swot">
@@ -306,7 +504,6 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
 </body></html>`);
     w.document.close();
     w.focus();
-    setTimeout(() => w.print(), 350);
   }
 
   const modalProduct = modalKey ? BY_KEY[modalKey] : null;
@@ -317,10 +514,11 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
       <Header />
 
       {/* ===== HERO ===== */}
-      <section style={{ background: "var(--md-sys-color-surface-container-low)", borderBottom: "1px solid var(--md-sys-color-outline-variant)" }}>
+      <section className="dark" style={{ position: "relative", overflow: "hidden", background: "#0D2033" }}>
+        <SoundwaveBackground theme="Deep blue" />
         <div
           className="mw-hero-grid"
-          style={{ ...mwWrap, padding: "72px 24px 64px", display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: 48, alignItems: "center" }}
+          style={{ ...mwWrap, position: "relative", zIndex: 1, padding: "72px 24px 64px", display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: 48, alignItems: "center" }}
         >
           <div>
           <div
@@ -380,6 +578,85 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
                 boxShadow: "var(--md-sys-elevation-level-3)",
               }}
             />
+          </div>
+        </div>
+      </section>
+
+      {/* ===== HOW WE MATCH ===== */}
+      <section style={{ ...sectionPad, paddingBottom: 24 }}>
+        <div style={mwWrap}>
+          {sectionHead(
+            "Find your fit",
+            "We match our products to your goals.",
+            "Tell us your goals and objectives and we will show you the products that get you there — and how we would help you reach them. Three ways in: let our AI plan it around your brand, choose by the job you do, or choose by the outcome you want.",
+          )}
+          <div className="mw-ind-cards">
+            {[
+              {
+                icon: "auto_awesome",
+                title: "Use the AI brand planner",
+                copy: "Enter your brand and country. Our AI researches it live and maps our products straight onto your strategy.",
+                href: "#brandai",
+                cta: "Plan my brand",
+              },
+              {
+                icon: "groups",
+                title: "Choose by job type",
+                copy: "Pick your department and the products you know. We shortlist what would make a difference to your team.",
+                href: "#fit",
+                cta: "Find my fit",
+              },
+              {
+                icon: "flag",
+                title: "Choose by outcome",
+                copy: "Browse the portfolio grouped by what you want to achieve — promote, educate, support patients, data, your team.",
+                href: "#solutions",
+                cta: "Browse outcomes",
+              },
+            ].map((c) => (
+              <a
+                key={c.href}
+                href={c.href}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 10,
+                  textDecoration: "none",
+                  background: "var(--md-sys-color-surface-container-lowest)",
+                  border: "1px solid var(--md-sys-color-outline-variant)",
+                  borderRadius: "var(--md-sys-shape-corner-large)",
+                  padding: "22px 22px 20px",
+                  boxShadow: "var(--md-sys-elevation-level-1)",
+                }}
+              >
+                <span
+                  className="material-symbols-rounded"
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 12,
+                    display: "grid",
+                    placeItems: "center",
+                    fontSize: 24,
+                    background: "var(--md-sys-color-primary-container)",
+                    color: "var(--md-sys-color-on-primary-container)",
+                  }}
+                >
+                  {c.icon}
+                </span>
+                <b className="md-typescale-title-medium" style={{ color: "var(--md-sys-color-on-surface)" }}>{c.title}</b>
+                <span className="md-typescale-body-medium" style={{ color: "var(--md-sys-color-on-surface-variant)", flex: 1 }}>
+                  {c.copy}
+                </span>
+                <span
+                  className="md-typescale-label-large"
+                  style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--md-sys-color-primary)", fontWeight: 700 }}
+                >
+                  {c.cta}
+                  <span className="material-symbols-rounded" style={{ fontSize: 18 }}>arrow_downward</span>
+                </span>
+              </a>
+            ))}
           </div>
         </div>
       </section>
@@ -447,7 +724,7 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
                 {aiError}
               </div>
             ) : null}
-            {plan ? <OnePager plan={plan} isSel={isSel} addSelect={addSelect} addAll={addAllRecs} print={printOnePager} /> : null}
+            {plan ? <OnePager plan={plan} isSel={isSel} addSelect={addSelect} addAll={addAllRecs} view={openOnePager} /> : null}
           </div>
         </div>
       </section>
@@ -475,29 +752,22 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
               <label className="md-typescale-title-small" style={{ display: "block", marginBottom: 6, color: "var(--md-sys-color-on-surface)" }}>
                 Your department
               </label>
-              <select className="mw-field" value={dept} onChange={(e) => setDept(e.target.value)}>
-                <option value="">Select a department…</option>
-                {DEPARTMENTS.map((d) => (
-                  <option key={d.key} value={d.key}>
-                    {d.label}
-                  </option>
-                ))}
-              </select>
+              <MultiSelect
+                placeholder="Select departments…"
+                options={DEPARTMENTS.map((d) => ({ value: d.key, label: d.label }))}
+                values={depts}
+                onChange={setDepts}
+              />
               <div style={{ marginTop: 18 }}>
-                <label className="md-typescale-title-small" style={{ display: "block", marginBottom: 8, color: "var(--md-sys-color-on-surface)" }}>
-                  Products you are involved with
+                <label className="md-typescale-title-small" style={{ display: "block", marginBottom: 6, color: "var(--md-sys-color-on-surface)" }}>
+                  Products we have experience with
                 </label>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {PRODUCTS.map((p) => (
-                    <button
-                      key={p.key}
-                      className={`mw-chip-toggle ${involved.includes(p.key) ? "on" : ""}`}
-                      onClick={() => toggleInvolved(p.key)}
-                    >
-                      {p.title}
-                    </button>
-                  ))}
-                </div>
+                <MultiSelect
+                  placeholder="Select products…"
+                  options={PRODUCTS.map((p) => ({ value: p.key, label: p.title }))}
+                  values={involved}
+                  onChange={setInvolved}
+                />
               </div>
             </div>
 
@@ -524,29 +794,40 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
                         key={p.key}
                         style={{
                           display: "flex",
-                          gap: 12,
-                          alignItems: "flex-start",
-                          padding: "13px 14px",
+                          gap: 16,
+                          alignItems: "center",
+                          padding: "18px 18px",
                           border: "1px solid var(--md-sys-color-outline-variant)",
-                          borderRadius: "var(--md-sys-shape-corner-small)",
+                          borderRadius: "var(--md-sys-shape-corner-medium)",
                           background: "var(--md-sys-color-surface-container-low)",
                         }}
                       >
                         <span
                           style={{
                             flex: "none",
-                            width: 34,
-                            height: 34,
-                            borderRadius: 8,
+                            width: 96,
+                            height: 64,
+                            borderRadius: 10,
+                            overflow: "hidden",
                             display: "grid",
                             placeItems: "center",
                             background: "var(--md-sys-color-primary-container)",
                             color: "var(--md-sys-color-on-primary-container)",
                             fontWeight: 800,
-                            fontSize: 13,
+                            fontSize: 15,
                           }}
                         >
-                          {initials(p.title)}
+                          {p.img ? (
+                            <img
+                              src={p.img}
+                              alt={p.title}
+                              loading="lazy"
+                              decoding="async"
+                              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                            />
+                          ) : (
+                            initials(p.title)
+                          )}
                         </span>
                         <div style={{ flex: 1 }}>
                           <b className="md-typescale-title-medium" style={{ color: "var(--md-sys-color-on-surface)" }}>{p.title}</b>
@@ -562,7 +843,8 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
                 </div>
               ) : (
                 <div className="md-typescale-body-large" style={{ color: "var(--md-sys-color-on-surface-variant)", padding: "30px 4px" }}>
-                  Choose a department above to see a tailored shortlist and a short read on the difference it could make.
+                  Pick your departments, or the products you know, and the matching solutions will appear here with a
+                  short read on the difference they could make.
                 </div>
               )}
             </div>
@@ -576,11 +858,11 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
           {sectionHead(
             "The portfolio",
             "Solutions, grouped by what you want to achieve.",
-            'Everything below is one group, the Medware Group. Tap "Add to shortlist" on anything you would like a tailored proposal on, then send it to us at the bottom of the page.',
+            'Pick what you want to achieve and the matching solutions appear. Tap "Add to shortlist" on anything you would like a tailored proposal on, then send it to us at the bottom of the page.',
           )}
           <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 26 }}>
             <span className="md-typescale-label-medium" style={{ fontWeight: 700, color: "var(--md-sys-color-on-surface-variant)", marginRight: 4 }}>
-              Show:
+              I want to:
             </span>
             {(["all", ...GROUPS.map((g) => g.key)] as (GroupKey | "all")[]).map((key) => {
               const label = key === "all" ? "All" : GROUPS.find((g) => g.key === key)!.name;
@@ -606,7 +888,21 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
             })}
           </div>
 
-          {GROUPS.filter((g) => groupFilter === "all" || g.key === groupFilter).map((g) => {
+          {groupFilter === null ? (
+            <div
+              className="md-typescale-body-large"
+              style={{
+                color: "var(--md-sys-color-on-surface-variant)",
+                textAlign: "center",
+                padding: "44px 20px",
+                border: "1px dashed var(--md-sys-color-outline-variant)",
+                borderRadius: "var(--md-sys-shape-corner-large)",
+              }}
+            >
+              Choose what you want to achieve above — or &ldquo;All&rdquo; — and the matching solutions will appear here.
+            </div>
+          ) : null}
+          {GROUPS.filter((g) => groupFilter !== null && (groupFilter === "all" || g.key === groupFilter)).map((g) => {
             const items = PRODUCTS.filter((p) => p.group === g.key);
             if (!items.length) return null;
             return (
@@ -1070,13 +1366,13 @@ function OnePager({
   isSel,
   addSelect,
   addAll,
-  print,
+  view,
 }: {
   plan: Plan;
   isSel: (k: string) => boolean;
   addSelect: (k: string) => void;
   addAll: () => void;
-  print: () => void;
+  view: () => void;
 }) {
   const sw = plan.swot || {};
   const box = (cls: string, title: string, arr?: string[], color?: string) => (
@@ -1180,7 +1476,7 @@ function OnePager({
       </div>
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap", padding: "0 26px 24px" }}>
         <Button variant="filled" onClick={addAll}>Add all to my shortlist</Button>
-        <Button variant="outlined" icon="print" onClick={print}>Print or save as PDF</Button>
+        <Button variant="outlined" icon="open_in_new" onClick={view}>View one-pager</Button>
       </div>
     </div>
   );

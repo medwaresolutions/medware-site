@@ -23,8 +23,8 @@ export default function Footer({ onOpenLegal }: { onOpenLegal: (doc: LegalDoc) =
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <img className="mw-logo-dark" src="/ma-logo.png" alt="Medware" style={{ height: 28, width: "auto" }} />
-          <img className="mw-logo-white" src="/ma-logo-white.png" alt="Medware" style={{ height: 28, width: "auto" }} />
+          <img className="mw-logo-dark" src="/medware-logo.png" alt="Medware" style={{ height: 28, width: "auto" }} />
+          <img className="mw-logo-white" src="/medware-logo-white.png" alt="Medware" style={{ height: 28, width: "auto" }} />
           <span className="md-typescale-body-small" style={{ color: "var(--md-sys-color-on-surface-variant)" }}>
             © 2026 Medware Solutions. All rights reserved.
           </span>

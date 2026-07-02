@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Badge, Button, Card, Chip, LinearProgress, List, ListDivider, ListItem } from "@/components/ds";
+import SoundwaveBackground from "./SoundwaveBackground";
 import { mwWrap } from "./shared";
 
 const HERO_WORDS = ["transforms medicine", "learns from data", "scales with you", "empowers clinicians"];
@@ -14,11 +15,14 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="top" style={{ position: "relative", overflow: "hidden" }}>
+    <section id="top" className="dark" style={{ position: "relative", overflow: "hidden", background: "#0D2033" }}>
+      <SoundwaveBackground theme="Deep blue" />
       <div
         className="mw-hero-grid"
         style={{
           ...mwWrap,
+          position: "relative",
+          zIndex: 1,
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
           gap: 56,
@@ -117,29 +121,27 @@ function HeroMonitor() {
           alignItems: "center",
           gap: 8,
           padding: "12px 16px",
-          background: "var(--md-sys-color-primary)",
+          background: "rgba(144, 207, 255, 0.14)",
+          borderBottom: "1px solid rgba(255,255,255,0.10)",
         }}
       >
-        <span className="material-symbols-rounded" style={{ fontSize: 20, color: "var(--md-sys-color-on-primary)" }}>
+        <span className="material-symbols-rounded" style={{ fontSize: 20, color: "#D7ECFF" }}>
           monitor_heart
         </span>
-        <span className="md-typescale-label-large" style={{ color: "var(--md-sys-color-on-primary)" }}>
+        <span className="md-typescale-label-large" style={{ color: "#D7ECFF" }}>
           Medware · live
         </span>
         <div style={{ flex: 1 }} />
-        <span className="mw-pulse-dot" style={{ background: "var(--md-sys-color-on-primary)" }} />
-        <span
-          className="md-typescale-label-medium"
-          style={{ color: "color-mix(in srgb, var(--md-sys-color-on-primary) 80%, transparent)" }}
-        >
+        <span className="mw-pulse-dot" style={{ background: "#D7ECFF" }} />
+        <span className="md-typescale-label-medium" style={{ color: "rgba(215, 236, 255, 0.8)" }}>
           streaming
         </span>
       </div>
       <div style={{ padding: 16 }}>
         <div
           style={{
-            background: "var(--md-sys-color-surface-container-lowest)",
-            border: "1px solid var(--md-sys-color-outline-variant)",
+            background: "rgba(255,255,255,0.06)",
+            border: "1px solid rgba(255,255,255,0.12)",
             borderRadius: "var(--md-sys-shape-corner-large)",
             padding: "12px 8px",
             marginBottom: 14,
@@ -170,8 +172,8 @@ function HeroMonitor() {
         </div>
         <div
           style={{
-            background: "var(--md-sys-color-surface-container-lowest)",
-            border: "1px solid var(--md-sys-color-outline-variant)",
+            background: "rgba(255,255,255,0.06)",
+            border: "1px solid rgba(255,255,255,0.12)",
             borderRadius: "var(--md-sys-shape-corner-medium)",
             overflow: "hidden",
           }}

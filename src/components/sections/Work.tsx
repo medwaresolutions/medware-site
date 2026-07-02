@@ -1,10 +1,83 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Card, Tabs } from "@/components/ds";
+import { Button, Card } from "@/components/ds";
 import { COMPANIES, TOTAL_PRODUCTS, type Product } from "@/data/portfolio";
 import ProductCard from "@/components/ProductCard";
 import { mwWrap } from "./shared";
+
+/* Apple-style segmented control (see apple.com/mac "Explore the lineup"):
+   a rounded track with a sliding thumb behind equal-width segments. */
+function LineupToggle({
+  tabs,
+  value,
+  onChange,
+}: {
+  tabs: { value: string; label: string }[];
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  const idx = Math.max(0, tabs.findIndex((t) => t.value === value));
+  return (
+    <div
+      role="tablist"
+      aria-label="Operating companies"
+      style={{
+        position: "relative",
+        display: "grid",
+        gridTemplateColumns: `repeat(${tabs.length}, 1fr)`,
+        background: "var(--md-sys-color-surface-container-high)",
+        borderRadius: 999,
+        padding: 4,
+        maxWidth: "100%",
+        overflowX: "auto",
+      }}
+    >
+      <span
+        aria-hidden
+        style={{
+          position: "absolute",
+          top: 4,
+          bottom: 4,
+          left: 4,
+          width: `calc((100% - 8px) / ${tabs.length})`,
+          transform: `translateX(${idx * 100}%)`,
+          transition: "transform 380ms cubic-bezier(0.3, 0, 0, 1)",
+          background: "var(--md-sys-color-surface-bright)",
+          borderRadius: 999,
+          boxShadow: "0 1px 4px rgba(0,0,0,0.16)",
+        }}
+      />
+      {tabs.map((t) => {
+        const on = t.value === value;
+        return (
+          <button
+            key={t.value}
+            role="tab"
+            aria-selected={on}
+            onClick={() => onChange(t.value)}
+            className="md-typescale-label-large"
+            style={{
+              position: "relative",
+              zIndex: 1,
+              border: 0,
+              background: "transparent",
+              cursor: "pointer",
+              padding: "9px 18px",
+              borderRadius: 999,
+              whiteSpace: "nowrap",
+              color: on ? "var(--md-sys-color-on-surface)" : "var(--md-sys-color-on-surface-variant)",
+              fontWeight: on ? 700 : 500,
+              transition: "color 200ms ease",
+            }}
+          >
+            {t.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
 
 export default function Work({ onOpenProduct }: { onOpenProduct: (p: Product) => void }) {
   const [tab, setTab] = useState(COMPANIES[0].id);
@@ -29,7 +102,7 @@ export default function Work({ onOpenProduct }: { onOpenProduct: (p: Product) =>
       </div>
 
       <div style={{ display: "flex", justifyContent: "center", marginBottom: 28 }}>
-        <Tabs value={tab} onChange={setTab} tabs={COMPANIES.map((c) => ({ value: c.id, label: c.name }))} />
+        <LineupToggle value={tab} onChange={setTab} tabs={COMPANIES.map((c) => ({ value: c.id, label: c.name }))} />
       </div>
 
       <Card
@@ -87,7 +160,7 @@ export default function Work({ onOpenProduct }: { onOpenProduct: (p: Product) =>
 
       <div className="mw-prod-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
         {co.products.map((p) => (
-          <ProductCard key={p.title} p={p} onOpen={() => onOpenProduct(p)} />
+          <ProductCard key={p.title} p={p} accent={co.color} onOpen={() => onOpenProduct(p)} />
         ))}
       </div>
 

@@ -22,25 +22,27 @@ export default function Header() {
 
   return (
     <header
+      className="dark"
       style={{
         position: "sticky",
         top: 0,
         zIndex: 50,
-        background: "var(--md-sys-color-surface-container-lowest)",
-        borderBottom: "1px solid var(--md-sys-color-outline-variant)",
+        background: "#0D2033",
+        borderBottom: "1px solid rgba(255,255,255,0.08)",
       }}
     >
       <div style={{ ...mwWrap, display: "flex", alignItems: "center", gap: 16, height: 72 }}>
         <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
           {/* Theme-aware mark (CSS toggles which one shows) */}
-          <img className="mw-logo-dark" src="/ma-logo.png" alt="Medware" style={{ height: 30, width: "auto" }} />
-          <img className="mw-logo-white" src="/ma-logo-white.png" alt="Medware" style={{ height: 30, width: "auto" }} />
+          <img className="mw-logo-dark" src="/medware-logo.png" alt="Medware" style={{ height: 30, width: "auto" }} />
+          <img className="mw-logo-white" src="/medware-logo-white.png" alt="Medware" style={{ height: 30, width: "auto" }} />
           <span
+            className="mw-wordmark"
             style={{
-              fontFamily: "var(--md-sys-typescale-font-brand)",
+              fontFamily: "'Manrope', var(--md-sys-typescale-font-brand)",
               fontSize: 22,
-              fontWeight: 500,
-              letterSpacing: "0.14em",
+              fontWeight: 800,
+              letterSpacing: "0.10em",
               color: "var(--md-sys-color-on-surface)",
             }}
           >
@@ -78,8 +80,8 @@ export default function Header() {
       {open ? (
         <nav
           style={{
-            borderTop: "1px solid var(--md-sys-color-outline-variant)",
-            background: "var(--md-sys-color-surface)",
+            borderTop: "1px solid rgba(255,255,255,0.08)",
+            background: "#0D2033",
           }}
         >
           <div style={{ ...mwWrap, display: "flex", flexDirection: "column", padding: "12px 24px" }}>

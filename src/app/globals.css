@@ -145,6 +145,7 @@ a { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 680px) { .mw-ind-aiform, .mw-ind-formrow { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .mw-ind-cards { grid-template-columns: 1fr; } }
 @media (max-width: 560px) { .mw-ind-swot { grid-template-columns: 1fr; } }
+.mw-msopt:hover { background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent) !important; }
 .mw-chip-toggle { font-family: var(--md-sys-typescale-font-plain); font-size: 13px; font-weight: 600; padding: 7px 13px; border-radius: 999px; border: 1px solid var(--md-sys-color-outline); background: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface-variant); cursor: pointer; transition: border-color .12s, background-color .12s; }
 .mw-chip-toggle:hover { border-color: var(--md-sys-color-primary); }
 .mw-chip-toggle.on { background: var(--md-sys-color-secondary-container); border-color: transparent; color: var(--md-sys-color-on-secondary-container); }
@@ -168,14 +169,21 @@ a { -webkit-tap-highlight-color: transparent; }
 .mw-embed { position: relative; width: 100%; aspect-ratio: 16 / 9; margin: 28px 0; border-radius: var(--md-sys-shape-corner-large); overflow: hidden; border: 1px solid var(--md-sys-color-outline-variant); }
 .mw-embed iframe { width: 100%; height: 100%; border: 0; }
 
-/* Hero "live vitals" monitor card — light-blue body (overrides the global
-   white-card interior). Two classes beat the single .mdc-card selector. */
+/* Hero "live vitals" monitor card — frosted glass over the deep-blue
+   soundwave field. Two classes beat the single .mdc-card selector. */
 .mdc-card.mw-monitor {
-  background: color-mix(in srgb, var(--md-sys-color-primary) 8%, var(--md-sys-color-surface-container-lowest)) !important;
+  background: rgba(13, 30, 48, 0.42) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  backdrop-filter: blur(16px) saturate(130%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
 }
+.mdc-card.mw-monitor .mdc-list { background: transparent; }
 
 /* Theme-driven logo swap — pure CSS, no JS, no hydration mismatch.
-   Dark mark shows on light surfaces; white mark shows in dark theme. */
+   Dark mark shows on light surfaces; white mark shows in dark theme and
+   inside always-dark scopes (header, hero). */
 .mw-logo-white { display: none; }
-[data-theme="dark"] .mw-logo-dark { display: none; }
-[data-theme="dark"] .mw-logo-white { display: inline-block; }
+[data-theme="dark"] .mw-logo-dark,
+.dark .mw-logo-dark { display: none; }
+[data-theme="dark"] .mw-logo-white,
+.dark .mw-logo-white { display: inline-block; }
