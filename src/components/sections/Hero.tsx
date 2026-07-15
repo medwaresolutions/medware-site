@@ -154,6 +154,7 @@ function HeroMonitor() {
               d="M0 40 H40 l8 0 l6 -26 l8 50 l7 -42 l6 18 H120 l8 0 l6 -26 l8 50 l7 -42 l6 18 H240 l8 0 l6 -26 l8 50 l7 -42 l6 18 H320"
               fill="none"
               stroke="var(--md-sys-color-primary)"
+              strokeOpacity="0.45"
               strokeWidth="2.5"
               strokeLinejoin="round"
               strokeLinecap="round"
