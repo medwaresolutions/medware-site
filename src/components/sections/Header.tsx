@@ -34,8 +34,8 @@ export default function Header() {
       <div style={{ ...mwWrap, display: "flex", alignItems: "center", gap: 16, height: 72 }}>
         <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
           {/* Theme-aware mark (CSS toggles which one shows) */}
-          <img className="mw-logo-dark" src="/medware-logo.png" alt="Medware" style={{ height: 30, width: "auto" }} />
-          <img className="mw-logo-white" src="/medware-logo-white.png" alt="Medware" style={{ height: 30, width: "auto" }} />
+          <img className="mw-logo-dark" src="/medware-monogram.png" alt="Medware" style={{ height: 30, width: "auto" }} />
+          <img className="mw-logo-white" src="/medware-monogram-white.png" alt="Medware" style={{ height: 30, width: "auto" }} />
           <span
             className="mw-wordmark"
             style={{

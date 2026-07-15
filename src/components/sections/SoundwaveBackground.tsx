@@ -17,6 +17,9 @@ type SoundwaveProps = {
   period?: number;
   density?: number;
   showRings?: boolean;
+  /** Pulse origin as fractions of canvas width/height (0.5 = centred). */
+  originX?: number;
+  originY?: number;
 };
 
 type Dir = { ux: number; uy: number; uz: number; j: number; tw: number };
@@ -26,8 +29,10 @@ export default function SoundwaveBackground({
   theme: themeOverride,
   speed = 0.3,
   period = 3.5,
-  density = 260,
+  density = 140,
   showRings = true,
+  originX = 0.5,
+  originY = 0.5,
 }: SoundwaveProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { dark } = useTheme();
@@ -98,8 +103,8 @@ export default function SoundwaveBackground({
 
     const frame = (now: number) => {
       const t = (now - start) / 1000;
-      const cx = w / 2;
-      const cy = h / 2;
+      const cx = w * originX;
+      const cy = h * originY;
       const focal = Math.min(w, h) * 1.7;
       const rot = t * 0.14;
       const ca = Math.cos(rot);
@@ -198,7 +203,7 @@ export default function SoundwaveBackground({
           if (sx < -20 || sx > w + 20 || sy < -20 || sy > h + 20) continue;
 
           const depth = (zr / maxLife + 1) / 2; // back .. front
-          let alpha = env * atten * d.tw * (0.4 + depth * 0.8);
+          let alpha = env * atten * d.tw * (0.2 + depth * 0.4);
           if (light) alpha *= 0.75;
           if (alpha <= 0.004) continue;
           const size = Math.max(0.5, (0.7 + depth * 1.3) * (scale / (focal / camDist)));
@@ -211,9 +216,9 @@ export default function SoundwaveBackground({
             ctx.fillStyle = `rgba(${rC},${gC},${bC},${alpha})`;
           } else {
             const hot = depth; // front edge whitens slightly
-            const rC = Math.round(acc.r + (255 - acc.r) * hot * 0.35);
-            const gC = Math.round(acc.g + (255 - acc.g) * hot * 0.35);
-            const bC = Math.round(acc.b + (255 - acc.b) * hot * 0.35);
+            const rC = Math.round(acc.r + (255 - acc.r) * hot * 0.12);
+            const gC = Math.round(acc.g + (255 - acc.g) * hot * 0.12);
+            const bC = Math.round(acc.b + (255 - acc.b) * hot * 0.12);
             ctx.fillStyle = `rgba(${rC},${gC},${bC},${alpha})`;
           }
           ctx.beginPath();
@@ -255,7 +260,7 @@ export default function SoundwaveBackground({
       window.removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, [accent, theme, speed, period, density, showRings]);
+  }, [accent, theme, speed, period, density, showRings, originX, originY]);
 
   return (
     <canvas

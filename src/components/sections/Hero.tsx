@@ -16,7 +16,7 @@ export default function Hero() {
 
   return (
     <section id="top" className="dark" style={{ position: "relative", overflow: "hidden", background: "#0D2033" }}>
-      <SoundwaveBackground theme="Deep blue" />
+      <SoundwaveBackground theme="Deep blue" originX={0.62} />
       <div
         className="mw-hero-grid"
         style={{
