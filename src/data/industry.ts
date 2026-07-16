@@ -223,7 +223,7 @@ export const PRODUCTS: IndustryProduct[] = [
   },
   {
     key: "adsafe", group: "team", title: "AdSafe", aud: "A free service for your customers", status: "live",
-    img: null,
+    img: "/1-medware-adsafe.jpg",
     price: "Sponsor a specialty POA", priceNote: "clinic plans from $79/month",
     short: "Free compliance checks you can offer your customers. AdSafe checks website and advertising compliance, which matters right now with the regulator cracking down.",
     impact: "Lets you hand clinics a timely free service, with your brand on it.",

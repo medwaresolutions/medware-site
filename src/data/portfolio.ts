@@ -402,6 +402,7 @@ export const COMPANIES: Company[] = [
         audience: "Healthcare professionals",
         status: "Live",
         statusType: "live",
+        image: "/1-medware-adsafe.jpg",
         purpose:
           "Automated compliance checking of clinic websites and advertising against AHPRA and TGA health-advertising rules.",
         problem:
