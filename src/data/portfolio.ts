@@ -104,7 +104,7 @@ export const COMPANIES: Company[] = [
         audience: "Pharmaceutical employees",
         status: "Live",
         statusType: "live",
-        image: "/industry/medcastmedia-industry-header.png",
+        image: "/medcast-industry.jpg",
         purpose:
           "Audio briefings for pharma teams summarising TGA, PBAC, Department of Health and nine other Australian regulatory sources, refreshed daily.",
         problem:
@@ -162,7 +162,7 @@ export const COMPANIES: Company[] = [
         audience: "Healthcare professionals",
         status: "May 2026",
         statusType: "soon",
-        image: "/industry/medflow-offline.png",
+        image: "/1-medflow-offline.jpg",
         purpose:
           "On-premise PBS authority automation for hospitals and networks where patient data must remain inside the institutional firewall.",
         problem:
@@ -301,7 +301,7 @@ export const COMPANIES: Company[] = [
         market: "Pharma medical affairs and brand teams, plus medical schools and CME providers globally.",
         customers:
           "Live. 1,230 proteins placed across 18 types in the human colonocyte; expandable to other cell types.",
-        link: "https://medware.com.au",
+        link: "https://cellmap-colonocyte.vercel.app",
       },
       {
         title: "Practice Referral",
@@ -309,6 +309,7 @@ export const COMPANIES: Company[] = [
         audience: "Healthcare professionals",
         status: "May 2026",
         statusType: "soon",
+        image: "/1-medware-referral.jpg",
         purpose:
           "US-market product mapping a specialist’s referral network using CMS Medicare data and generating targeted outreach campaigns to GPs.",
         problem:
@@ -326,6 +327,7 @@ export const COMPANIES: Company[] = [
         audience: "General",
         status: "Live",
         statusType: "live",
+        image: "/1-medware-training.jpg",
         purpose:
           "Enterprise AI training teaching sales and operations teams to use AI tools for measurable productivity gains.",
         problem:

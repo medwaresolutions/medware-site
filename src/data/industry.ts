@@ -128,11 +128,11 @@ export const PRODUCTS: IndustryProduct[] = [
       "Consulting one-on-one, for a team, or company-wide",
       "A review of how visuals are used across your products",
     ],
-    link: "https://cellmap-tau.vercel.app",
+    link: "https://cellmap-colonocyte.vercel.app",
   },
   {
     key: "medwareai", group: "educate", title: "MedwareAI", aud: "Doctors, in the surgery", status: "dev",
-    img: "/industry/medflow-offline.png",
+    img: "/1-medflow-offline.jpg",
     price: "Per-clinic licensing POA", priceNote: "",
     short: "Our offline medical companion for doctor surgeries. AI assistance that stays inside the practice, for clinics with privacy concerns about cloud tools.",
     impact: "Gives you a presence in clinics that will not touch cloud AI.",
@@ -238,7 +238,7 @@ export const PRODUCTS: IndustryProduct[] = [
   },
   {
     key: "medcast-industry", group: "team", title: "Medcast Industry App", aud: "Your people", status: "free",
-    img: "/industry/medcastmedia-industry-header.png",
+    img: "/medcast-industry.jpg",
     price: "Free", priceNote: "no charge to use",
     short: "A free app for industry. Keep your people across what is happening, at no charge. Just use it.",
     impact: "A no-cost way to keep your team across the industry.",
