@@ -4,7 +4,7 @@ import { mwWrap } from "./shared";
 const STATS = [
   { value: "17+", label: "Years in pharma & health tech" },
   { value: "12,000+", label: "Hours with AI" },
-  { value: "19", label: "Products shipped" },
+  { value: "20", label: "Products shipped" },
   { value: "50s", label: "Started coding" },
 ];
 

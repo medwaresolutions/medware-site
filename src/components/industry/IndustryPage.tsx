@@ -902,31 +902,50 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
               Choose what you want to achieve above — or &ldquo;All&rdquo; — and the matching solutions will appear here.
             </div>
           ) : null}
-          {GROUPS.filter((g) => groupFilter !== null && (groupFilter === "all" || g.key === groupFilter)).map((g) => {
-            const items = PRODUCTS.filter((p) => p.group === g.key);
-            if (!items.length) return null;
-            return (
-              <div key={g.key} style={{ marginBottom: 48 }}>
-                <h3 className="md-typescale-headline-small" style={{ margin: "0 0 6px", color: "var(--md-sys-color-on-surface)" }}>
-                  {g.name}
-                </h3>
-                <p className="md-typescale-body-medium" style={{ margin: "0 0 20px", maxWidth: "70ch", color: "var(--md-sys-color-on-surface-variant)" }}>
-                  {g.sub}
-                </p>
-                <div className="mw-ind-cards">
-                  {items.map((p) => (
-                    <ProductCard
-                      key={p.key}
-                      p={p}
-                      selected={isSel(p.key)}
-                      onAdd={() => toggleSelect(p.key)}
-                      onMore={() => setModalKey(p.key)}
-                    />
-                  ))}
+          {groupFilter === "all" ? (
+            /* One continuous grid — no per-group sections, so rows of three stay full.
+               Each card carries a small group label instead. */
+            <div className="mw-ind-cards">
+              {GROUPS.flatMap((g) =>
+                PRODUCTS.filter((p) => p.group === g.key).map((p) => (
+                  <ProductCard
+                    key={p.key}
+                    p={p}
+                    groupChip={g.chip}
+                    selected={isSel(p.key)}
+                    onAdd={() => toggleSelect(p.key)}
+                    onMore={() => setModalKey(p.key)}
+                  />
+                )),
+              )}
+            </div>
+          ) : (
+            GROUPS.filter((g) => g.key === groupFilter).map((g) => {
+              const items = PRODUCTS.filter((p) => p.group === g.key);
+              if (!items.length) return null;
+              return (
+                <div key={g.key} style={{ marginBottom: 48 }}>
+                  <h3 className="md-typescale-headline-small" style={{ margin: "0 0 6px", color: "var(--md-sys-color-on-surface)" }}>
+                    {g.name}
+                  </h3>
+                  <p className="md-typescale-body-medium" style={{ margin: "0 0 20px", maxWidth: "70ch", color: "var(--md-sys-color-on-surface-variant)" }}>
+                    {g.sub}
+                  </p>
+                  <div className="mw-ind-cards">
+                    {items.map((p) => (
+                      <ProductCard
+                        key={p.key}
+                        p={p}
+                        selected={isSel(p.key)}
+                        onAdd={() => toggleSelect(p.key)}
+                        onMore={() => setModalKey(p.key)}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </section>
 
@@ -1193,11 +1212,13 @@ function ProductCard({
   selected,
   onAdd,
   onMore,
+  groupChip,
 }: {
   p: IndustryProduct;
   selected: boolean;
   onAdd: () => void;
   onMore: () => void;
+  groupChip?: string;
 }) {
   return (
     <div
@@ -1213,6 +1234,20 @@ function ProductCard({
     >
       <Media p={p} height={130} />
       <div style={{ padding: "18px 18px 20px", display: "flex", flexDirection: "column", flex: 1 }}>
+        {groupChip ? (
+          <div
+            className="md-typescale-label-small"
+            style={{
+              fontWeight: 700,
+              letterSpacing: ".08em",
+              textTransform: "uppercase",
+              color: "var(--md-sys-color-on-surface-variant)",
+              marginBottom: 6,
+            }}
+          >
+            {groupChip}
+          </div>
+        ) : null}
         <h4 className="md-typescale-title-large" style={{ margin: 0, color: "var(--md-sys-color-on-surface)" }}>{p.title}</h4>
         <div className="md-typescale-label-medium" style={{ fontWeight: 600, color: "var(--md-sys-color-primary)", marginTop: 3, textTransform: "none" }}>
           {p.aud}

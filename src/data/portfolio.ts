@@ -180,6 +180,7 @@ export const COMPANIES: Company[] = [
         audience: "EMR vendors",
         status: "May 2026",
         statusType: "soon",
+        image: "/1-medflow-pbs-api.jpg",
         purpose:
           "Stateless middleware that connects Electronic Medical Records to Services Australia’s PBS authority API for real-time pharmaceutical approvals.",
         problem:
@@ -234,6 +235,7 @@ export const COMPANIES: Company[] = [
         audience: "Pharmaceutical employees",
         status: "Live",
         statusType: "live",
+        image: "/1-medflow-metrics.jpg",
         purpose:
           "Real-world prescribing and authority analytics derived from anonymised Medflow workflow data, sold to pharmaceutical companies.",
         problem:
@@ -259,7 +261,7 @@ export const COMPANIES: Company[] = [
     description:
       "AI infrastructure, training and emerging products spanning healthcare and the broader AI economy.",
     stats: [
-      { num: "8", lbl: "Products" },
+      { num: "9", lbl: "Products" },
       { num: "3", lbl: "Markets" },
     ],
     link: "https://medware.com.au",
@@ -392,6 +394,23 @@ export const COMPANIES: Company[] = [
         market:
           "Australian specialist clinics with cloud-LLM privacy concerns, plus international clinics in regulated jurisdictions.",
         customers: "TBA. Currently in late-stage development.",
+        link: "https://medware.com.au",
+      },
+      {
+        title: "AdSafe",
+        short: "AD",
+        audience: "Healthcare professionals",
+        status: "Live",
+        statusType: "live",
+        purpose:
+          "Automated compliance checking of clinic websites and advertising against AHPRA and TGA health-advertising rules.",
+        problem:
+          "The regulator is cracking down on health advertising. Most clinics have no idea whether their website and marketing comply, and legal reviews are slow and expensive.",
+        howItWorks:
+          "AdSafe scans a clinic’s website and advertising copy against AHPRA and TGA advertising requirements, flags breaches and produces a plain-language compliance report. Pharmaceutical sponsors can sponsor a specialty and hand out codes so clinics receive checks free under their brand.",
+        revenue: "Clinic plans from $79/month. Specialty sponsorship for pharmaceutical companies — POA.",
+        market: "Australian specialist and GP clinics, with pharmaceutical sponsors as a distribution channel.",
+        customers: "Live. Timely with the current regulatory crackdown on health advertising.",
         link: "https://medware.com.au",
       },
       {

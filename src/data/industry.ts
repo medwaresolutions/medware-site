@@ -14,12 +14,12 @@ export const STATUS: Record<IndustryStatus, { label: string; color: string }> = 
 
 export type GroupKey = "promote" | "educate" | "patients" | "data" | "team";
 
-export const GROUPS: { key: GroupKey; name: string; sub: string }[] = [
-  { key: "promote", name: "Promote and place your brand", sub: "Put your product in front of the doctors and patients who matter, inside tools they already use." },
-  { key: "educate", name: "Educate and engage HCPs", sub: "Reach clinicians through software and content they genuinely value." },
-  { key: "patients", name: "Support patients and adherence", sub: "Help patients through their journey, with less effort from the clinic." },
-  { key: "data", name: "Market intelligence and data", sub: "See your market clearly and track your own activity, live." },
-  { key: "team", name: "Equip your team", sub: "Tools and services that make your people faster, sharper and safer." },
+export const GROUPS: { key: GroupKey; name: string; sub: string; chip: string }[] = [
+  { key: "promote", name: "Promote and place your brand", sub: "Put your product in front of the doctors and patients who matter, inside tools they already use.", chip: "Promote your brand" },
+  { key: "educate", name: "Educate and engage HCPs", sub: "Reach clinicians through software and content they genuinely value.", chip: "Educate HCPs" },
+  { key: "patients", name: "Support patients and adherence", sub: "Help patients through their journey, with less effort from the clinic.", chip: "Patient support & adherence" },
+  { key: "data", name: "Market intelligence and data", sub: "See your market clearly and track your own activity, live.", chip: "Market intelligence & data" },
+  { key: "team", name: "Equip your team", sub: "Tools and services that make your people faster, sharper and safer.", chip: "Equip your team" },
 ];
 
 export interface IndustryProduct {
@@ -162,12 +162,12 @@ export const PRODUCTS: IndustryProduct[] = [
   },
   // ---- DATA ----
   {
-    key: "medflow-metrix", group: "data", title: "Medflow Metrix", aud: "Built for industry", status: "live",
-    img: null,
+    key: "medflow-metrix", group: "data", title: "Medflow Metrics", aud: "Built for industry", status: "live",
+    img: "/1-medflow-metrics.jpg",
     price: "$20 per seat per month", priceNote: "",
     short: "Build your own live view of the PBS market. Real Medflow data plus market intelligence, ideal for entering a market or tracking your own activity and marketing in detail.",
     impact: "Gives you a live, detailed picture of your market and your activity.",
-    how: "Metrix lets you create your own view of PBS data. It includes Medflow data and information about your market. Use it when walking into a market, to track your activity in Medflow, or to watch your marketing activity in a more detailed, live setting.",
+    how: "Metrics lets you create your own view of PBS data. It includes Medflow data and information about your market. Use it when walking into a market, to track your activity in Medflow, or to watch your marketing activity in a more detailed, live setting.",
     benefits: [
       "Your own market view built on PBS data",
       "Includes Medflow data and market context",
@@ -274,10 +274,10 @@ export interface Department {
 export const DEPARTMENTS: Department[] = [
   { key: "brand", label: "Brand / Product Marketing", products: ["medflow-clinic", "medcast-sponsor", "medprep", "medcast-hcp", "medflow-patient"], read: "As a brand or marketing lead, your fastest wins are putting your brand where doctors actually prescribe and owning a channel to the specialists who write your scripts. Medflow Clinic places you at the point of prescribing with notifications and automatic program enrolment, while a Medcast Sponsored Channel gives you a measurable line straight to a specialty." },
   { key: "medical", label: "Medical Affairs / Medical Education", products: ["cellmap", "medcast-hcp", "pbs-script", "medwareai"], read: "For medical affairs, the value is getting accurate education and decision support into clinicians’ hands through tools they already trust. CellMap turns your mechanism of action into precise visuals for training and distribution, and the Medcast HCP app and PBS Script Generator put genuine clinical utility, and your brand, in front of doctors." },
-  { key: "access", label: "Market Access", products: ["medflow-clinic", "pbs-script", "medflow-metrix"], read: "For market access, the leverage is in smoothing the PBS authority and scripting pathway for your therapy and then watching uptake. Medflow Clinic streamlines authority applications and the Script Generator removes wording errors for complex biologics, while Metrix shows you the market response in real time." },
-  { key: "sales", label: "Sales / Field Force", products: ["relay", "earpiece", "constellation", "doctor-db", "medflow-metrix"], read: "For a field team, the difference is capturing every call and targeting the right doctors. Relay and Earpiece make sure nothing from a meeting is lost, the Doctor Database sharpens your targeting, and Metrix shows you where your activity is landing." },
+  { key: "access", label: "Market Access", products: ["medflow-clinic", "pbs-script", "medflow-metrix"], read: "For market access, the leverage is in smoothing the PBS authority and scripting pathway for your therapy and then watching uptake. Medflow Clinic streamlines authority applications and the Script Generator removes wording errors for complex biologics, while Metrics shows you the market response in real time." },
+  { key: "sales", label: "Sales / Field Force", products: ["relay", "earpiece", "constellation", "doctor-db", "medflow-metrix"], read: "For a field team, the difference is capturing every call and targeting the right doctors. Relay and Earpiece make sure nothing from a meeting is lost, the Doctor Database sharpens your targeting, and Metrics shows you where your activity is landing." },
   { key: "patient", label: "Patient Support / Programs", products: ["medflow-patient", "medprep", "medflow-clinic"], read: "For patient support, the win is enrolling and supporting patients with far less effort from the clinic. Medflow Clinic can enrol patients into your programs automatically, the Medflow patient Hub and App carry your content or run white-labelled as your own, and MedPrep guides patients through procedure prep." },
-  { key: "insights", label: "Market Research / Insights", products: ["medflow-metrix", "doctor-db"], read: "For insights, the value is building your own live picture of the PBS market and your place in it. Metrix lets you create a market view on real Medflow and PBS data, and the Doctor Database gives you the underlying targeting layer." },
+  { key: "insights", label: "Market Research / Insights", products: ["medflow-metrix", "doctor-db"], read: "For insights, the value is building your own live picture of the PBS market and your place in it. Metrics lets you create a market view on real Medflow and PBS data, and the Doctor Database gives you the underlying targeting layer." },
   { key: "digital", label: "Digital / Innovation / IT", products: ["constellation", "bespoke", "medwareai", "medflow-clinic"], read: "For digital and innovation, the opportunity is embedding efficient tooling and building exactly what you need. Constellation makes a lean team run like a large one, our bespoke build service ships any technology fast and affordably, and MedwareAI brings offline AI into privacy-sensitive clinics." },
   { key: "compliance", label: "Compliance / Regulatory", products: ["adsafe", "bespoke"], read: "For compliance, the timely move is offering your customers free compliance checks while the regulator is cracking down on health advertising. AdSafe lets you sponsor a specialty and hand clinics free checks under your brand." },
   { key: "commercial", label: "Commercial / General", products: ["medflow-clinic", "medcast-sponsor", "medflow-metrix", "bespoke"], read: "Across a commercial remit, the strongest combination is reaching prescribers, owning a channel to your specialty, and tracking the market live, with a build partner on hand for anything custom." },

@@ -69,7 +69,7 @@ export default function Hero() {
             className="md-typescale-body-large"
             style={{ margin: "0 0 28px", maxWidth: 480, color: "var(--md-sys-color-on-surface-variant)" }}
           >
-            Medical software, AI consulting, and training — built by people who understand healthcare. Nineteen
+            Medical software, AI consulting, and training — built by people who understand healthcare. Twenty
             products shipped at the intersection of AI and care.
           </p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -209,10 +209,10 @@ function HeroMonitor() {
               Portfolio shipped
             </span>
             <span className="md-typescale-label-medium" style={{ color: "var(--md-sys-color-on-surface-variant)" }}>
-              12 / 19 live
+              13 / 20 live
             </span>
           </div>
-          <LinearProgress value={63} />
+          <LinearProgress value={65} />
         </div>
       </div>
     </Card>
