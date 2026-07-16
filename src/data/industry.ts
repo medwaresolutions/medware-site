@@ -72,7 +72,7 @@ export const PRODUCTS: IndustryProduct[] = [
   },
   {
     key: "medprep", group: "promote", title: "MedPrep", aud: "Patients and gastro clinics", status: "live",
-    img: "/industry/medprep-header.png",
+    img: "/1-medprep-clinic.jpg",
     price: "Sponsorship POA", priceNote: "clinic from $20/month, $2 per patient delivered",
     short: "A simple QR-code tool that delivers a clinic’s colonoscopy prep instructions to patients. Used by Bowel Cancer Australia. White-label it for your prep product.",
     impact: "Lets a clinic switch to your prep product with almost no effort.",

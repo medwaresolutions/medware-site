@@ -472,7 +472,7 @@ export const COMPANIES: Company[] = [
         audience: "Healthcare professionals",
         status: "Live",
         statusType: "live",
-        image: "/industry/medprep-header.png",
+        image: "/1-medprep-clinic.jpg",
         purpose:
           "Clinician dashboard for gastroenterologists to monitor patient bowel-preparation compliance ahead of colonoscopy.",
         problem:
