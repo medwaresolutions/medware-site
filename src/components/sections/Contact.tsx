@@ -114,7 +114,7 @@ export default function Contact({ onSend }: { onSend: (email: string) => void })
           <span className="md-typescale-body-medium">matt@medware.com.au</span>
         </a>
         <a
-          href="https://linkedin.com/in/mattmartin"
+          href="https://www.linkedin.com/in/matt-martin-34345914"
           target="_blank"
           rel="noopener noreferrer"
           className="mw-contact-link"
