@@ -42,7 +42,12 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -55,7 +60,10 @@ const orgJsonLd = {
   description:
     "Medware Solutions builds AI-powered medical software, and provides AI consulting and training for healthcare and pharmaceutical organisations.",
   email: "matt@medware.com.au",
-  sameAs: ["https://github.com/medwaresolutions", "https://linkedin.com/in/mattmartin"],
+  sameAs: [
+    "https://github.com/medwaresolutions",
+    "https://www.linkedin.com/in/matt-martin-34345914",
+  ],
 };
 
 export const viewport: Viewport = {
@@ -84,7 +92,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         <link
           href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Roboto+Mono:wght@400;500&family=Manrope:wght@800&display=swap"
           rel="stylesheet"
