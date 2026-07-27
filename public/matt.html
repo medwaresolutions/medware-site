@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matt Martin — AI Transformation and Digital Strategy in Life Sciences</title>
+<meta name="description" content="32 years in pharmaceuticals and healthcare technology. Five years at Novartis. Founder of Medware Group. 20 products shipped, 13 live in Australian clinical settings.">
+<meta property="og:title" content="Matt Martin — AI Transformation and Digital Strategy in Life Sciences">
+<meta property="og:description" content="32 years in pharmaceuticals and healthcare technology. Novartis, Boehringer Ingelheim, Janssen-Cilag. Founder of Medware Group.">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://www.medware.com.au/matt">
+<link rel="canonical" href="https://www.medware.com.au/matt">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300;8..144,400;8..144,500;8..144,600;8..144,700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#006094; --on-primary:#fff; --primary-container:#CAE7FF; --on-primary-container:#00192E;
+  --secondary:#9C3200; --tertiary:#006963;
+  --bg:#F9FDFF; --on-bg:#15181A; --surface:#fff; --surface-low:#EDF1F4; --surface-c:#EEF2F5;
+  --on-surface:#15181A; --on-surface-var:#3A4249; --outline:#6D767D; --outline-var:#BFC9D1;
+  --rule:rgba(0,0,0,.08);
+  --maxw:1080px;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --primary:#90CFFF; --on-primary:#002E4C; --primary-container:#00456D; --on-primary-container:#CAE7FF;
+    --secondary:#FFB297; --tertiary:#7DDBD1;
+    --bg:#15181A; --on-bg:#E0E3E7; --surface:#1D2022; --surface-low:#15181A; --surface-c:#1D2022;
+    --on-surface:#E0E3E7; --on-surface-var:#BFC9D1; --outline:#89929A; --outline-var:#3A4249;
+    --rule:rgba(255,255,255,.10);
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--on-bg);
+  font-family:'Roboto Flex',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-variation-settings:'opsz' 16;
+  font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;
+  font-feature-settings:'kern' 1;
+}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+@media(max-width:640px){.wrap{padding:0 20px}body{font-size:16px}}
+
+/* ---------- hero ---------- */
+.hero{padding:104px 0 64px;border-bottom:1px solid var(--rule)}
+@media(max-width:640px){.hero{padding:64px 0 44px}}
+.eyebrow{
+  font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;
+  color:var(--primary);margin:0 0 22px;
+}
+h1{
+  font-size:clamp(2.6rem,7vw,4.6rem);line-height:1.02;letter-spacing:-.035em;
+  font-weight:600;font-variation-settings:'opsz' 144;margin:0 0 26px;
+}
+.lede{
+  font-size:clamp(1.12rem,2.1vw,1.45rem);line-height:1.5;letter-spacing:-.012em;
+  color:var(--on-surface-var);max-width:41ch;margin:0 0 38px;font-weight:300;
+}
+.lede strong{font-weight:500;color:var(--on-bg)}
+.meta{display:flex;flex-wrap:wrap;gap:10px 26px;font-size:14.5px;color:var(--on-surface-var)}
+.meta a{color:var(--primary);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .18s}
+.meta a:hover{border-color:currentColor}
+
+/* ---------- stats ---------- */
+.stats{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:1px;
+  background:var(--rule);border-bottom:1px solid var(--rule);
+}
+@media(max-width:860px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat:last-child{grid-column:1 / -1}
+}
+.stat{background:var(--bg);padding:30px 26px}
+@media(max-width:640px){.stat{padding:22px 20px}}
+.stat b{
+  display:block;font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:600;letter-spacing:-.035em;
+  line-height:1;color:var(--on-bg);font-variation-settings:'opsz' 60;
+}
+.stat span{display:block;margin-top:9px;font-size:12.5px;line-height:1.4;color:var(--on-surface-var)}
+
+/* ---------- sections ---------- */
+section{padding:76px 0;border-bottom:1px solid var(--rule)}
+@media(max-width:640px){section{padding:52px 0}}
+h2{
+  font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;
+  color:var(--primary);margin:0 0 40px;
+}
+h3{font-size:1.28rem;letter-spacing:-.018em;font-weight:600;margin:0 0 8px;line-height:1.3}
+p{margin:0 0 16px;max-width:68ch}
+p:last-child{margin-bottom:0}
+.muted{color:var(--on-surface-var)}
+
+/* ---------- era / timeline ---------- */
+.era{display:grid;grid-template-columns:190px 1fr;gap:44px;margin-bottom:56px}
+.era:last-child{margin-bottom:0}
+@media(max-width:800px){.era{grid-template-columns:1fr;gap:14px;margin-bottom:44px}}
+.era-when{
+  font-family:'Roboto Mono',monospace;font-size:13px;color:var(--on-surface-var);
+  padding-top:5px;letter-spacing:.02em;
+}
+.era-title{font-size:1.5rem;letter-spacing:-.024em;font-weight:600;margin:0 0 14px;line-height:1.25}
+.roles{list-style:none;margin:22px 0 0;padding:0}
+.roles li{
+  padding:13px 0;border-top:1px solid var(--rule);
+  display:grid;grid-template-columns:1fr auto;gap:8px 24px;align-items:baseline;
+}
+.roles li:last-child{border-bottom:1px solid var(--rule)}
+.roles .who{font-weight:500}
+.roles .what{display:block;font-size:14.5px;color:var(--on-surface-var);font-weight:400;margin-top:2px}
+.roles .when{font-family:'Roboto Mono',monospace;font-size:12.5px;color:var(--outline);white-space:nowrap}
+@media(max-width:560px){.roles li{grid-template-columns:1fr}.roles .when{margin-top:4px}}
+
+/* ---------- firsts ---------- */
+.firsts{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
+@media(max-width:760px){.firsts{grid-template-columns:1fr}}
+.first{background:var(--bg);padding:30px}
+.first .yr{
+  font-family:'Roboto Mono',monospace;font-size:12.5px;color:var(--primary);
+  font-weight:500;display:block;margin-bottom:12px;letter-spacing:.04em;
+}
+.first p{font-size:15.5px;margin:0;color:var(--on-surface-var)}
+.first strong{color:var(--on-bg);font-weight:500}
+
+/* ---------- products ---------- */
+.products{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+@media(max-width:760px){.products{grid-template-columns:1fr;gap:22px}}
+.product{
+  background:var(--surface-c);border:1px solid var(--rule);border-radius:16px;padding:26px 26px 24px;
+}
+.product h3{font-size:1.1rem;margin-bottom:7px}
+.product p{font-size:15px;margin:0;color:var(--on-surface-var)}
+
+/* ---------- clients ---------- */
+.clients{display:flex;flex-wrap:wrap;gap:9px}
+.chip{
+  border:1px solid var(--outline-var);border-radius:999px;padding:7px 15px;
+  font-size:14px;color:var(--on-surface-var);
+}
+.chip.live{border-color:var(--primary);color:var(--primary)}
+
+/* ---------- writing ---------- */
+.writing{list-style:none;margin:0;padding:0}
+.writing li{padding:16px 0;border-top:1px solid var(--rule)}
+.writing li:last-child{border-bottom:1px solid var(--rule)}
+.writing a{color:var(--on-bg);text-decoration:none;font-weight:500;letter-spacing:-.012em}
+.writing a:hover{color:var(--primary)}
+.writing span{display:block;font-size:14.5px;color:var(--on-surface-var);margin-top:4px}
+
+/* ---------- capability cols ---------- */
+.caps{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+@media(max-width:860px){.caps{grid-template-columns:1fr;gap:26px}}
+.cap h3{font-size:1rem;margin-bottom:9px}
+.cap p{font-size:15px;color:var(--on-surface-var);margin:0}
+
+/* ---------- footer ---------- */
+footer{padding:72px 0 90px}
+.cta{font-size:clamp(1.5rem,3.4vw,2.2rem);letter-spacing:-.028em;font-weight:600;margin:0 0 26px;line-height:1.2}
+.cta a{color:var(--primary);text-decoration:none;border-bottom:2px solid var(--primary-container);transition:border-color .18s}
+.cta a:hover{border-color:var(--primary)}
+.foot-meta{font-size:14px;color:var(--outline);margin-top:44px}
+
+/* ---------- reveal ---------- */
+@media(prefers-reduced-motion:no-preference){
+  .rv{opacity:0;transform:translateY(14px);transition:opacity .6s cubic-bezier(.2,.6,.2,1),transform .6s cubic-bezier(.2,.6,.2,1)}
+  .rv.in{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Matt Martin</p>
+    <h1>AI transformation<br>in life sciences.</h1>
+    <p class="lede">Thirty two years in pharmaceuticals and healthcare technology, spent on <strong>both sides of the table</strong>. Fifteen years inside pharma. Seventeen building the software it runs on.</p>
+    <div class="meta">
+      <span>Bondi Beach, Sydney</span>
+      <a href="mailto:matt@medware.com.au">matt@medware.com.au</a>
+      <a href="https://www.linkedin.com/in/matt-martin-34345914" rel="noopener">LinkedIn</a>
+      <a href="https://www.medware.com.au" rel="noopener">medware.com.au</a>
+    </div>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><b>32</b><span>years in pharma and healthcare technology</span></div>
+  <div class="stat"><b>20</b><span>products shipped, 13 live in clinical settings</span></div>
+  <div class="stat"><b>200+</b><span>clinics running Medflow PBS automation</span></div>
+  <div class="stat"><b>12,000</b><span>hours hands on with production AI</span></div>
+  <div class="stat"><b>5</b><span>years at Novartis, medical affairs and brand</span></div>
+</div>
+
+<section class="rv">
+  <div class="wrap">
+    <h2>Three careers, one industry</h2>
+
+    <div class="era">
+      <div class="era-when">1994 — 2013</div>
+      <div>
+        <p class="era-title">Inside pharmaceutical companies</p>
+        <p class="muted">Sales, sales management, medical affairs and brand management across five companies. This is where I learned how a regulated value chain actually makes decisions, which is not how it looks from the outside.</p>
+        <ul class="roles">
+          <li><span><span class="who">Boehringer Ingelheim</span><span class="what">eMarketing Specialist. A team that led the Australian industry in field force engagement.</span></span><span class="when">2012 — 2013</span></li>
+          <li><span><span class="who">Novartis</span><span class="what">Product Manager, Zometa. Previously Medical Scientific Liaison across the oncology and haematology portfolio.</span></span><span class="when">2005 — 2009</span></li>
+          <li><span><span class="who">Janssen-Cilag</span><span class="what">Sales Representative, specialist and hospital. Industry innovation award for a Duragesic dose converting application.</span></span><span class="when">2001 — 2004</span></li>
+          <li><span><span class="who">Parke Davis</span><span class="what">Sales Manager, having joined as a Sales Representative.</span></span><span class="when">1995 — 1999</span></li>
+          <li><span><span class="who">Servier</span><span class="what">Sales Representative. First role in the industry.</span></span><span class="when">1994 — 1995</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="era">
+      <div class="era-when">2000 — 2024</div>
+      <div>
+        <p class="era-title">Building for the industry</p>
+        <p class="muted">Seven ventures, most of them first of their kind in this market. The through line is putting technology into clinical and commercial workflows before it was obvious that it belonged there.</p>
+        <ul class="roles">
+          <li><span><span class="who">myINTERACT</span><span class="what">Co-Founder and Managing Director. Grew beyond 35 people. Sold into Pfizer United States, Vertex globally and Takeda in the Middle East.</span></span><span class="when">2018 — 2022</span></li>
+          <li><span><span class="who">Integra Medical</span><span class="what">Co-Founder with Professor Con Yiannikas. Neurology platform automating specialist reporting, botulinum toxin ordering and remote patient management.</span></span><span class="when">2017 — 2024</span></li>
+          <li><span><span class="who">Interact Technology</span><span class="what">Chief Executive Officer. Established compliant digital engagement between pharmaceutical companies and specialist prescribers in Australia.</span></span><span class="when">2013 — 2020</span></li>
+          <li><span><span class="who">ADC Technology</span><span class="what">Founder. Australian Doctors Companion, the first full drug guide application on iPhone in this market.</span></span><span class="when">2009 — 2012</span></li>
+          <li><span><span class="who">APA Pharmavision</span><span class="what">Founder. First company to supply brick level PBS data to pharmaceutical companies in Australia.</span></span><span class="when">2000 — 2001</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="era">
+      <div class="era-when">2023 — now</div>
+      <div>
+        <p class="era-title">AI native</p>
+        <p class="muted">Medware Group is four operating companies serving pharmaceutical manufacturers, specialist clinics and hospitals across Australia. Every product is built on an AI assisted development and delivery model I designed, govern and measure. I also advise boards and executive committees on AI strategy, adoption and governance, with engagements delivered in Australia, New Zealand and Singapore.</p>
+        <ul class="roles">
+          <li><span><span class="who">Medware Group</span><span class="what">Founder and Director. Medflow, Medcast Media, Medware Solutions, MedPrep.</span></span><span class="when">2023 — now</span></li>
+          <li><span><span class="who">Migraine Foundation Australia</span><span class="what">Board Member.</span></span><span class="when">2023 — now</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <h2>Early to it, repeatedly</h2>
+    <div class="firsts">
+      <div class="first"><span class="yr">2000</span><p>Founded <strong>the first company to supply brick level PBS data</strong> to pharmaceutical companies in Australia. A change in government policy later removed access to the underlying data.</p></div>
+      <div class="first"><span class="yr">2002</span><p>Won an <strong>industry innovation award</strong> as a sales representative, for building a dose converting application for Duragesic that ran on a Palm Pilot.</p></div>
+      <div class="first"><span class="yr">2009</span><p>Built <strong>the first full drug guide application on iPhone</strong> in Australia, and one of the first medical applications on the Australian App Store.</p></div>
+      <div class="first"><span class="yr">2023</span><p>Built and shipped <strong>production agentic AI into clinical settings</strong>, including offline deployment for environments where patient data cannot leave the building.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <h2>What is live now</h2>
+    <div class="products">
+      <div class="product">
+        <h3>Medflow</h3>
+        <p>Automates PBS authority applications for high cost medicines. In use across more than 200 clinics, covering gastroenterology forms with integrated CDAI calculators, submission tracking and generated documentation.</p>
+      </div>
+      <div class="product">
+        <h3>Medcast Media</h3>
+        <p>AI curated audio briefings for specialists, a sponsor portal for pharmaceutical campaign management, and a regulatory briefing product for industry teams.</p>
+      </div>
+      <div class="product">
+        <h3>PBS Authority Gateway</h3>
+        <p>Stateless integration with Services Australia. No patient data at rest, because data sovereignty was an architectural decision rather than a policy statement.</p>
+      </div>
+      <div class="product">
+        <h3>Constellation</h3>
+        <p>Internal project registry and AI operating system. Gives every AI workstream persistent context, governance and auditability across the group.</p>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:34px">Working with</p>
+    <div class="clients">
+      <span class="chip">Pfizer Australia</span><span class="chip">Novo Nordisk</span><span class="chip">Takeda</span>
+      <span class="chip">Celltrion Australia</span><span class="chip">InServio</span><span class="chip">DKSH</span>
+      <span class="chip live">Novartis Australia Oncology · in negotiation</span>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <h2>How I work</h2>
+    <div class="caps">
+      <div class="cap"><h3>Strategy and portfolio</h3><p>Use case identification and prioritisation, business cases, ROI definition and tracking, build versus buy, and the discipline of stopping work that is not returning.</p></div>
+      <div class="cap"><h3>Governance and responsible AI</h3><p>Model oversight, bias and transparency, data protection and sovereignty by design, and regulatory alignment under TGA and AHPRA.</p></div>
+      <div class="cap"><h3>Change and enablement</h3><p>Executive briefing, board reporting, AI literacy programmes and workflow redesign. Prompt training does not change behaviour. Workflow redesign does.</p></div>
+    </div>
+    <p class="muted" style="margin-top:40px;max-width:62ch">I am fluent enough in the technology to specify it, evaluate it and hold vendors and internal teams accountable for outcomes. I am not a software engineer by trade, and I do not present as one. The value is in knowing which questions to ask.</p>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <h2>Published thinking</h2>
+    <ul class="writing">
+      <li><a href="https://www.medware.com.au/blog" rel="noopener">Augmented Peer Review: A Framework for AI Supervised Academic Publishing</a><span>A governance framework addressing publication delay, geographic bias and reproducibility in scholarly review.</span></li>
+      <li><a href="https://www.medware.com.au/blog" rel="noopener">AI Software Development: From Liability to Preferred</a><span>Why AI built software meets procurement resistance in regulated sectors, and what verification standards would resolve it.</span></li>
+      <li><a href="https://www.medware.com.au/blog" rel="noopener">From Public Medical Knowledge to Sovereign Clinical Intelligence</a><span>The limits of consumer medical AI and the case for organisation specific clinical decision support.</span></li>
+      <li><a href="https://www.medware.com.au/blog" rel="noopener">The Practical Evolution of AI for Doctors</a><span>A six, twelve, twenty four and thirty six month adoption roadmap for clinical AI.</span></li>
+      <li><a href="https://www.medware.com.au/blog" rel="noopener">What I Learned After 12,000 Hours with AI</a><span>Plus a further nine essays at medware.com.au. Four working papers on AI in healthcare currently under review.</span></li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="cta">Worth a conversation?<br><a href="mailto:matt@medware.com.au">matt@medware.com.au</a></p>
+    <p class="muted" style="max-width:56ch">Bachelor of Arts, Human Movement Studies, University of Technology Sydney. Australian citizen, based in Sydney.</p>
+    <p class="foot-meta">This page was designed and built by Matt Martin.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  if (!('IntersectionObserver' in window)) { document.querySelectorAll('.rv').forEach(function(n){n.classList.add('in')}); return; }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {rootMargin:'0px 0px -8% 0px', threshold:0.06});
+  document.querySelectorAll('.rv').forEach(function(n){ io.observe(n); });
+})();
+</script>
+</body>
+</html>
