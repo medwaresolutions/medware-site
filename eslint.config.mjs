@@ -12,6 +12,13 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Design sources, not shipped code. These are Claude Design exports that
+    // run under Babel Standalone in a browser (globals, no imports, no JSX
+    // pragma) — the ported, linted versions live in src/components/hero/.
+    "hero_animation/**",
+    "Medware website redesign/**",
+    "medware_products/**",
+    "medware_products_industry/**",
   ]),
 ]);
 

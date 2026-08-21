@@ -1,10 +1,11 @@
 import { Card } from "@/components/ds";
+import { TOTAL_PRODUCTS } from "@/data/portfolio";
 import { mwWrap } from "./shared";
 
 const STATS = [
   { value: "17+", label: "Years in pharma & health tech" },
   { value: "12,000+", label: "Hours with AI" },
-  { value: "20", label: "Products shipped" },
+  { value: String(TOTAL_PRODUCTS), label: "Products shipped" },
   { value: "50s", label: "Started coding" },
 ];
 

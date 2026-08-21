@@ -1,0 +1,154 @@
+{
+  "version": 1,
+  "created": "2026-06-12T05:38:53.802Z",
+  "modified": "2026-06-12T06:27:32.295Z",
+  "objects": [
+    {
+      "id": "5ehqhkhuc",
+      "type": "rect",
+      "x": 252,
+      "y": 353,
+      "width": 240,
+      "height": 331,
+      "data": {
+        "fill": null,
+        "stroke": "#2D7DD2",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "5ni65asn0",
+      "type": "rect",
+      "x": 578,
+      "y": 279,
+      "width": 624,
+      "height": 403,
+      "data": {
+        "fill": null,
+        "stroke": "#2D7DD2",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "ubv7c8sfh",
+      "type": "text",
+      "x": 294,
+      "y": 481,
+      "data": {
+        "content": "Nebula\n\nmy ADHD helper",
+        "fontSize": 16,
+        "color": "#2D7DD2",
+        "bold": false
+      },
+      "width": 141,
+      "height": 63
+    },
+    {
+      "id": "1tanzhrw1",
+      "type": "text",
+      "x": 685,
+      "y": 427,
+      "data": {
+        "content": "Constellation\n\nMy project layer and app.",
+        "fontSize": 16,
+        "color": "#2D7DD2",
+        "bold": false
+      },
+      "width": 211,
+      "height": 63
+    },
+    {
+      "id": "u395d8x0l",
+      "type": "rect",
+      "x": 1232,
+      "y": 279,
+      "width": 620,
+      "height": 402,
+      "data": {
+        "fill": null,
+        "stroke": "#2D7DD2",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "v6yht6zsp",
+      "type": "text",
+      "x": 1398,
+      "y": 431,
+      "data": {
+        "content": "Medware \n\nMedical software team",
+        "fontSize": 16,
+        "color": "#2D7DD2",
+        "bold": false
+      },
+      "width": 262,
+      "height": 63
+    },
+    {
+      "id": "yzkvz67at",
+      "type": "line",
+      "x": 477,
+      "y": 389,
+      "endX": 655,
+      "endY": 388,
+      "data": {
+        "fill": null,
+        "stroke": "#2D7DD2",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "2srfdo7en",
+      "type": "rect",
+      "x": 256,
+      "y": 279,
+      "width": 238,
+      "height": 40,
+      "data": {
+        "fill": null,
+        "stroke": "#2D7DD2",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "43igmanxy",
+      "type": "text",
+      "x": 296,
+      "y": 290,
+      "data": {
+        "content": "My 4 email accounts",
+        "fontSize": 16,
+        "color": "#2D7DD2",
+        "bold": false
+      },
+      "width": 150,
+      "height": 21
+    },
+    {
+      "id": "ttpryniv5",
+      "type": "line",
+      "x": 372,
+      "y": 366,
+      "endX": 372,
+      "endY": 308,
+      "data": {
+        "fill": null,
+        "stroke": "#2D7DD2",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "k4s11y9vu",
+      "type": "line",
+      "x": 1261,
+      "y": 456,
+      "endX": 1136,
+      "endY": 458,
+      "data": {
+        "fill": null,
+        "stroke": "#2D7DD2",
+        "strokeWidth": 2
+      }
+    }
+  ]
+}

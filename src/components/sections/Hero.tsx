@@ -1,19 +1,12 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { Badge, Button, Card, Chip, LinearProgress, List, ListDivider, ListItem } from "@/components/ds";
+import { Button, Chip } from "@/components/ds";
+import HeroAnimation from "@/components/hero/HeroAnimation";
+import { TOTAL_PRODUCTS } from "@/data/portfolio";
 import SoundwaveBackground from "./SoundwaveBackground";
 import { mwWrap } from "./shared";
 
-const HERO_WORDS = ["transforms medicine", "learns from data", "scales with you", "empowers clinicians"];
+const PROOF = [`${TOTAL_PRODUCTS} products built`, "200+ specialist clinics", "Live across Australia"];
 
 export default function Hero() {
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setI((n) => (n + 1) % HERO_WORDS.length), 2800);
-    return () => clearInterval(t);
-  }, []);
-
   return (
     <section id="top" className="dark" style={{ position: "relative", overflow: "hidden", background: "#0D2033" }}>
       <SoundwaveBackground theme="Deep blue" originX={0.62} />
@@ -32,189 +25,57 @@ export default function Hero() {
       >
         <div>
           <Chip leadingIcon="cardiology" elevated>
-            AI × healthcare · Australia
+            Medware Group · Australia
           </Chip>
           <h1
             className="md-typescale-display-large"
             style={{ margin: "20px 0 18px", color: "var(--md-sys-color-on-surface)", letterSpacing: "-1px" }}
           >
-            We build AI that{" "}
-            <span style={{ display: "block", position: "relative", height: "1.15em", overflow: "hidden" }}>
-              {HERO_WORDS.map((w, n) => (
-                <span
-                  key={w}
-                  className="mw-rotword"
-                  style={{
-                    position: "absolute",
-                    left: 0,
-                    right: 0,
-                    color: "var(--md-sys-color-primary)",
-                    transform:
-                      n === i
-                        ? "translateY(0)"
-                        : n === (i - 1 + HERO_WORDS.length) % HERO_WORDS.length
-                          ? "translateY(-100%)"
-                          : "translateY(100%)",
-                    opacity: n === i ? 1 : 0,
-                    transition:
-                      "transform 520ms var(--md-sys-motion-easing-emphasized, cubic-bezier(0.2,0,0,1)), opacity 380ms ease",
-                  }}
-                >
-                  {w}
-                </span>
-              ))}
+            Healthcare digital production{" "}
+            <span style={{ display: "block", color: "var(--md-sys-color-primary)" }}>
+              at half the cost, half the timeline.
             </span>
           </h1>
           <p
             className="md-typescale-body-large"
-            style={{ margin: "0 0 28px", maxWidth: 480, color: "var(--md-sys-color-on-surface-variant)" }}
+            style={{ margin: "0 0 28px", maxWidth: 520, color: "var(--md-sys-color-on-surface-variant)" }}
           >
-            Medical software, AI consulting, and training — built by people who understand healthcare. Twenty
-            products shipped at the intersection of AI and care.
+            Bespoke digital and AI for pharma and specialist medicine — anything from a flyer to a video to a website
+            to an app. Plus {TOTAL_PRODUCTS} products already built for healthcare, ready to use and ready to sponsor.
           </p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
             <Button variant="filled" size="large" href="#work" trailingIcon="arrow_forward">
-              See the work
+              See the products
             </Button>
-            <Button variant="outlined" size="large" href="#advisory" icon="event">
-              Book a diagnostic
+            <Button variant="outlined" size="large" href="#contact" icon="draw">
+              Start a project
             </Button>
           </div>
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 10,
+              gap: "10px 20px",
+              flexWrap: "wrap",
               marginTop: 28,
               color: "var(--md-sys-color-on-surface-variant)",
             }}
           >
-            <span className="material-symbols-rounded" style={{ fontSize: 20, color: "var(--md-sys-color-primary)" }}>
-              check_circle
-            </span>
-            <span className="md-typescale-body-medium">Live in clinics across Australia · 12,000+ hours with AI</span>
+            {/* Each item carries its own tick, so a wrap can't strand a separator. */}
+            {PROOF.map((item) => (
+              <span key={item} style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                <span className="material-symbols-rounded" style={{ fontSize: 20, color: "var(--md-sys-color-primary)" }}>
+                  check_circle
+                </span>
+                <span className="md-typescale-body-medium">{item}</span>
+              </span>
+            ))}
           </div>
         </div>
         <div className="mw-hero-art">
-          <HeroMonitor />
+          <HeroAnimation />
         </div>
       </div>
     </section>
-  );
-}
-
-/* Clean M3 "live vitals" preview card with an animated ECG sweep. */
-function HeroMonitor() {
-  return (
-    <Card
-      variant="elevated"
-      className="mw-monitor"
-      style={{
-        borderRadius: "var(--md-sys-shape-corner-extra-large)",
-        overflow: "hidden",
-        boxShadow: "var(--md-sys-elevation-level-3)",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          padding: "12px 16px",
-          background: "rgba(144, 207, 255, 0.14)",
-          borderBottom: "1px solid rgba(255,255,255,0.10)",
-        }}
-      >
-        <span className="material-symbols-rounded" style={{ fontSize: 20, color: "#D7ECFF" }}>
-          monitor_heart
-        </span>
-        <span className="md-typescale-label-large" style={{ color: "#D7ECFF" }}>
-          Medware · live
-        </span>
-        <div style={{ flex: 1 }} />
-        <span className="mw-pulse-dot" style={{ background: "#D7ECFF" }} />
-        <span className="md-typescale-label-medium" style={{ color: "rgba(215, 236, 255, 0.8)" }}>
-          streaming
-        </span>
-      </div>
-      <div style={{ padding: 16 }}>
-        <div
-          style={{
-            background: "rgba(255,255,255,0.06)",
-            border: "1px solid rgba(255,255,255,0.12)",
-            borderRadius: "var(--md-sys-shape-corner-large)",
-            padding: "12px 8px",
-            marginBottom: 14,
-            overflow: "hidden",
-          }}
-        >
-          <svg viewBox="0 0 320 80" width="100%" height="72" preserveAspectRatio="none" aria-hidden="true">
-            <path
-              className="mw-ecg"
-              d="M0 40 H40 l8 0 l6 -26 l8 50 l7 -42 l6 18 H120 l8 0 l6 -26 l8 50 l7 -42 l6 18 H240 l8 0 l6 -26 l8 50 l7 -42 l6 18 H320"
-              fill="none"
-              stroke="var(--md-sys-color-primary)"
-              strokeOpacity="0.45"
-              strokeWidth="2.5"
-              strokeLinejoin="round"
-              strokeLinecap="round"
-            />
-          </svg>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-          <span className="md-typescale-title-medium" style={{ color: "var(--md-sys-color-on-surface)" }}>
-            Shipping today
-          </span>
-          <Badge count={4}>
-            <span className="material-symbols-rounded" style={{ color: "var(--md-sys-color-on-surface-variant)" }}>
-              deployed_code
-            </span>
-          </Badge>
-        </div>
-        <div
-          style={{
-            background: "rgba(255,255,255,0.06)",
-            border: "1px solid rgba(255,255,255,0.12)",
-            borderRadius: "var(--md-sys-shape-corner-medium)",
-            overflow: "hidden",
-          }}
-        >
-          <List>
-            <ListItem
-              avatar="MC"
-            headline="Medcast Specialist"
-            supportingText="Audio briefings · live"
-            trailing={
-              <span className="material-symbols-rounded" style={{ color: "var(--md-sys-color-primary)" }}>
-                graphic_eq
-              </span>
-            }
-          />
-          <ListDivider />
-          <ListItem
-            avatar="MF"
-            headline="Medflow Clinic"
-            supportingText="PBS authority · 200+ clinics"
-            trailing={
-              <span className="material-symbols-rounded" style={{ color: "var(--md-sys-color-tertiary)" }}>
-                verified
-              </span>
-            }
-          />
-          </List>
-        </div>
-        <div style={{ padding: "10px 16px 4px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-            <span className="md-typescale-label-medium" style={{ color: "var(--md-sys-color-on-surface-variant)" }}>
-              Portfolio shipped
-            </span>
-            <span className="md-typescale-label-medium" style={{ color: "var(--md-sys-color-on-surface-variant)" }}>
-              13 / 20 live
-            </span>
-          </div>
-          <LinearProgress value={65} />
-        </div>
-      </div>
-    </Card>
   );
 }

@@ -1,6 +1,10 @@
 /* Single source of truth for the Medware product portfolio.
- * Drives both the home "Work" section and the /industry page.
- * Ported from the redesign's COMPANIES data (4 companies, 19 products). */
+ * Drives the home "Work" section.
+ *
+ * Products are presented as families of products for healthcare — not as
+ * operating companies. Medware Solutions carries enough products to warrant
+ * purpose groups within its tab; every other family renders as a flat grid.
+ */
 
 export type StatusType =
   | "live"
@@ -18,6 +22,7 @@ export interface Product {
   audience: string;
   status: string; // display label, e.g. "Live" or "May 2026"
   statusType: StatusType;
+  group?: string; // optional purpose group key, matched against Family.groups
   purpose: string;
   problem?: string;
   howItWorks?: string;
@@ -28,24 +33,105 @@ export interface Product {
   image?: string; // header image for the detail dialog
 }
 
-export interface Company {
+export interface Family {
   id: string;
   name: string;
-  entity: string;
-  img: string; // company image used on the home Work header card
-  logo?: string; // company logo used in the /industry sidebar + header
+  tagline: string; // one-line positioning, shown under the family name
+  img: string; // family image used on the home Work header card
+  logo?: string;
   color: string; // brand accent
   description: string;
   stats: { num: string; lbl: string }[];
   link: string;
+  /* When present, the product grid renders under these purpose headings, in
+     this order. Products carry a matching `group` key. */
+  groups?: { key: string; label: string }[];
   products: Product[];
 }
 
-export const COMPANIES: Company[] = [
+export const FAMILIES: Family[] = [
+  {
+    id: "medflow",
+    name: "Medflow",
+    tagline: "PBS authority automation for Australian specialist medicine",
+    img: "/1-medflow.png",
+    logo: "/industry/medflow-logo.png",
+    color: "#1E40AF",
+    description:
+      "PBS authority automation for Australian specialist clinics, hospitals and EMR vendors — plus the patient and analytics layers built on top of it.",
+    stats: [
+      { num: "3", lbl: "Products" },
+      { num: "200+", lbl: "Clinics" },
+    ],
+    link: "https://medflow.com.au",
+    products: [
+      {
+        title: "Medflow Clinic + PBS API Gateway",
+        short: "MC",
+        audience: "Healthcare professionals & EMR vendors",
+        status: "Live",
+        statusType: "live",
+        image: "/industry/medflow-hcp-header.png",
+        purpose:
+          "The clinic software specialists use to complete PBS authority applications in seconds instead of twenty minutes — online, inside the hospital firewall, or through a gateway that plugs into existing clinic systems.",
+        problem:
+          "PBS authority forms take a specialist 15–20 minutes each. A busy gastroenterologist or rheumatologist files dozens per week. The work is repetitive, error-prone and uncompensated — and hospitals can't use a cloud tool at all, because patient data has to stay inside the firewall.",
+        howItWorks:
+          "Select a patient and the form auto-populates from the practice management system; only the clinical decision fields need attention. Built-in CDAI / Mayo / PCDAI calculators, PBS compliance checking and a full audit trail. One solution across three deployments: online for clinics, on-premise for hospital networks where data cannot leave the building, and a stateless gateway that connects any EMR to Services Australia's PBS authority API so vendors integrate once and their users file in real time.",
+        revenue:
+          "$xx/clinic/month plus PBS API per-call · pharmaceutical sponsor $xxK/year · enterprise per-site licensing for hospital deployments · per-transaction or volume licensing for EMR vendors.",
+        market:
+          "~1,500 gastroenterologists and ~500 rheumatologists in Australia, expanding to dermatology, immunology and neurology; plus Australian hospital networks and the 10–20 EMR vendors serving the specialist market.",
+        customers:
+          "Live across 200+ Australian specialist clinics. First contracted recurring pharmaceutical revenue running on the embedded PBS authority workflow via the signed Pfizer Abrilada contract. Westmead engagement underway for the on-premise deployment.",
+        link: "https://medflow.com.au",
+      },
+      {
+        title: "Medflow Patient",
+        short: "PA",
+        audience: "Patients",
+        status: "Live",
+        statusType: "live",
+        image: "/industry/medflow-patient-header.png",
+        purpose:
+          "The patient side of Medflow — a clinic-branded companion app plus token-based content delivery, so clinicians can push approved educational material and patients can manage appointments and treatment plans in one place.",
+        problem:
+          "Patients lose printed handouts and clinicians have no way to know whether material was read. Meanwhile patients moving between specialist appointments lose track of treatment plans, medications and communications, and each clinic either commissions its own app or settles for nothing.",
+        howItWorks:
+          "Clinicians curate trusted health content into patient-ready packages; patients receive a token-based SMS or email link to a personalised page with no login required, and engagement is tracked. The same platform ships as a white-label app clinics deploy under their own branding for appointment management, treatment-plan tracking and two-way messaging.",
+        revenue:
+          "$xx per clinic per month plus $x per patient delivered, or $399 one-off for the white-label app. Globally applicable — no PBS dependency.",
+        market:
+          "Any specialist or primary care clinic globally. Initial Australian rollout through existing Medflow customers.",
+        customers: "Live and deployable, integrated with Medflow Clinic.",
+        link: "https://hub.medflow.com.au",
+      },
+      {
+        title: "Medflow Metrics",
+        short: "MT",
+        audience: "Pharmaceutical employees",
+        status: "Live",
+        statusType: "live",
+        image: "/1-medflow-metrics.jpg",
+        purpose:
+          "Real-world prescribing and authority analytics derived from anonymised Medflow workflow data, sold to pharmaceutical companies.",
+        problem:
+          "Pharma companies pay analysts thousands to manually pull and interpret PBS prescribing data. Existing market research tools are expensive and lag the market.",
+        howItWorks:
+          "Anonymised Medflow Clinic data is aggregated into a per-seat analytics portal — specialty-specific prescribing patterns, regional data, competitor patterns and campaign effectiveness in near real time.",
+        revenue: "$xx per seat per month. Pharmaceutical company subscription.",
+        market:
+          "Australian pharmaceutical analytics and market access budgets — ~25 large pharma affiliates plus CROs.",
+        customers:
+          "Live. Active sponsor pipeline includes Apellis, AstraZeneca, Takeda, Gilead, CSL, Novo Nordisk and Pfizer.",
+        link: "https://metrics.medflow.com.au",
+      },
+    ],
+  },
   {
     id: "medcast",
     name: "Medcast Media",
-    entity: "Medcast Media Pty Ltd",
+    tagline: "AI-curated medical audio for clinicians and their sponsors",
     img: "/1-medcast-media.png",
     logo: "/industry/medware-logo.png",
     color: "#0F766E",
@@ -121,157 +207,92 @@ export const COMPANIES: Company[] = [
     ],
   },
   {
-    id: "medflow",
-    name: "Medflow",
-    entity: "Medflow Pty Ltd",
-    img: "/1-medflow.png",
-    logo: "/industry/medflow-logo.png",
-    color: "#1E40AF",
-    description:
-      "PBS authority automation infrastructure for Australian specialist clinics, hospitals and EMR vendors.",
-    stats: [
-      { num: "6", lbl: "Products" },
-      { num: "200+", lbl: "Clinics" },
-    ],
-    link: "https://medflow.com.au",
-    products: [
-      {
-        title: "Medflow Clinic Online",
-        short: "MC",
-        audience: "Healthcare professionals",
-        status: "Live",
-        statusType: "live",
-        image: "/industry/medflow-hcp-header.png",
-        purpose:
-          "Cloud-based PBS authority automation that completes complex government forms in seconds for specialist physicians.",
-        problem:
-          "PBS authority forms take a specialist 15–20 minutes each. A busy gastroenterologist or rheumatologist files dozens per week. The work is repetitive, error-prone and uncompensated.",
-        howItWorks:
-          "Select patient — data auto-populates from the practice management system. Review the auto-filled form — only clinical decision fields need attention. Submit and track from a dashboard. Built-in CDAI / Mayo / PCDAI calculators, PBS compliance checking and audit trail.",
-        revenue:
-          "$xx/clinic/month plus PBS API per-call · pharmaceutical sponsor $xxK/year · $xx per patient per month on the signed contract (Australia).",
-        market:
-          "~1,500 gastroenterologists and ~500 rheumatologists in Australia. Expansion: dermatology, immunology, neurology.",
-        customers:
-          "Live across 200+ Australian specialist clinics. First contracted recurring pharmaceutical revenue running on the embedded PBS authority workflow via the signed Pfizer Abrilada contract.",
-        link: "https://medflow.com.au",
-      },
-      {
-        title: "Medflow Clinic Offline",
-        short: "MO",
-        audience: "Healthcare professionals",
-        status: "May 2026",
-        statusType: "soon",
-        image: "/1-medflow-offline.jpg",
-        purpose:
-          "On-premise PBS authority automation for hospitals and networks where patient data must remain inside the institutional firewall.",
-        problem:
-          "Hospital networks cannot run the cloud version because patient data must stay inside the firewall. PSAF, NSW eHealth and equivalent frameworks block external transmission.",
-        howItWorks:
-          "A self-contained on-premise deployment that runs entirely inside the hospital network. Same automation, same forms, same calculators — fully air-gapped, with no outbound patient data transmission.",
-        revenue: "Enterprise per-site licensing — POA. Annual support contracts.",
-        market: "Australian public and private hospital networks running specialist outpatient clinics.",
-        customers: "Launching May 2026. Westmead engagement underway; PSAF assessment scoped.",
-        link: "https://medflow.com.au",
-      },
-      {
-        title: "Medflow PBS API Gateway",
-        short: "AG",
-        audience: "EMR vendors",
-        status: "May 2026",
-        statusType: "soon",
-        image: "/1-medflow-pbs-api.jpg",
-        purpose:
-          "Stateless middleware that connects Electronic Medical Records to Services Australia’s PBS authority API for real-time pharmaceutical approvals.",
-        problem:
-          "Smaller EMR vendors can’t justify the cost of building their own PBS authority gateway. As a result, their specialist users still file authority forms by hand.",
-        howItWorks:
-          "A stateless middleware layer between any EMR and Services Australia’s PBS authority API. EMR vendors integrate once; their users file authority requests in real time. No patient data is retained at the gateway.",
-        revenue: "Per-transaction pricing or volume licensing for EMR vendors — POA.",
-        market:
-          "Approximately 10–20 EMR vendors active in the Australian specialist clinic market, plus large hospital systems.",
-        customers: "Launching May 2026. Built against Services Australia OPA spec. Targeting Zedmed, Xestro, Shexie.",
-        link: "https://medflow.com.au",
-      },
-      {
-        title: "Medflow Hub",
-        short: "HB",
-        audience: "Healthcare professionals",
-        status: "May 2026",
-        statusType: "soon",
-        image: "/1-thehub.png",
-        purpose:
-          "Token-based portal letting clinicians push approved educational content to patients with no login required on the patient side.",
-        problem:
-          "Patients lose printed handouts. Clinicians have no way to know if material was viewed. Reputable health content is fragmented across YouTube, PDFs and clinic intranets.",
-        howItWorks:
-          "Clinicians curate trusted health content into patient-ready packages. Patients receive a token-based SMS or email link to a personalised page — no login required. Engagement is tracked and timed campaign sequences can be scheduled.",
-        revenue: "$xx per clinic per month plus $x per patient delivered. Globally applicable — no PBS dependency.",
-        market: "Any specialist or primary care clinic globally. Initial Australian rollout via existing Medflow customers.",
-        customers: "Launching May 2026. Production-ready, integrated with Medflow Clinic.",
-        link: "https://hub.medflow.com.au",
-      },
-      {
-        title: "Medflow Patient App",
-        short: "PA",
-        audience: "Patients",
-        status: "Live",
-        statusType: "live",
-        image: "/industry/medflow-patient-header.png",
-        purpose:
-          "White-label patient companion app for managing specialist appointments, treatment plans and clinic communications.",
-        problem:
-          "Patients moving between specialist appointments lose track of treatment plans, medications and communications. Each clinic builds its own app or settles for nothing.",
-        howItWorks:
-          "A preconfigured, white-label app clinics deploy under their own branding — appointment management, treatment-plan tracking and two-way messaging without commissioning custom development.",
-        revenue: "$399 one-off purchase per clinic. Globally applicable.",
-        market: "Any clinic worldwide running a specialist or primary care practice.",
-        customers: "Live and deployable. Australian gastroenterology and rheumatology practices are first targets.",
-        link: "https://medflow.com.au",
-      },
-      {
-        title: "Medflow Metrics",
-        short: "MT",
-        audience: "Pharmaceutical employees",
-        status: "Live",
-        statusType: "live",
-        image: "/1-medflow-metrics.jpg",
-        purpose:
-          "Real-world prescribing and authority analytics derived from anonymised Medflow workflow data, sold to pharmaceutical companies.",
-        problem:
-          "Pharma companies pay analysts thousands to manually pull and interpret PBS prescribing data. Existing market research tools are expensive and lag the market.",
-        howItWorks:
-          "Anonymised Medflow Clinic data is aggregated into a per-seat analytics portal — specialty-specific prescribing patterns, regional data, competitor patterns and campaign effectiveness in near real time.",
-        revenue: "$xx per seat per month. Pharmaceutical company subscription.",
-        market:
-          "Australian pharmaceutical analytics and market access budgets — ~25 large pharma affiliates plus CROs.",
-        customers:
-          "Live. Active sponsor pipeline includes Apellis, AstraZeneca, Takeda, Gilead, CSL, Novo Nordisk and Pfizer.",
-        link: "https://metrics.medflow.com.au",
-      },
-    ],
-  },
-  {
     id: "medware",
     name: "Medware Solutions",
-    entity: "Medware Solutions Pty Ltd",
+    tagline: "Software for clinicians, industry teams and the rooms they meet in",
     img: "/constellation.png",
     logo: "/industry/medware-logo.png",
     color: "#B23B19",
     description:
-      "AI infrastructure, training and emerging products spanning healthcare and the broader AI economy.",
+      "The broad end of the portfolio — clinical AI, commercial tooling for industry teams, and the audience, event and research products that sit around them.",
     stats: [
-      { num: "9", lbl: "Products" },
-      { num: "3", lbl: "Markets" },
+      { num: "11", lbl: "Products" },
+      { num: "4", lbl: "Audiences" },
     ],
     link: "https://medware.com.au",
+    groups: [
+      { key: "clinical", label: "For clinicians & hospitals" },
+      { key: "commercial", label: "For industry field & commercial teams" },
+      { key: "audience", label: "Audience, events & research" },
+      { key: "content", label: "Content, education & compliance" },
+    ],
     products: [
+      /* ---- For clinicians & hospitals ---- */
+      {
+        title: "Medware AI HCP Assistant",
+        short: "AI",
+        audience: "Healthcare professionals",
+        status: "In development",
+        statusType: "building",
+        group: "clinical",
+        purpose:
+          "Secure AI assistant for clinicians, configured by region and by specialty — Q&A across treatment guidelines, PBS, TGA, PBAC outcomes and Medicare, plus your own documents.",
+        problem:
+          "Clinicians won’t put patient or practice questions into a general cloud LLM, and they’re right not to. The answers they need are spread across treatment guidelines, PBS schedules, TGA and PBAC outcomes and Medicare rules — none of which a general-purpose model reliably knows, and all of which differ by region and specialty.",
+        howItWorks:
+          "Configured per region and per specialty, so the assistant answers from the sources that apply where the clinician actually practises: treatment guidelines, PBS, TGA, PBAC outcomes and Medicare. Practices load their own documents — protocols, formularies, referral criteria — into the same index. A fully offline deployment is available for clinics and hospitals that require patient data to stay inside the building.",
+        revenue: "Per-clinic or per-seat licensing — POA.",
+        market:
+          "Australian specialist and primary-care clinics, hospital departments, and international clinics in regulated jurisdictions.",
+        customers: "In development.",
+        link: "https://medware.com.au",
+      },
+      {
+        title: "MedWayfinder",
+        short: "WF",
+        audience: "Hospitals, patients & visitors",
+        status: "Live",
+        statusType: "live",
+        group: "clinical",
+        purpose:
+          "Digital wayfinding for hospital campuses — gets patients, visitors and staff to the right department, clinic or ward without stopping at a desk to ask.",
+        problem:
+          "Large hospital campuses are genuinely hard to navigate. Patients arrive late or lost to appointments that were booked weeks ago, and reception, volunteers and clinical staff spend hours a day giving directions.",
+        howItWorks:
+          "Site maps, departments and clinic locations are loaded once, then delivered to patients and visitors on their own phone with no app install. Entry points are placed where people actually get lost — car parks, main entrances, lifts — and on appointment letters, so the route starts from wherever they are. Deployed per hospital under the hospital’s own branding.",
+        revenue: "Per-site licensing — POA.",
+        market: "Australian public and private hospitals, and large multi-clinic campuses.",
+        customers: "Live.",
+        link: "https://medware.com.au",
+      },
+
+      /* ---- For industry field & commercial teams ---- */
+      {
+        title: "Medware CRM",
+        short: "CR",
+        audience: "Pharmaceutical employees",
+        status: "Live",
+        statusType: "live",
+        group: "commercial",
+        purpose:
+          "CRM for industry that puts the doctor database, email marketing and pipeline in one place — Mailchimp’s and HubSpot’s jobs, sitting on verified physician data, integrated with the software a commercial team already runs.",
+        problem:
+          "Pharma commercial teams stitch together three systems that don’t talk to each other: a contact database in one place, an email tool in another, pipeline in a third. Verified physician data goes stale in the gaps, and nobody can trace a campaign through to an outcome on the same record.",
+        howItWorks:
+          "Combines the verified Australian and US physician database with campaign email and CRM pipeline in a single system, and integrates with the other software the team already runs. Segment by specialty, region and practice, run the campaign, and track the result against the same records the segment came from.",
+        revenue: "Per-seat subscription, or per-list licensing for database-only access.",
+        market: "Pharmaceutical sales and marketing teams across Australia and the US.",
+        customers:
+          "Live. 20,741+ Australian medical academic records plus US records via NPPES as the foundation dataset.",
+        link: "https://medware.com.au",
+      },
       {
         title: "Relay",
         short: "RL",
         audience: "Field force",
         status: "May 2026",
         statusType: "soon",
+        group: "commercial",
         image: "/industry/relay-header.png",
         purpose:
           "Voice-to-CRM iOS app for pharmaceutical reps — talk after a call and AI converts unstructured speech into a complete Salesforce or Veeva record.",
@@ -286,11 +307,111 @@ export const COMPANIES: Company[] = [
         link: "https://medware.com.au",
       },
       {
+        title: "Practice Referral",
+        short: "PR",
+        audience: "Healthcare professionals",
+        status: "May 2026",
+        statusType: "soon",
+        group: "commercial",
+        image: "/1-medware-referral.jpg",
+        purpose:
+          "US-market product mapping a specialist’s referral network using CMS Medicare data and generating targeted outreach campaigns to GPs.",
+        problem:
+          "US specialists don’t know who refers to them, who refers to competitors, or which GPs are worth winning. Hidden dependency and quiet growth opportunities sit in plain sight.",
+        howItWorks:
+          "Built on CMS Medicare shared-patient data, NPPES records and network graph analysis. Maps the referral network, ranks influence, surfaces competitor patterns and generates dollar-valued outreach campaigns.",
+        revenue: "$299 one-time + $99/year data refresh. Promoted via Google Ads and email to US specialist clinics.",
+        market: "~100,000 US specialist physicians across procedural specialties.",
+        customers: "Launching May 2026. Domain live at practicereferral.net; data pipeline operational.",
+        link: "https://practicereferral.net",
+      },
+      {
+        title: "Earpiece",
+        short: "EP",
+        audience: "Field force & executives",
+        status: "May 2026",
+        statusType: "soon",
+        group: "commercial",
+        image: "/industry/EarPiece-header.png",
+        purpose:
+          "Discreet iOS app that listens to a meeting and whispers AI-generated responses through AirPods in real time.",
+        problem:
+          "High-stakes meetings demand instant recall of facts and counter-arguments. Glancing at a phone signals disengagement.",
+        howItWorks:
+          "iPhone mic captures the other party’s voice. On-device speech-to-text transcribes; Claude generates a brief response from pre-loaded context; ElevenLabs whispers it through AirPods. Listen / Command mode toggle.",
+        revenue: "TBD at launch. Per-seat pharmaceutical subscription most likely.",
+        market: "Pharma reps, executive coaches and any high-stakes meeting where immediate recall matters.",
+        customers: "Launching May 2026. iOS app fully scaffolded; pharma-specific presets included.",
+        link: "https://medware.com.au",
+      },
+
+      /* ---- Audience, events & research ---- */
+      {
+        title: "Medware Survey & Research",
+        short: "SR",
+        audience: "Pharma, hospitals & research teams",
+        status: "Live",
+        statusType: "live",
+        group: "audience",
+        purpose:
+          "Survey and research platform built for healthcare audiences — design a study, distribute it, and analyse the results, without bending a consumer tool to do it.",
+        problem:
+          "Healthcare and pharmaceutical teams run surveys and research on generic consumer platforms that were never designed for clinical audiences, verified respondents, or the data-handling standards healthcare expects.",
+        howItWorks:
+          "Build the instrument with question logic and branching, distribute it to a target audience, and watch results come in live. Responses can be filtered and segmented by specialty, region and respondent type, and exported for analysis or reporting.",
+        revenue: "Per-project or annual licence — POA. Sponsorable.",
+        market:
+          "Pharmaceutical market research, hospital departments, medical colleges and research groups.",
+        customers: "Live.",
+        link: "https://medware.com.au",
+      },
+      {
+        title: "Medware Audience Participation",
+        short: "AP",
+        audience: "Conferences, meetings & pharma",
+        status: "Live",
+        statusType: "live",
+        group: "audience",
+        purpose:
+          "Live polling and audience sentiment for meetings, symposia and conference sessions — the room answers on their phones and the result is on screen in seconds.",
+        problem:
+          "Sponsored sessions and advisory boards run blind. The presenter has no read on the room while they’re still in it, and the sponsor walks away with an attendance list instead of a record of what the audience actually thought.",
+        howItWorks:
+          "Attendees join from their own phone with no app install. Polls, ratings and free-text sentiment are pushed live during the session and displayed on screen as they land, then exported as a report once the session ends.",
+        revenue: "Per-event or annual licence — POA. Sponsorable.",
+        market:
+          "Pharmaceutical meetings and advisory boards, medical colleges, conference organisers and hospital education units.",
+        customers: "Live.",
+        link: "https://medware.com.au",
+      },
+      {
+        title: "Medware Conference App",
+        short: "CF",
+        audience: "Conference organisers & sponsors",
+        status: "Live",
+        statusType: "live",
+        group: "audience",
+        purpose:
+          "White-label conference app any group can run under its own branding — and reuse for every conference it holds, instead of commissioning a new one each year.",
+        problem:
+          "Most conference apps are built per event. A society pays to rebuild essentially the same app every year, loses whatever it built last year, and starts the delegate experience from scratch each time.",
+        howItWorks:
+          "One app, branded per group and reconfigured per conference. Programme, speakers, abstracts, exhibitor and sponsor listings, notifications and delegate messaging are all content rather than code — so the next conference is a configuration, not a rebuild. Pairs with Audience Participation for live polling inside sessions.",
+        revenue: "Per-conference or annual group licence — POA. Sponsorable.",
+        market:
+          "Medical colleges and societies, pharmaceutical meetings and conference organisers in Australia and internationally.",
+        customers: "Live.",
+        link: "https://medware.com.au",
+      },
+
+      /* ---- Content, education & compliance ---- */
+      {
         title: "CellMap",
         short: "CM",
         audience: "HCP & industry",
         status: "Live",
         statusType: "live",
+        group: "content",
         image: "/industry/cellpath-header.png",
         purpose:
           "Interactive 3D cell atlas built from real Protein Data Bank structures, for medical education and pharma mechanism-of-action storytelling.",
@@ -306,102 +427,12 @@ export const COMPANIES: Company[] = [
         link: "https://cellmap-colonocyte.vercel.app",
       },
       {
-        title: "Practice Referral",
-        short: "PR",
-        audience: "Healthcare professionals",
-        status: "May 2026",
-        statusType: "soon",
-        image: "/1-medware-referral.jpg",
-        purpose:
-          "US-market product mapping a specialist’s referral network using CMS Medicare data and generating targeted outreach campaigns to GPs.",
-        problem:
-          "US specialists don’t know who refers to them, who refers to competitors, or which GPs are worth winning. Hidden dependency and quiet growth opportunities sit in plain sight.",
-        howItWorks:
-          "Built on CMS Medicare shared-patient data, NPPES records and network graph analysis. Maps the referral network, ranks influence, surfaces competitor patterns and generates dollar-valued outreach campaigns.",
-        revenue: "$299 one-time + $99/year data refresh. Promoted via Google Ads and email to US specialist clinics.",
-        market: "~100,000 US specialist physicians across procedural specialties.",
-        customers: "Launching May 2026. Domain live at practicereferral.net; data pipeline operational.",
-        link: "https://practicereferral.net",
-      },
-      {
-        title: "AI Training",
-        short: "AT",
-        audience: "General",
-        status: "Live",
-        statusType: "live",
-        image: "/1-medware-training.jpg",
-        purpose:
-          "Enterprise AI training teaching sales and operations teams to use AI tools for measurable productivity gains.",
-        problem:
-          "Most corporate AI training is generic prompt engineering disconnected from real workflows. Companies can’t prove ROI, and adoption stalls.",
-        howItWorks:
-          "A pre-assessment identifies actual time-sinks per role. Training is tailored to those workflows. Pre/post KPIs measure time-on-task improvement to prove ROI in dollars.",
-        revenue: "Project-based engagement. Pricing scales with team size and scope.",
-        market: "Australian SMB and enterprise sales and operations teams. Adjacent: international via remote delivery.",
-        customers: "Live. Currently delivering to Eutility’s national sales team.",
-        link: "https://medware.com.au",
-      },
-      {
-        title: "Earpiece",
-        short: "EP",
-        audience: "General",
-        status: "May 2026",
-        statusType: "soon",
-        image: "/industry/EarPiece-header.png",
-        purpose:
-          "Discreet iOS app that listens to a meeting and whispers AI-generated responses through AirPods in real time.",
-        problem:
-          "High-stakes meetings demand instant recall of facts and counter-arguments. Glancing at a phone signals disengagement.",
-        howItWorks:
-          "iPhone mic captures the other party’s voice. On-device speech-to-text transcribes; Claude generates a brief response from pre-loaded context; ElevenLabs whispers it through AirPods. Listen / Command mode toggle.",
-        revenue: "TBD at launch. Per-seat pharmaceutical subscription most likely.",
-        market: "Pharma reps, executive coaches and any high-stakes meeting where immediate recall matters.",
-        customers: "Launching May 2026. iOS app fully scaffolded; pharma-specific presets included.",
-        link: "https://medware.com.au",
-      },
-      {
-        title: "Constellation",
-        short: "CN",
-        audience: "AI teams",
-        status: "Internal",
-        statusType: "internal",
-        image: "/industry/constellation-header.png",
-        purpose:
-          "Persistent project memory and interactive knowledge graph that lets a small team manage dozens of products and repos alongside AI coding agents.",
-        problem:
-          "AI coding agents lose context between sessions. Solo founders building many products hit a wall switching projects: agents forget conventions, architecture and prior decisions.",
-        howItWorks:
-          "A persistent project-memory layer plus an interactive knowledge graph. Project state, files, decisions and conventions load into any context window in seconds. Works alongside Claude Code, Cursor and Copilot.",
-        revenue: "Internal use only at present. Productisation under consideration as SaaS for AI-native solo founders.",
-        market: "AI-native solo founders, indie hackers and small product teams.",
-        customers:
-          "Internal — powering Medware’s products across 90+ repositories. The source of the productivity behind the portfolio.",
-        link: "https://medware.com.au",
-      },
-      {
-        title: "MedwareAI",
-        short: "AI",
-        audience: "Healthcare professionals",
-        status: "TBA",
-        statusType: "tba",
-        purpose:
-          "Fully offline AI assistant for specialist clinics — runs locally on clinic hardware so patient data never leaves the building.",
-        problem:
-          "Doctors won’t paste patient notes into ChatGPT or any cloud LLM — and they’re right not to. Powerful AI, but legally and ethically off-limits for patient work.",
-        howItWorks:
-          "A self-contained desktop app running Ollama and Qwen3 entirely on the clinic’s own hardware. No outbound calls, no telemetry. Local PBS medication database, differential diagnosis support, GP letter and PBS authority drafting.",
-        revenue: "Per-clinic licensing — TBA. Likely annual licence with optional support tier.",
-        market:
-          "Australian specialist clinics with cloud-LLM privacy concerns, plus international clinics in regulated jurisdictions.",
-        customers: "TBA. Currently in late-stage development.",
-        link: "https://medware.com.au",
-      },
-      {
         title: "AdSafe",
         short: "AD",
         audience: "Healthcare professionals",
         status: "Live",
         statusType: "live",
+        group: "content",
         image: "/1-medware-adsafe.jpg",
         purpose:
           "Automated compliance checking of clinic websites and advertising against AHPRA and TGA health-advertising rules.",
@@ -414,29 +445,12 @@ export const COMPANIES: Company[] = [
         customers: "Live. Timely with the current regulatory crackdown on health advertising.",
         link: "https://medware.com.au",
       },
-      {
-        title: "Doctor Database",
-        short: "DB",
-        audience: "Pharmaceutical employees",
-        status: "Live",
-        statusType: "live",
-        purpose:
-          "Verified contact and practice database of Australian and US physicians built for pharmaceutical sales and marketing teams.",
-        problem:
-          "Pharma teams need verified, current contact and practice data on physicians. Existing commercial databases are expensive, often stale and country-locked.",
-        howItWorks:
-          "A verified database harvested from public university sources, NPPES, registration boards and equivalent registries. Refreshed periodically. Sold as targeted lists or full database access.",
-        revenue: "Per-list or full-database licensing.",
-        market: "Pharmaceutical sales and marketing teams across Australia and the US.",
-        customers: "Live. 20,741+ Australian medical academic records as foundation dataset; US records via NPPES.",
-        link: "https://medware.com.au",
-      },
     ],
   },
   {
     id: "medprep",
-    name: "Medprep",
-    entity: "Bowelprep Pty Ltd",
+    name: "MedPrep",
+    tagline: "Colonoscopy preparation, from the patient's phone to the clinic dashboard",
     img: "/1-medprep.png",
     logo: "/industry/medprep-logo.png",
     color: "#166534",
@@ -486,9 +500,63 @@ export const COMPANIES: Company[] = [
       },
     ],
   },
+  {
+    id: "advisory",
+    name: "Medware Advisory",
+    tagline: "AI mentorship, training, and the tooling behind the portfolio",
+    img: "/1-medware-training.jpg",
+    logo: "/industry/medware-logo.png",
+    color: "#0E7490",
+    description:
+      "The advisory side: AI mentorship and training for healthcare leadership and commercial teams — plus the internal tooling that makes a portfolio this size possible for a small team.",
+    stats: [
+      { num: "8 wk", lbl: "Mentorship" },
+      { num: "2", lbl: "Products" },
+    ],
+    link: "https://medwareadvisory.com",
+    products: [
+      {
+        title: "AI Training",
+        short: "AT",
+        audience: "Executive & commercial teams",
+        status: "Live",
+        statusType: "live",
+        image: "/1-medware-training.jpg",
+        purpose:
+          "Enterprise AI training teaching sales and operations teams to use AI tools for measurable productivity gains.",
+        problem:
+          "Most corporate AI training is generic prompt engineering disconnected from real workflows. Companies can’t prove ROI, and adoption stalls.",
+        howItWorks:
+          "A pre-assessment identifies actual time-sinks per role. Training is tailored to those workflows. Pre/post KPIs measure time-on-task improvement to prove ROI in dollars.",
+        revenue: "Project-based engagement. Pricing scales with team size and scope.",
+        market: "Australian SMB and enterprise sales and operations teams. Adjacent: international via remote delivery.",
+        customers: "Live. Currently delivering to Eutility’s national sales team.",
+        link: "https://medwareadvisory.com",
+      },
+      {
+        title: "Constellation",
+        short: "CN",
+        audience: "AI teams",
+        status: "Internal",
+        statusType: "internal",
+        image: "/industry/constellation-header.png",
+        purpose:
+          "Persistent project memory and interactive knowledge graph that lets a small team manage dozens of products and repos alongside AI coding agents.",
+        problem:
+          "AI coding agents lose context between sessions. Solo founders building many products hit a wall switching projects: agents forget conventions, architecture and prior decisions.",
+        howItWorks:
+          "A persistent project-memory layer plus an interactive knowledge graph. Project state, files, decisions and conventions load into any context window in seconds. Works alongside Claude Code, Cursor and Copilot.",
+        revenue: "Internal use only at present. Productisation under consideration as SaaS for AI-native solo founders.",
+        market: "AI-native solo founders, indie hackers and small product teams.",
+        customers:
+          "Internal — powering Medware’s products across 90+ repositories. The source of the productivity behind the portfolio.",
+        link: "https://medware.com.au",
+      },
+    ],
+  },
 ];
 
-export const TOTAL_PRODUCTS = COMPANIES.reduce((n, c) => n + c.products.length, 0);
+export const TOTAL_PRODUCTS = FAMILIES.reduce((n, f) => n + f.products.length, 0);
 
 /* Roadmap phase → fill fraction + label, used by the /industry dashboard bars. */
 export const PHASE_META: Record<StatusType, { pct: number; label: string }> = {

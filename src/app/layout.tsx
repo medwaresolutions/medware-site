@@ -6,11 +6,12 @@ const SITE_URL = "https://www.medware.com.au";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Medware — AI for healthcare",
+  title: "Medware — healthcare digital production",
   description:
-    "We build AI that transforms medicine. Medical software, AI consulting, and training by Medware Solutions.",
+    "Healthcare digital production at half the cost and half the timeline. Bespoke digital and AI for pharma and specialist medicine, plus products already built for healthcare — ready to use and ready to sponsor.",
   applicationName: "Medware",
   keywords: [
+    "healthcare digital production",
     "AI healthcare",
     "medical software",
     "PBS authority automation",
@@ -27,17 +28,17 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Medware",
-    title: "Medware — AI for healthcare",
+    title: "Medware — healthcare digital production",
     description:
-      "Medical software, AI consulting, and training — built by people who understand healthcare.",
+      "Bespoke digital and AI for pharma and specialist medicine, at half the cost and half the timeline — plus products already built for healthcare.",
     url: SITE_URL,
     locale: "en_AU",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Medware — AI for healthcare",
+    title: "Medware — healthcare digital production",
     description:
-      "Medical software, AI consulting, and training — built by people who understand healthcare.",
+      "Bespoke digital and AI for pharma and specialist medicine, at half the cost and half the timeline — plus products already built for healthcare.",
   },
   robots: {
     index: true,
@@ -58,7 +59,7 @@ const orgJsonLd = {
   url: SITE_URL,
   logo: `${SITE_URL}/icon-512.png`,
   description:
-    "Medware Solutions builds AI-powered medical software, and provides AI consulting and training for healthcare and pharmaceutical organisations.",
+    "Medware Solutions produces bespoke digital and AI for pharma and specialist medicine, and builds products for healthcare — from clinical software to patient, audience and industry tools.",
   email: "matt@medware.com.au",
   sameAs: [
     "https://github.com/medwaresolutions",

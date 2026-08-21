@@ -5,10 +5,10 @@ import type { MetadataRoute } from "next";
 // and links it automatically.
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Medware — AI for healthcare",
+    name: "Medware — healthcare digital production",
     short_name: "Medware",
     description:
-      "Medical software, AI consulting, and training — built by people who understand healthcare.",
+      "Bespoke digital and AI for pharma and specialist medicine, plus products already built for healthcare.",
     start_url: "/",
     display: "standalone",
     background_color: "#FFFFFF",
