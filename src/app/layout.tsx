@@ -69,7 +69,7 @@ const orgJsonLd = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F9FDFF" },
+    { media: "(prefers-color-scheme: light)", color: "#FBFCFC" },
     { media: "(prefers-color-scheme: dark)", color: "#15181A" },
   ],
 };

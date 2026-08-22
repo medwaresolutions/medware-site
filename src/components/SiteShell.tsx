@@ -31,9 +31,9 @@ export default function SiteShell({ posts }: { posts: SignalPost[] }) {
       <Header />
       <main>
         <Hero />
-        <SignalTeaser posts={posts} />
         <WhatWeDo />
         <Work onOpenProduct={setProduct} />
+        <SignalTeaser posts={posts} />
         <About />
         <Advisory />
         <Contact onSend={(email) => toast(email ? "Thanks — we'll be in touch" : "Enter your email so we can reply")} />

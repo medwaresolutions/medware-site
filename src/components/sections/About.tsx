@@ -1,13 +1,6 @@
-import { Card } from "@/components/ds";
-import { TOTAL_PRODUCTS } from "@/data/portfolio";
+import AboutRings from "./AboutRings";
 import { mwWrap } from "./shared";
 
-const STATS = [
-  { value: "17+", label: "Years in pharma & health tech" },
-  { value: "12,000+", label: "Hours with AI" },
-  { value: String(TOTAL_PRODUCTS), label: "Products shipped" },
-  { value: "50s", label: "Started coding" },
-];
 
 export default function About() {
   return (
@@ -48,33 +41,22 @@ export default function About() {
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             <p className="md-typescale-body-large" style={{ margin: 0, color: "var(--md-sys-color-on-surface-variant)" }}>
-              17 years in pharmaceutical sales and management. Founded multiple medical software companies. Started
-              coding in his 50s with AI.
+              Matt Martin spent 17 years inside life science companies across sales, marketing, medical and digital,
+              commissioning the agency work he now competes with. He has since founded multiple medical software
+              companies.
             </p>
             <p className="md-typescale-body-large" style={{ margin: 0, color: "var(--md-sys-color-on-surface-variant)" }}>
-              Now builds production software used by medical specialists across Australia.{" "}
-              <span style={{ color: "var(--md-sys-color-on-surface)", fontWeight: 500 }}>
-                12,000+ hours with AI and counting.
-              </span>
+              He saw early what AI would do to the agency model: the same output at a fraction of the cost and a
+              fraction of the timeline. With more than 12,000 hours in production use of large language models, he has
+              built AI infrastructure unique to Medware, an agentic build layer that lets a small team develop and
+              maintain twenty products in specialist medicine.
             </p>
-            <p className="md-typescale-body-large" style={{ margin: 0, color: "var(--md-sys-color-on-surface-variant)" }}>
-              Not a developer by training. Not a computer scientist. Just someone who saw what AI could do, picked up the
-              tools, and started building things that solve real problems in healthcare.
+            <p className="md-typescale-body-large" style={{ margin: 0, color: "var(--md-sys-color-on-surface)", fontWeight: 500 }}>
+              The result is software used daily by medical specialists across Australia.
             </p>
           </div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-          {STATS.map((s) => (
-            <Card key={s.label} variant="elevated" style={{ padding: 24, textAlign: "center" }}>
-              <div className="md-typescale-display-small" style={{ color: "var(--md-sys-color-primary)", marginBottom: 6 }}>
-                {s.value}
-              </div>
-              <div className="md-typescale-body-medium" style={{ color: "var(--md-sys-color-on-surface-variant)" }}>
-                {s.label}
-              </div>
-            </Card>
-          ))}
-        </div>
+        <AboutRings />
       </div>
     </section>
   );
