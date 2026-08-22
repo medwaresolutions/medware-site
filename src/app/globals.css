@@ -398,6 +398,63 @@ a { -webkit-tap-highlight-color: transparent; }
   .mw-roadmap-row { grid-template-columns: 1fr; gap: 6px; }
 }
 
+/* Industry "find your fit" cards — same M3 treatment as the landing page's
+   card sets: elevated, tonal icon badge, lift and badge fill on hover. */
+.mw-ind-fitcard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-decoration: none;
+  background: var(--md-sys-color-surface-container-lowest);
+  border-radius: var(--md-sys-shape-corner-large);
+  padding: 24px 22px 20px;
+  box-shadow: var(--md-sys-elevation-level-1);
+  transition:
+    box-shadow var(--md-sys-motion-duration-short-4) var(--md-sys-motion-easing-standard),
+    transform var(--md-sys-motion-duration-medium-2) var(--md-sys-motion-easing-emphasized);
+}
+.mw-ind-fitcard:hover { transform: translateY(-4px); box-shadow: var(--md-sys-elevation-level-2); }
+.mw-ind-fitcard:active { transform: translateY(-1px); }
+.mw-ind-fitcard__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 6px;
+  border-radius: var(--md-sys-shape-corner-medium);
+  background: var(--mw-tone-container, var(--md-sys-color-primary-container));
+  color: var(--mw-tone-accent, var(--md-sys-color-primary));
+  transition:
+    background-color var(--md-sys-motion-duration-medium-2) var(--md-sys-motion-easing-standard),
+    color var(--md-sys-motion-duration-medium-2) var(--md-sys-motion-easing-standard);
+}
+.mw-ind-fitcard:hover .mw-ind-fitcard__icon {
+  background: var(--mw-tone-accent, var(--md-sys-color-primary));
+  color: var(--md-sys-color-surface-container-lowest);
+}
+.mw-ind-fitcard__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-weight: 700;
+  color: var(--mw-tone-accent, var(--md-sys-color-primary));
+}
+.mw-ind-fitcard__cta .material-symbols-rounded {
+  transition: transform var(--md-sys-motion-duration-medium-2) var(--md-sys-motion-easing-emphasized);
+}
+.mw-ind-fitcard:hover .mw-ind-fitcard__cta .material-symbols-rounded { transform: translateY(3px); }
+
+/* Hero stat row stays a single line down to tablet. */
+@media (max-width: 720px) { .mw-ind-herostats { grid-template-columns: 1fr 1fr !important; } }
+@media (max-width: 420px) { .mw-ind-herostats { grid-template-columns: 1fr !important; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .mw-ind-fitcard, .mw-ind-fitcard:hover, .mw-ind-fitcard:active { transform: none !important; transition: none !important; }
+  .mw-ind-fitcard__icon, .mw-ind-fitcard__cta .material-symbols-rounded { transition: none !important; transform: none !important; }
+}
+
 /* Industry (client catalogue) page */
 .mw-ind-fit { display: grid; grid-template-columns: 340px 1fr; gap: 28px; align-items: start; }
 .mw-ind-aiform { display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: end; }

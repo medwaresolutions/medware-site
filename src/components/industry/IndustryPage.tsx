@@ -3,9 +3,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Header from "@/components/sections/Header";
 import Footer from "@/components/sections/Footer";
-import SoundwaveBackground from "@/components/sections/SoundwaveBackground";
 import { CookieBanner, LegalDialog, type LegalDoc } from "@/components/sections/dialogs";
 import { Button } from "@/components/ds";
+import { useInView } from "@/lib/useInView";
 import { mwWrap } from "@/components/sections/shared";
 import {
   BY_KEY,
@@ -311,18 +311,23 @@ function MultiSelect({
   );
 }
 
-const sectionHead = (kicker: string, title: string, sub: string, onDark = false) => (
-  <div style={{ maxWidth: "62ch", marginBottom: 34 }}>
+/* Centred kicker → headline → lede, matching the section rhythm on the landing
+   page. Every section on both pages now leads the same way. */
+const sectionHead = (kicker: string, title: string, sub: string) => (
+  <div style={{ textAlign: "center", maxWidth: 700, margin: "0 auto 40px" }}>
     <div
-      className="md-typescale-label-large"
-      style={{ fontWeight: 700, letterSpacing: ".05em", textTransform: "uppercase", color: "var(--md-sys-color-primary)" }}
+      className="md-typescale-title-small"
+      style={{ textTransform: "uppercase", letterSpacing: 1, color: "var(--md-sys-color-primary)" }}
     >
       {kicker}
     </div>
-    <h2 className="md-typescale-headline-large" style={{ margin: "10px 0 0", color: "var(--md-sys-color-on-surface)" }}>
+    <h2
+      className="md-typescale-headline-large"
+      style={{ margin: "8px 0 12px", color: "var(--md-sys-color-on-surface)", fontWeight: 700 }}
+    >
       {title}
     </h2>
-    <p className="md-typescale-body-large" style={{ marginTop: 12, color: "var(--md-sys-color-on-surface-variant)" }}>
+    <p className="md-typescale-body-large" style={{ margin: 0, color: "var(--md-sys-color-on-surface-variant)" }}>
       {sub}
     </p>
   </div>
@@ -343,6 +348,7 @@ export default function IndustryPage() {
   const [aiCountry, setAiCountry] = useState("Australia");
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState("");
+  const { ref: fitRef, shown: fitShown } = useInView<HTMLDivElement>(0.15);
   const [plan, setPlan] = useState<Plan | null>(null);
 
   // Enquiry form
@@ -515,7 +521,6 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
 
       {/* ===== HERO ===== */}
       <section className="dark mw-hero-bg" style={{ position: "relative", overflow: "hidden" }}>
-        <SoundwaveBackground theme="Deep blue" originX={0.62} groundless />
         <div
           className="mw-hero-grid"
           style={{ ...mwWrap, position: "relative", zIndex: 1, padding: "72px 24px 64px", display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: 48, alignItems: "center" }}
@@ -527,7 +532,7 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
           >
             For pharmaceutical partners
           </div>
-          <h1 className="md-typescale-display-medium" style={{ margin: 0, maxWidth: "16ch", color: "var(--md-sys-color-on-surface)" }}>
+          <h1 className="md-typescale-display-medium" style={{ margin: 0, maxWidth: "16ch", color: "var(--md-sys-color-on-surface)", fontWeight: 700 }}>
             One partner across the whole prescribing journey.
           </h1>
           <p
@@ -546,7 +551,7 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
               Browse all solutions
             </Button>
           </div>
-          <div style={{ marginTop: 40, display: "flex", gap: 40, flexWrap: "wrap" }}>
+          <div className="mw-ind-herostats" style={{ marginTop: 40, display: "grid", gridTemplateColumns: "repeat(3, auto)", gap: 32, justifyContent: "start" }}>
             {[
               { b: "Doctors", s: "Tools used daily in clinics" },
               { b: "Patients", s: "Supported through their journey" },
@@ -590,10 +595,11 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
             "We match our products to your goals.",
             "Tell us your goals and objectives and we will show you the products that get you there — and how we would help you reach them. Three ways in: let our AI plan it around your brand, choose by the job you do, or choose by the outcome you want.",
           )}
-          <div className="mw-ind-cards">
+          <div ref={fitRef} className={`mw-ind-cards mw-rise${fitShown ? " is-in" : ""}`}>
             {[
               {
                 icon: "auto_awesome",
+                tone: "primary",
                 title: "Use the AI brand planner",
                 copy: "Enter your brand and country. Our AI researches it live and maps our products straight onto your strategy.",
                 href: "#brandai",
@@ -601,6 +607,7 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
               },
               {
                 icon: "groups",
+                tone: "secondary",
                 title: "Choose by job type",
                 copy: "Pick your department and the products you know. We shortlist what would make a difference to your team.",
                 href: "#fit",
@@ -608,6 +615,7 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
               },
               {
                 icon: "flag",
+                tone: "tertiary",
                 title: "Choose by outcome",
                 copy: "Browse the portfolio grouped by what you want to achieve — promote, educate, support patients, data, your team.",
                 href: "#solutions",
@@ -617,41 +625,26 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
               <a
                 key={c.href}
                 href={c.href}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 10,
-                  textDecoration: "none",
-                  background: "var(--md-sys-color-surface-container-lowest)",
-                  border: "1px solid var(--md-sys-color-outline-variant)",
-                  borderRadius: "var(--md-sys-shape-corner-large)",
-                  padding: "22px 22px 20px",
-                  boxShadow: "var(--md-sys-elevation-level-1)",
-                }}
+                className="mw-ind-fitcard"
+                style={
+                  {
+                    "--mw-tone-container": `var(--md-sys-color-${c.tone}-container)`,
+                    "--mw-tone-accent": `var(--md-sys-color-${c.tone})`,
+                  } as React.CSSProperties
+                }
               >
-                <span
-                  className="material-symbols-rounded"
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 12,
-                    display: "grid",
-                    placeItems: "center",
-                    fontSize: 24,
-                    background: "var(--md-sys-color-primary-container)",
-                    color: "var(--md-sys-color-on-primary-container)",
-                  }}
-                >
-                  {c.icon}
+                <span className="mw-ind-fitcard__icon">
+                  <span className="material-symbols-rounded" style={{ fontSize: 24 }}>
+                    {c.icon}
+                  </span>
                 </span>
-                <b className="md-typescale-title-medium" style={{ color: "var(--md-sys-color-on-surface)" }}>{c.title}</b>
+                <b className="md-typescale-title-large" style={{ color: "var(--md-sys-color-on-surface)", fontWeight: 700 }}>
+                  {c.title}
+                </b>
                 <span className="md-typescale-body-medium" style={{ color: "var(--md-sys-color-on-surface-variant)", flex: 1 }}>
                   {c.copy}
                 </span>
-                <span
-                  className="md-typescale-label-large"
-                  style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--md-sys-color-primary)", fontWeight: 700 }}
-                >
+                <span className="mw-ind-fitcard__cta md-typescale-label-large">
                   {c.cta}
                   <span className="material-symbols-rounded" style={{ fontSize: 18 }}>arrow_downward</span>
                 </span>
@@ -860,7 +853,8 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
             "Solutions, grouped by what you want to achieve.",
             'Pick what you want to achieve and the matching solutions appear. Tap "Add to shortlist" on anything you would like a tailored proposal on, then send it to us at the bottom of the page.',
           )}
-          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 26 }}>
+          {/* Centred to sit under the centred section head. */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap", marginBottom: 26 }}>
             <span className="md-typescale-label-medium" style={{ fontWeight: 700, color: "var(--md-sys-color-on-surface-variant)", marginRight: 4 }}>
               I want to:
             </span>
