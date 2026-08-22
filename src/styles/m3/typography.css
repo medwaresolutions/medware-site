@@ -1,6 +1,7 @@
 /* Medware Design System — Typography Tokens
  * Material Design 3 type scale. Roboto across the board.
  * Sizes run one step above stock M3 — the site reads small at default scale.
+ * Brand (heading) roles carry width 88; plain (body/label) roles stay at 100.
  * display-large carries the hero weight (700); it is used by the hero h1 only.
  * Display sizes are fluid — a flat 60px headline is unreadable on a phone.
  * Each role exposes: -font (family), -weight, -size, -line-height, -tracking.
@@ -11,6 +12,10 @@
   --md-sys-typescale-font-brand: 'Roboto', system-ui, sans-serif;
   --md-sys-typescale-font-plain: 'Roboto', system-ui, sans-serif;
   --md-sys-typescale-font-mono: 'Roboto Mono', ui-monospace, monospace;
+
+  /* Roboto is loaded as a variable font (wdth 75..100, wght 100..900).
+     Headings run slightly narrow at width 88; body and labels stay at 100. */
+  --md-sys-typescale-width-brand: 88%;
 
   /* Display */
   --md-sys-typescale-display-large-size:clamp(38px, 6.2vw, 60px);   --md-sys-typescale-display-large-line:clamp(42px, 6.8vw, 66px);   --md-sys-typescale-display-large-tracking:-0.25px;  --md-sys-typescale-display-large-weight:700;
@@ -39,13 +44,13 @@
 }
 
 /* ---- Type-scale utility classes ---- */
-.md-typescale-display-large   { font-family:var(--md-sys-typescale-font-brand); font-size:var(--md-sys-typescale-display-large-size);   line-height:var(--md-sys-typescale-display-large-line);   letter-spacing:var(--md-sys-typescale-display-large-tracking);   font-weight:var(--md-sys-typescale-display-large-weight); }
-.md-typescale-display-medium  { font-family:var(--md-sys-typescale-font-brand); font-size:var(--md-sys-typescale-display-medium-size);  line-height:var(--md-sys-typescale-display-medium-line);  letter-spacing:var(--md-sys-typescale-display-medium-tracking);  font-weight:var(--md-sys-typescale-display-medium-weight); }
-.md-typescale-display-small   { font-family:var(--md-sys-typescale-font-brand); font-size:var(--md-sys-typescale-display-small-size);   line-height:var(--md-sys-typescale-display-small-line);   letter-spacing:var(--md-sys-typescale-display-small-tracking);   font-weight:var(--md-sys-typescale-display-small-weight); }
-.md-typescale-headline-large  { font-family:var(--md-sys-typescale-font-brand); font-size:var(--md-sys-typescale-headline-large-size);  line-height:var(--md-sys-typescale-headline-large-line);  letter-spacing:var(--md-sys-typescale-headline-large-tracking);  font-weight:var(--md-sys-typescale-headline-large-weight); }
-.md-typescale-headline-medium { font-family:var(--md-sys-typescale-font-brand); font-size:var(--md-sys-typescale-headline-medium-size); line-height:var(--md-sys-typescale-headline-medium-line); letter-spacing:var(--md-sys-typescale-headline-medium-tracking); font-weight:var(--md-sys-typescale-headline-medium-weight); }
-.md-typescale-headline-small  { font-family:var(--md-sys-typescale-font-brand); font-size:var(--md-sys-typescale-headline-small-size);  line-height:var(--md-sys-typescale-headline-small-line);  letter-spacing:var(--md-sys-typescale-headline-small-tracking);  font-weight:var(--md-sys-typescale-headline-small-weight); }
-.md-typescale-title-large     { font-family:var(--md-sys-typescale-font-brand); font-size:var(--md-sys-typescale-title-large-size);     line-height:var(--md-sys-typescale-title-large-line);     letter-spacing:var(--md-sys-typescale-title-large-tracking);     font-weight:var(--md-sys-typescale-title-large-weight); }
+.md-typescale-display-large   { font-family:var(--md-sys-typescale-font-brand); font-stretch:var(--md-sys-typescale-width-brand); font-size:var(--md-sys-typescale-display-large-size);   line-height:var(--md-sys-typescale-display-large-line);   letter-spacing:var(--md-sys-typescale-display-large-tracking);   font-weight:var(--md-sys-typescale-display-large-weight); }
+.md-typescale-display-medium  { font-family:var(--md-sys-typescale-font-brand); font-stretch:var(--md-sys-typescale-width-brand); font-size:var(--md-sys-typescale-display-medium-size);  line-height:var(--md-sys-typescale-display-medium-line);  letter-spacing:var(--md-sys-typescale-display-medium-tracking);  font-weight:var(--md-sys-typescale-display-medium-weight); }
+.md-typescale-display-small   { font-family:var(--md-sys-typescale-font-brand); font-stretch:var(--md-sys-typescale-width-brand); font-size:var(--md-sys-typescale-display-small-size);   line-height:var(--md-sys-typescale-display-small-line);   letter-spacing:var(--md-sys-typescale-display-small-tracking);   font-weight:var(--md-sys-typescale-display-small-weight); }
+.md-typescale-headline-large  { font-family:var(--md-sys-typescale-font-brand); font-stretch:var(--md-sys-typescale-width-brand); font-size:var(--md-sys-typescale-headline-large-size);  line-height:var(--md-sys-typescale-headline-large-line);  letter-spacing:var(--md-sys-typescale-headline-large-tracking);  font-weight:var(--md-sys-typescale-headline-large-weight); }
+.md-typescale-headline-medium { font-family:var(--md-sys-typescale-font-brand); font-stretch:var(--md-sys-typescale-width-brand); font-size:var(--md-sys-typescale-headline-medium-size); line-height:var(--md-sys-typescale-headline-medium-line); letter-spacing:var(--md-sys-typescale-headline-medium-tracking); font-weight:var(--md-sys-typescale-headline-medium-weight); }
+.md-typescale-headline-small  { font-family:var(--md-sys-typescale-font-brand); font-stretch:var(--md-sys-typescale-width-brand); font-size:var(--md-sys-typescale-headline-small-size);  line-height:var(--md-sys-typescale-headline-small-line);  letter-spacing:var(--md-sys-typescale-headline-small-tracking);  font-weight:var(--md-sys-typescale-headline-small-weight); }
+.md-typescale-title-large     { font-family:var(--md-sys-typescale-font-brand); font-stretch:var(--md-sys-typescale-width-brand); font-size:var(--md-sys-typescale-title-large-size);     line-height:var(--md-sys-typescale-title-large-line);     letter-spacing:var(--md-sys-typescale-title-large-tracking);     font-weight:var(--md-sys-typescale-title-large-weight); }
 .md-typescale-title-medium    { font-family:var(--md-sys-typescale-font-plain); font-size:var(--md-sys-typescale-title-medium-size);    line-height:var(--md-sys-typescale-title-medium-line);    letter-spacing:var(--md-sys-typescale-title-medium-tracking);    font-weight:var(--md-sys-typescale-title-medium-weight); }
 .md-typescale-title-small     { font-family:var(--md-sys-typescale-font-plain); font-size:var(--md-sys-typescale-title-small-size);     line-height:var(--md-sys-typescale-title-small-line);     letter-spacing:var(--md-sys-typescale-title-small-tracking);     font-weight:var(--md-sys-typescale-title-small-weight); }
 .md-typescale-body-large      { font-family:var(--md-sys-typescale-font-plain); font-size:var(--md-sys-typescale-body-large-size);      line-height:var(--md-sys-typescale-body-large-line);      letter-spacing:var(--md-sys-typescale-body-large-tracking);      font-weight:var(--md-sys-typescale-body-large-weight); }

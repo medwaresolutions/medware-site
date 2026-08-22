@@ -406,9 +406,9 @@ function JobCard({ t, job }: { t: number; job: [string, string] }) {
           position: "absolute", left: cx, top: cy, opacity: op,
           transform: `translate(-50%, -50%) scale(${s})`,
           display: "flex", alignItems: "center", gap: 12, padding: "13px 22px", borderRadius: 15,
-          background: "linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05))",
-          border: `1px solid ${stuck ? "rgba(125,211,252,0.6)" : "rgba(255,255,255,0.32)"}`,
-          backdropFilter: "blur(10px)", whiteSpace: "nowrap",
+          background: "linear-gradient(135deg, rgba(10,42,72,0.86), rgba(5,26,48,0.78))",
+          border: `1px solid ${stuck ? "rgba(125,211,252,0.62)" : "rgba(168,208,240,0.38)"}`,
+          whiteSpace: "nowrap",
           boxShadow: stuck
             ? "0 14px 40px rgba(0,0,0,0.45), 0 0 36px rgba(56,189,248,0.35)"
             : "0 14px 40px rgba(0,0,0,0.45), 0 0 24px rgba(56,189,248,0.2)",

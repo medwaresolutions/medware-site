@@ -66,9 +66,9 @@ a { -webkit-tap-highlight-color: transparent; }
   direction: ltr;
   font-feature-settings: 'liga' 1;
   -webkit-font-smoothing: antialiased;
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
 }
-.msr--fill { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+.msr--fill { font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24; }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
@@ -122,7 +122,7 @@ a { -webkit-tap-highlight-color: transparent; }
    hero gradient rather than in a card, so the two read as one surface.
    Namespaced keyframes so they can't collide with mwPulse / mwSpin above. */
 .mw-hero-stage { position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: transparent; }
-.mw-hero-canvas { position: absolute; top: 0; left: 0; width: 1080px; height: 1080px; transform-origin: top left; }
+.mw-hero-canvas { position: absolute; top: 0; left: 0; width: 1080px; height: 1080px; text-rendering: geometricPrecision; -webkit-font-smoothing: antialiased; }
 @keyframes mw-twinkle { 0%, 100% { opacity: 0.18; } 50% { opacity: 0.75; } }
 @keyframes mw-pulse-ring { 0% { transform: scale(0.7); opacity: 0.75; } 100% { transform: scale(1.5); opacity: 0; } }
 
@@ -195,9 +195,9 @@ a { -webkit-tap-highlight-color: transparent; }
 
 /* Article prose (The Signal) — M3-tokenised long-form content */
 .mw-prose { color: var(--md-sys-color-on-surface-variant); font-size: var(--md-sys-typescale-body-large-size); line-height: 1.75; }
-.mw-prose h1 { font-family: var(--md-sys-typescale-font-brand); font-size: var(--md-sys-typescale-headline-large-size); line-height: var(--md-sys-typescale-headline-large-line); color: var(--md-sys-color-on-surface); margin: 40px 0 16px; }
-.mw-prose h2 { font-family: var(--md-sys-typescale-font-brand); font-size: var(--md-sys-typescale-headline-medium-size); line-height: var(--md-sys-typescale-headline-medium-line); color: var(--md-sys-color-on-surface); margin: 48px 0 16px; }
-.mw-prose h3 { font-family: var(--md-sys-typescale-font-brand); font-size: var(--md-sys-typescale-headline-small-size); line-height: var(--md-sys-typescale-headline-small-line); color: var(--md-sys-color-on-surface); margin: 32px 0 12px; }
+.mw-prose h1 { font-family: var(--md-sys-typescale-font-brand); font-stretch: var(--md-sys-typescale-width-brand); font-size: var(--md-sys-typescale-headline-large-size); line-height: var(--md-sys-typescale-headline-large-line); color: var(--md-sys-color-on-surface); margin: 40px 0 16px; }
+.mw-prose h2 { font-family: var(--md-sys-typescale-font-brand); font-stretch: var(--md-sys-typescale-width-brand); font-size: var(--md-sys-typescale-headline-medium-size); line-height: var(--md-sys-typescale-headline-medium-line); color: var(--md-sys-color-on-surface); margin: 48px 0 16px; }
+.mw-prose h3 { font-family: var(--md-sys-typescale-font-brand); font-stretch: var(--md-sys-typescale-width-brand); font-size: var(--md-sys-typescale-headline-small-size); line-height: var(--md-sys-typescale-headline-small-line); color: var(--md-sys-color-on-surface); margin: 32px 0 12px; }
 .mw-prose p { margin: 0 0 20px; }
 .mw-prose a { color: var(--md-sys-color-primary); text-decoration: underline; }
 .mw-prose strong { color: var(--md-sys-color-on-surface); font-weight: 600; }

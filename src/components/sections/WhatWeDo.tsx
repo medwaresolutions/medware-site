@@ -20,7 +20,7 @@ const WAYS = [
       "Medflow",
       "Medcast",
       "MedPrep",
-      "Medware AI HCP Assistant",
+      "Medware AI",
       "Conference App",
       "Medware CRM",
     ],

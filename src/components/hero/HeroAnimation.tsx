@@ -118,9 +118,13 @@ export default function HeroAnimation() {
       role="img"
       aria-label="A client project enters the Medware hub, is worked by a team of AI agents across clinical, legal, design, engineering and compliance disciplines against a knowledge bank of TGA, FDA, PBS and ISO sources, and ships as a delivered product."
     >
+      {/* zoom, not transform: scale(). A scaled transform rasterises the 1080px
+          canvas and then downsamples it, which softens every glyph. zoom is a
+          layout-level scale, so text is laid out and rendered at its final
+          size and stays crisp. */}
       <div
         className="mw-hero-canvas"
-        style={{ transform: `scale(${scale})`, visibility: scale ? "visible" : "hidden" }}
+        style={{ zoom: scale || undefined, visibility: scale ? "visible" : "hidden" }}
       >
         <HeroLoop t={t} cycle={cycle} still={still} />
       </div>

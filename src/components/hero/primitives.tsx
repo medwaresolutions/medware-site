@@ -33,7 +33,7 @@ export const PAL = {
      sit on the hero's mid-blue rather than near-black. */
   body: "#aec3d6",
   emerald: "#34d399",
-  glassBorder: "rgba(255,255,255,0.13)",
+  glassBorder: "rgba(146,196,235,0.22)",
   line: "rgba(125,211,252,0.35)",
 };
 
@@ -95,6 +95,11 @@ export function Icon({
   );
 }
 
+/* Panels read as glass sitting ON the hero gradient rather than as lighter
+   patches of it: a deep navy tint gives them an edge against the mid-blue
+   ground, where the old white-on-white wash dissolved into it.
+   No backdrop-filter — it forced a composited layer that softened every
+   glyph inside, and the tint now does that job without the blur. */
 export function Glass({
   children,
   style = {},
@@ -107,13 +112,12 @@ export function Glass({
   return (
     <div
       style={{
-        background: "linear-gradient(135deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03))",
+        background: "linear-gradient(135deg, rgba(4,28,52,0.58), rgba(2,18,38,0.42))",
         border: `1px solid ${PAL.glassBorder}`,
         borderRadius: 24,
-        backdropFilter: "blur(14px)",
         boxShadow: glow
-          ? "0 8px 40px rgba(2,132,199,0.28), inset 0 1px 0 rgba(255,255,255,0.14)"
-          : "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1)",
+          ? "0 8px 40px rgba(2,132,199,0.30), inset 0 1px 0 rgba(255,255,255,0.16)"
+          : "0 8px 30px rgba(0,12,26,0.36), inset 0 1px 0 rgba(255,255,255,0.09)",
         ...style,
       }}
     >

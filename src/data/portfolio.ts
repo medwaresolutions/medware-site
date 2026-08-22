@@ -229,22 +229,22 @@ export const FAMILIES: Family[] = [
     products: [
       /* ---- For clinicians & hospitals ---- */
       {
-        title: "Medware AI HCP Assistant",
-        short: "AI",
-        audience: "Healthcare professionals",
+        title: "Medware AI",
+        short: "MA",
+        audience: "Healthcare professionals & clinics",
         status: "In development",
         statusType: "building",
         group: "clinical",
         purpose:
-          "Secure AI assistant for clinicians, configured by region and by specialty — Q&A across treatment guidelines, PBS, TGA, PBAC outcomes and Medicare, plus your own documents.",
+          "Our own AI platform for healthcare — the retrieval, the region and specialty configuration, the document handling and the guardrails. The language model is a component we choose and can swap; the software around it is the product.",
         problem:
-          "Clinicians won’t put patient or practice questions into a general cloud LLM, and they’re right not to. The answers they need are spread across treatment guidelines, PBS schedules, TGA and PBAC outcomes and Medicare rules — none of which a general-purpose model reliably knows, and all of which differ by region and specialty.",
+          "Most “AI for healthcare” is a thin wrapper around a general chatbot. It doesn’t know which guidelines apply in this state, what PBS lists this month, or what the last PBAC outcome said — and clinicians won’t put patient or practice questions into it anyway.",
         howItWorks:
-          "Configured per region and per specialty, so the assistant answers from the sources that apply where the clinician actually practises: treatment guidelines, PBS, TGA, PBAC outcomes and Medicare. Practices load their own documents — protocols, formularies, referral criteria — into the same index. A fully offline deployment is available for clinics and hospitals that require patient data to stay inside the building.",
-        revenue: "Per-clinic or per-seat licensing — POA.",
+          "Every deployment is configured per region and per specialty, so it answers from the sources that apply where the clinician actually practises: treatment guidelines, PBS, TGA, PBAC outcomes and Medicare. Practices load their own documents — protocols, formularies, referral criteria — into the same index. It runs secure, or fully offline where patient data cannot leave the building. Because the platform is ours, the model underneath is a choice rather than a dependency.",
+        revenue: "Per-clinic or per-seat licensing — POA. Platform licensing for partners.",
         market:
           "Australian specialist and primary-care clinics, hospital departments, and international clinics in regulated jurisdictions.",
-        customers: "In development.",
+        customers: "In development. The HCP assistant is the first product built on the platform.",
         link: "https://medware.com.au",
       },
       {
