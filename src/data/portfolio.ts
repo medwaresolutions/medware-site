@@ -264,7 +264,7 @@ export const FAMILIES: Family[] = [
         revenue: "Per-site licensing — POA.",
         market: "Australian public and private hospitals, and large multi-clinic campuses.",
         customers: "Live.",
-        link: "https://medware.com.au",
+        link: "https://medware-wayfinder.vercel.app/",
       },
 
       /* ---- For industry field & commercial teams ---- */
