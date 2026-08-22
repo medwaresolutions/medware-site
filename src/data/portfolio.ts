@@ -254,6 +254,7 @@ export const FAMILIES: Family[] = [
         status: "Live",
         statusType: "live",
         group: "clinical",
+        image: "/wayfinder.png",
         purpose:
           "Digital wayfinding for hospital campuses — gets patients, visitors and staff to the right department, clinic or ward without stopping at a desk to ask.",
         problem:
