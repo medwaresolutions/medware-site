@@ -1,7 +1,6 @@
 import { Button, Chip } from "@/components/ds";
 import HeroAnimation from "@/components/hero/HeroAnimation";
 import { TOTAL_PRODUCTS } from "@/data/portfolio";
-import SoundwaveBackground from "./SoundwaveBackground";
 import { mwWrap } from "./shared";
 
 const PROOF = [`${TOTAL_PRODUCTS} products built`, "200+ specialist clinics", "Live across Australia"];
@@ -9,7 +8,6 @@ const PROOF = [`${TOTAL_PRODUCTS} products built`, "200+ specialist clinics", "L
 export default function Hero() {
   return (
     <section id="top" className="dark" style={{ position: "relative", overflow: "hidden", background: "#0D2033" }}>
-      <SoundwaveBackground theme="Deep blue" originX={0.62} />
       <div
         className="mw-hero-grid"
         style={{
