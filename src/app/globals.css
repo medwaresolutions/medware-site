@@ -96,12 +96,34 @@ a { -webkit-tap-highlight-color: transparent; }
 .mw-pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--md-sys-color-primary); display: inline-block; animation: mwPulse 1.6s ease-in-out infinite; }
 @keyframes mwPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.7); } }
 
+/* Hero ground — the LinkedIn banner's gradient, sampled from the artwork: a
+   pure horizontal ramp from near-black navy at the left to a mid ocean blue at
+   the right, with the banner's faint vertical rules fading in across the right
+   two-thirds. Values are the banner's own base colours with the rules masked
+   out, so the site and the banner read as the same surface. */
+.mw-hero-bg {
+  background: linear-gradient(90deg,
+    #00192e 0%, #00192f 10%, #001c33 20%, #002139 30%, #002641 40%, #002b49 50%,
+    #003252 60%, #003759 70%, #003b5f 80%, #003f64 90%, #004066 100%);
+}
+.mw-hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* 40px rules, matching the banner's ~39.5px rhythm and its ~+6/255 lift. */
+  background-image: repeating-linear-gradient(90deg, rgba(180, 220, 255, 0.05) 0 1px, transparent 1px 40px);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 20%, #000 46%, #000 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, transparent 20%, #000 46%, #000 100%);
+}
+
 /* Hero animation stage — the 1080px square canvas, scaled to fit its column.
+   Deliberately transparent and chrome-free: the animation sits directly on the
+   hero gradient rather than in a card, so the two read as one surface.
    Namespaced keyframes so they can't collide with mwPulse / mwSpin above. */
-.mw-hero-stage { position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 28px; background: #070d18; border: 1px solid rgba(125, 211, 252, 0.16); box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42); }
+.mw-hero-stage { position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: transparent; }
 .mw-hero-canvas { position: absolute; top: 0; left: 0; width: 1080px; height: 1080px; transform-origin: top left; }
 @keyframes mw-twinkle { 0%, 100% { opacity: 0.18; } 50% { opacity: 0.75; } }
-@keyframes mw-drift { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(34px, 24px); } }
 @keyframes mw-pulse-ring { 0% { transform: scale(0.7); opacity: 0.75; } 100% { transform: scale(1.5); opacity: 0; } }
 
 /* Spinner (AI planner loading) */

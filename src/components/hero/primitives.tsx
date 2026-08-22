@@ -29,7 +29,9 @@ export const Easing = {
 /* Palette. sky/skyL/skyXL resolve against the --acc vars set on the frame. */
 export const PAL = {
   ink: "#f8fafc",
-  body: "#94a3b8",
+  /* Lifted from the original #94a3b8: the stage is transparent now, so these
+     sit on the hero's mid-blue rather than near-black. */
+  body: "#aec3d6",
   emerald: "#34d399",
   glassBorder: "rgba(255,255,255,0.13)",
   line: "rgba(125,211,252,0.35)",

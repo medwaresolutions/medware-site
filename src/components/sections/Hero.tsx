@@ -7,7 +7,7 @@ const PROOF = [`${TOTAL_PRODUCTS} products built`, "200+ specialist clinics", "L
 
 export default function Hero() {
   return (
-    <section id="top" className="dark" style={{ position: "relative", overflow: "hidden", background: "#0D2033" }}>
+    <section id="top" className="dark mw-hero-bg" style={{ position: "relative", overflow: "hidden" }}>
       <div
         className="mw-hero-grid"
         style={{

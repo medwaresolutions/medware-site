@@ -22,16 +22,15 @@ export default function Header() {
 
   return (
     <header
-      className="dark"
+      className="dark mw-hero-bg"
       style={{
         position: "sticky",
         top: 0,
         zIndex: 50,
-        background: "#0D2033",
         borderBottom: "1px solid rgba(255,255,255,0.08)",
       }}
     >
-      <div style={{ ...mwWrap, display: "flex", alignItems: "center", gap: 16, height: 72 }}>
+      <div style={{ ...mwWrap, position: "relative", zIndex: 1, display: "flex", alignItems: "center", gap: 16, height: 72 }}>
         <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
           {/* Theme-aware mark (CSS toggles which one shows) */}
           <img className="mw-logo-dark" src="/medware-monogram.png" alt="Medware" style={{ height: 30, width: "auto" }} />
@@ -81,7 +80,7 @@ export default function Header() {
         <nav
           style={{
             borderTop: "1px solid rgba(255,255,255,0.08)",
-            background: "#0D2033",
+            background: "#00192e",
           }}
         >
           <div style={{ ...mwWrap, display: "flex", flexDirection: "column", padding: "12px 24px" }}>

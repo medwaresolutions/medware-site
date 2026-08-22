@@ -20,6 +20,9 @@ type SoundwaveProps = {
   /** Pulse origin as fractions of canvas width/height (0.5 = centred). */
   originX?: number;
   originY?: number;
+  /** Skip the opaque ground so the pulses composite over the section's own
+   *  background. Used where the section already carries the brand gradient. */
+  groundless?: boolean;
 };
 
 type Dir = { ux: number; uy: number; uz: number; j: number; tw: number };
@@ -33,6 +36,7 @@ export default function SoundwaveBackground({
   showRings = true,
   originX = 0.5,
   originY = 0.5,
+  groundless = false,
 }: SoundwaveProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { dark } = useTheme();
@@ -119,11 +123,16 @@ export default function SoundwaveBackground({
       } else {
         bg0 = "#123049"; bg1 = "#050C15"; tint = 0.14;
       }
-      const bgGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.75);
-      bgGrad.addColorStop(0, bg0);
-      bgGrad.addColorStop(1, bg1);
-      ctx.fillStyle = bgGrad;
-      ctx.fillRect(0, 0, w, h);
+      if (groundless) {
+        // The section paints the ground; just clear last frame.
+        ctx.clearRect(0, 0, w, h);
+      } else {
+        const bgGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.75);
+        bgGrad.addColorStop(0, bg0);
+        bgGrad.addColorStop(1, bg1);
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, w, h);
+      }
       // faint accent bloom seated at the source
       if (!light && tint > 0) {
         const bloom = ctx.createRadialGradient(cx, cy, 0, cx, cy, focal * 0.32);
@@ -260,7 +269,7 @@ export default function SoundwaveBackground({
       window.removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, [accent, theme, speed, period, density, showRings, originX, originY]);
+  }, [accent, theme, speed, period, density, showRings, originX, originY, groundless]);
 
   return (
     <canvas

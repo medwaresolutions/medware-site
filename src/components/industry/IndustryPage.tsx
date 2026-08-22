@@ -514,8 +514,8 @@ ${d.summary ? `<h2>In short</h2><p>${esc(d.summary)}</p>` : ""}
       <Header />
 
       {/* ===== HERO ===== */}
-      <section className="dark" style={{ position: "relative", overflow: "hidden", background: "#0D2033" }}>
-        <SoundwaveBackground theme="Deep blue" originX={0.62} />
+      <section className="dark mw-hero-bg" style={{ position: "relative", overflow: "hidden" }}>
+        <SoundwaveBackground theme="Deep blue" originX={0.62} groundless />
         <div
           className="mw-hero-grid"
           style={{ ...mwWrap, position: "relative", zIndex: 1, padding: "72px 24px 64px", display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: 48, alignItems: "center" }}

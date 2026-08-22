@@ -74,6 +74,14 @@ const STARS = (() => {
   }));
 })();
 
+/* Backdrop, blended.
+ *
+ * The stage is transparent, so the hero's own gradient IS this animation's
+ * ground. What remains here is only what the gradient can't supply: a soft
+ * central lift behind the hub, and the star field. The original opaque
+ * radial ground, the 54px grid and the two drifting orbs are gone — the grid
+ * would moiré against the hero's vertical rules, and the orbs clipped hard at
+ * the square's edge once there was no dark card to hide the seam. */
 function SquareBackdrop({ still }: { still: boolean }) {
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
@@ -81,19 +89,8 @@ function SquareBackdrop({ still }: { still: boolean }) {
         style={{
           position: "absolute",
           inset: 0,
-          background: "radial-gradient(760px 700px at 46% 34%, #142744 0%, #0B1322 58%, #070d18 100%)",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          opacity: 0.55,
-          backgroundImage:
-            "linear-gradient(rgba(125,211,252,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(125,211,252,0.055) 1px, transparent 1px)",
-          backgroundSize: "54px 54px",
-          maskImage: "radial-gradient(ellipse 68% 62% at 50% 44%, black 28%, transparent 78%)",
-          WebkitMaskImage: "radial-gradient(ellipse 68% 62% at 50% 44%, black 28%, transparent 78%)",
+          background:
+            "radial-gradient(700px 640px at 46% 34%, rgba(88,168,224,0.20) 0%, rgba(56,140,200,0.09) 44%, transparent 72%)",
         }}
       />
       {STARS.map((st, i) => (
@@ -106,20 +103,6 @@ function SquareBackdrop({ still }: { still: boolean }) {
           }}
         />
       ))}
-      <div
-        style={{
-          position: "absolute", left: -160, top: -140, width: 560, height: 560, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(2,132,199,0.18), transparent 65%)",
-          filter: "blur(40px)", animation: still ? undefined : "mw-drift 11s ease-in-out infinite",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute", right: -190, bottom: -170, width: 620, height: 620, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(56,189,248,0.11), transparent 65%)",
-          filter: "blur(40px)", animation: still ? undefined : "mw-drift 13s ease-in-out 2s infinite reverse",
-        }}
-      />
     </div>
   );
 }
