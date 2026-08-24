@@ -1,12 +1,11 @@
 import { createClient as createAdminClient } from '@supabase/supabase-js'
-import { createClient } from '@/lib/supabase/server'
+import { getAdminUser } from '@/lib/auth/admin'
 import { NextRequest, NextResponse } from 'next/server'
 
 const BUCKET = 'blog-media'
 
 export async function POST(request: NextRequest) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getAdminUser()
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }

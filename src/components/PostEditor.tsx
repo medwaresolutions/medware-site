@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { renderMarkdown } from "@/lib/markdown";
 
 interface PostData {
   id?: string;
@@ -146,42 +147,6 @@ export default function PostEditor({
     }
   }
 
-  function renderMarkdown(content: string) {
-    // Raw HTML passthrough blocks
-    let html = content.replace(/:::html\n([\s\S]*?)\n:::/g, (_, inner) => inner);
-
-    // Media shortcodes
-    html = html.replace(/^::image\[(.+)\]$/gim, '<img src="$1" alt="" class="w-full rounded-xl my-8 border border-[var(--md-sys-color-outline-variant)]" />');
-    html = html.replace(/^::video\[(.+)\]$/gim, '<video src="$1" controls class="w-full rounded-xl my-8 border border-[var(--md-sys-color-outline-variant)]"></video>');
-    html = html.replace(/^::audio\[(.+)\]$/gim, '<audio src="$1" controls class="w-full my-8"></audio>');
-    html = html.replace(/^::iframe\[(.+)\]$/gim, '<div class="relative w-full aspect-video my-8 rounded-xl overflow-hidden border border-[var(--md-sys-color-outline-variant)]"><iframe src="$1" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" class="w-full h-full"></iframe></div>');
-
-    html = html
-      .replace(/^### (.*$)/gim, '<h3 class="text-xl font-bold text-[var(--md-sys-color-on-surface)] mt-8 mb-3">$1</h3>')
-      .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold text-[var(--md-sys-color-on-surface)] mt-12 mb-4">$1</h2>')
-      .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold text-[var(--md-sys-color-on-surface)] mt-12 mb-4">$1</h1>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong class="text-[var(--md-sys-color-on-surface)]">$1</strong>')
-      .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      .replace(/^---$/gim, '<hr class="border-[var(--md-sys-color-outline-variant)] my-10" />')
-      .replace(/^\- (.*$)/gim, '<li class="text-[var(--md-sys-color-on-surface-variant)] leading-relaxed">$1</li>')
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-[var(--md-sys-color-primary)] underline">$1</a>');
-
-    html = html.replace(/((<li.*<\/li>\n?)+)/g, '<ul class="list-disc list-inside space-y-2 mb-6">$1</ul>');
-
-    const lines = html.split("\n");
-    const result: string[] = [];
-    for (const line of lines) {
-      const trimmed = line.trim();
-      if (trimmed && !trimmed.startsWith("<")) {
-        result.push(`<p class="text-[var(--md-sys-color-on-surface-variant)] leading-relaxed mb-6">${trimmed}</p>`);
-      } else {
-        result.push(line);
-      }
-    }
-
-    return result.join("\n");
-  }
-
   return (
     <div className="min-h-screen bg-[var(--md-sys-color-background)]">
       {/* Header */}
@@ -258,6 +223,7 @@ export default function PostEditor({
               By {form.author_name || "Matt Martin"}
             </p>
             <div
+              className="mw-prose"
               dangerouslySetInnerHTML={{ __html: renderMarkdown(form.content) }}
             />
           </div>

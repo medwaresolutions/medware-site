@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
-import { redirect, notFound } from "next/navigation";
+import { notFound } from "next/navigation";
+import { requireAdmin } from "@/lib/auth/admin";
 import PostEditor from "@/components/PostEditor";
 
 export default async function EditPostPage({
@@ -8,12 +9,8 @@ export default async function EditPostPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const user = await requireAdmin();
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/admin/login");
-  }
 
   const { data: post } = await supabase
     .from("posts")

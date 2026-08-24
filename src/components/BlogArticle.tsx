@@ -7,6 +7,7 @@ import Footer from "@/components/sections/Footer";
 import { Button } from "@/components/ds";
 import { LegalDialog, type LegalDoc } from "@/components/sections/dialogs";
 import { formatPostDateLong } from "@/components/sections/shared";
+import { renderMarkdown } from "@/lib/markdown";
 
 interface Post {
   id: string;
@@ -24,45 +25,6 @@ interface Post {
 function estimateReadTime(content: string): number {
   const words = content.split(/\s+/).length;
   return Math.max(1, Math.ceil(words / 200));
-}
-
-function renderMarkdown(content: string) {
-  // Raw HTML passthrough blocks
-  let html = content.replace(/:::html\n([\s\S]*?)\n:::/g, (_, inner) => inner);
-
-  // Media shortcodes
-  html = html.replace(/^::image\[(.+)\]$/gim, '<img src="$1" alt="" class="mw-prose-media" />');
-  html = html.replace(/^::video\[(.+)\]$/gim, '<video src="$1" controls class="mw-prose-media"></video>');
-  html = html.replace(/^::audio\[(.+)\]$/gim, '<audio src="$1" controls style="width:100%;margin:24px 0;"></audio>');
-  html = html.replace(
-    /^::iframe\[(.+)\]$/gim,
-    '<div class="mw-embed"><iframe src="$1" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>',
-  );
-
-  html = html
-    .replace(/^### (.*$)/gim, "<h3>$1</h3>")
-    .replace(/^## (.*$)/gim, "<h2>$1</h2>")
-    .replace(/^# (.*$)/gim, "<h1>$1</h1>")
-    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*(.*?)\*/g, "<em>$1</em>")
-    .replace(/^---$/gim, "<hr />")
-    .replace(/^- (.*$)/gim, "<li>$1</li>")
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-
-  html = html.replace(/((<li.*<\/li>\n?)+)/g, "<ul>$1</ul>");
-
-  const lines = html.split("\n");
-  const result: string[] = [];
-  for (const line of lines) {
-    const trimmed = line.trim();
-    if (trimmed && !trimmed.startsWith("<")) {
-      result.push(`<p>${trimmed}</p>`);
-    } else {
-      result.push(line);
-    }
-  }
-
-  return result.join("\n");
 }
 
 export default function BlogArticle({ post }: { post: Post }) {

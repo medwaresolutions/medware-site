@@ -1,14 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
+import { requireAdmin } from "@/lib/auth/admin";
 import AdminDashboardClient from "./AdminDashboardClient";
 
 export default async function AdminDashboardPage() {
+  const user = await requireAdmin();
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/admin/login");
-  }
 
   const { data: posts } = await supabase
     .from("posts")
