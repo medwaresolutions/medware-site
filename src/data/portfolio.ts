@@ -235,6 +235,7 @@ export const FAMILIES: Family[] = [
         status: "In development",
         statusType: "building",
         group: "clinical",
+        image: "/Medwareai.png",
         purpose:
           "Our own AI platform for healthcare — the retrieval, the region and specialty configuration, the document handling and the guardrails. The language model is a component we choose and can swap; the software around it is the product.",
         problem:
@@ -275,6 +276,7 @@ export const FAMILIES: Family[] = [
         status: "Live",
         statusType: "live",
         group: "commercial",
+        image: "/Medware-CRM.jpg",
         purpose:
           "CRM for industry that puts the doctor database, email marketing and pipeline in one place — Mailchimp’s and HubSpot’s jobs, sitting on verified physician data, integrated with the software a commercial team already runs.",
         problem:
@@ -354,6 +356,7 @@ export const FAMILIES: Family[] = [
         status: "Live",
         statusType: "live",
         group: "audience",
+        image: "/Medware-surevy.jpg",
         purpose:
           "Survey and research platform built for healthcare audiences — design a study, distribute it, and analyse the results, without bending a consumer tool to do it.",
         problem:
@@ -373,6 +376,7 @@ export const FAMILIES: Family[] = [
         status: "Live",
         statusType: "live",
         group: "audience",
+        image: "/audience.jpg",
         purpose:
           "Live polling and audience sentiment for meetings, symposia and conference sessions — the room answers on their phones and the result is on screen in seconds.",
         problem:
