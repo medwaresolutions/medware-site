@@ -129,3 +129,62 @@ export function renderMarkdown(content: string): string {
 
   return result.join("\n");
 }
+
+/* ---------------------------------------------------------------------------
+ * Rich media blocks
+ *
+ * Audio and PDF get real React components (a player, a download card) rather
+ * than the bare HTML above, so the post is parsed into a list of blocks:
+ * ordinary markdown is pre-rendered to HTML, media is handed back structured.
+ * ------------------------------------------------------------------------ */
+
+export type ProseBlock =
+  | { kind: "html"; html: string }
+  | { kind: "audio"; src: string; title?: string; subtitle?: string }
+  | { kind: "pdf"; src: string; label?: string; filename?: string; size?: string };
+
+/** ::audio[url|Title|Subtitle] and ::pdf[url|Label|File.pdf|1.4 MB] */
+const MEDIA_BLOCK = /^::(audio|pdf)\[([^\]]+)\]\s*$/i;
+
+export function parseProseBlocks(content: string): ProseBlock[] {
+  const blocks: ProseBlock[] = [];
+  let buffer: string[] = [];
+  let inHtmlFence = false;
+
+  const flush = () => {
+    const markdown = buffer.join("\n").trim();
+    buffer = [];
+    if (markdown) blocks.push({ kind: "html", html: renderMarkdown(markdown) });
+  };
+
+  for (const line of content.split("\n")) {
+    // Never split a raw-HTML passthrough block apart.
+    if (/^:::html\s*$/.test(line)) inHtmlFence = true;
+    else if (inHtmlFence && /^:::\s*$/.test(line)) inHtmlFence = false;
+
+    const match = inHtmlFence ? null : line.match(MEDIA_BLOCK);
+    if (!match) {
+      buffer.push(line);
+      continue;
+    }
+
+    flush();
+    const [src, ...rest] = match[2].split("|").map((part) => part.trim());
+    if (!src) continue;
+
+    if (match[1].toLowerCase() === "audio") {
+      blocks.push({ kind: "audio", src, title: rest[0] || undefined, subtitle: rest[1] || undefined });
+    } else {
+      blocks.push({
+        kind: "pdf",
+        src,
+        label: rest[0] || undefined,
+        filename: rest[1] || undefined,
+        size: rest[2] || undefined,
+      });
+    }
+  }
+
+  flush();
+  return blocks;
+}

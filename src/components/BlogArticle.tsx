@@ -7,7 +7,7 @@ import Footer from "@/components/sections/Footer";
 import { Button } from "@/components/ds";
 import { LegalDialog, type LegalDoc } from "@/components/sections/dialogs";
 import { formatPostDateLong } from "@/components/sections/shared";
-import { renderMarkdown } from "@/lib/markdown";
+import ProseContent from "@/components/prose/ProseContent";
 
 interface Post {
   id: string;
@@ -81,7 +81,7 @@ export default function BlogArticle({ post }: { post: Post }) {
           />
         ) : null}
 
-        <div className="mw-prose" dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }} />
+        <ProseContent content={post.content} />
 
         <div
           style={{

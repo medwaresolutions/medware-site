@@ -507,3 +507,175 @@ a { -webkit-tap-highlight-color: transparent; }
 .dark .mw-logo-dark { display: none; }
 [data-theme="dark"] .mw-logo-white,
 .dark .mw-logo-white { display: inline-block; }
+
+/* ---------------------------------------------------------------------------
+   Article audio player (::audio[...]) — M3 tokens, works light and dark.
+   -------------------------------------------------------------------------- */
+.mw-audio {
+  margin: 32px 0;
+  padding: 18px 20px 12px;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-corner-extra-large);
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--md-sys-color-primary) 7%, transparent),
+      transparent 55%),
+    var(--md-sys-color-surface-container-low);
+  transition: border-color .2s, box-shadow .2s;
+}
+.mw-audio.is-playing {
+  border-color: color-mix(in srgb, var(--md-sys-color-primary) 45%, var(--md-sys-color-outline-variant));
+  box-shadow: 0 6px 24px -12px color-mix(in srgb, var(--md-sys-color-primary) 60%, transparent);
+}
+.mw-audio__head { display: flex; align-items: center; gap: 14px; }
+.mw-audio__play {
+  flex: none; width: 52px; height: 52px; border: none; border-radius: 50%; cursor: pointer;
+  background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary);
+  display: grid; place-items: center;
+  box-shadow: 0 4px 14px -6px color-mix(in srgb, var(--md-sys-color-primary) 90%, transparent);
+  transition: transform .15s var(--md-sys-motion-easing-emphasized, ease), filter .15s;
+}
+.mw-audio__play:hover { transform: scale(1.06); }
+.mw-audio__play:active { transform: scale(.96); }
+.mw-audio__play .material-symbols-rounded { font-size: 30px; font-variation-settings: "FILL" 1; }
+.mw-audio__meta { flex: 1; min-width: 0; }
+.mw-audio__title {
+  font-family: var(--md-sys-typescale-font-plain);
+  font-size: var(--md-sys-typescale-title-medium-size, 16px);
+  font-weight: 600; line-height: 1.35; color: var(--md-sys-color-on-surface);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.mw-audio__sub {
+  display: flex; align-items: center; gap: 8px; margin-top: 2px;
+  font-size: 13px; letter-spacing: .2px; color: var(--md-sys-color-on-surface-variant);
+}
+.mw-audio__eq { display: none; align-items: flex-end; gap: 2px; height: 12px; }
+.mw-audio.is-playing .mw-audio__eq { display: inline-flex; }
+.mw-audio__eq i {
+  width: 3px; border-radius: 2px; background: var(--md-sys-color-primary);
+  animation: mw-eq .9s ease-in-out infinite;
+}
+.mw-audio__eq i:nth-child(1) { height: 40%; animation-delay: 0s; }
+.mw-audio__eq i:nth-child(2) { height: 90%; animation-delay: .15s; }
+.mw-audio__eq i:nth-child(3) { height: 55%; animation-delay: .3s; }
+.mw-audio__eq i:nth-child(4) { height: 75%; animation-delay: .45s; }
+@keyframes mw-eq { 0%, 100% { transform: scaleY(.35); } 50% { transform: scaleY(1); } }
+@media (prefers-reduced-motion: reduce) { .mw-audio__eq i { animation: none; } }
+.mw-audio__speed {
+  flex: none; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  font-family: var(--md-sys-typescale-font-plain); font-size: 12px; font-weight: 700; letter-spacing: .3px;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background: transparent; color: var(--md-sys-color-on-surface-variant);
+  transition: border-color .15s, color .15s, background-color .15s;
+}
+.mw-audio__speed:hover {
+  border-color: var(--md-sys-color-primary); color: var(--md-sys-color-primary);
+  background: color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent);
+}
+
+.mw-audio__scrub { display: flex; align-items: center; gap: 12px; margin: 16px 0 4px; }
+.mw-audio__time {
+  flex: none; min-width: 44px; font-variant-numeric: tabular-nums;
+  font-size: 12px; color: var(--md-sys-color-on-surface-variant);
+}
+.mw-audio__scrub .mw-audio__time:last-child { text-align: right; }
+.mw-audio__track {
+  position: relative; flex: 1; height: 6px; border-radius: 999px;
+  background: color-mix(in srgb, var(--md-sys-color-on-surface) 12%, transparent);
+}
+.mw-audio__buffered, .mw-audio__fill {
+  position: absolute; inset: 0 auto 0 0; border-radius: 999px; pointer-events: none;
+}
+.mw-audio__buffered { background: color-mix(in srgb, var(--md-sys-color-on-surface) 12%, transparent); }
+.mw-audio__fill { background: var(--md-sys-color-primary); }
+.mw-audio__thumb {
+  position: absolute; top: 50%; width: 13px; height: 13px; border-radius: 50%;
+  transform: translate(-50%, -50%); pointer-events: none;
+  background: var(--md-sys-color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--md-sys-color-primary) 20%, transparent);
+  transition: box-shadow .15s;
+}
+.mw-audio__track:hover .mw-audio__thumb {
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--md-sys-color-primary) 22%, transparent);
+}
+.mw-audio__range {
+  position: absolute; inset: -8px 0; width: 100%; height: calc(100% + 16px);
+  margin: 0; opacity: 0; cursor: pointer; -webkit-appearance: none; appearance: none;
+}
+.mw-audio__range:focus-visible + * , .mw-audio__range:focus-visible { outline: none; }
+.mw-audio__track:focus-within .mw-audio__thumb {
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
+}
+
+.mw-audio__controls { display: flex; align-items: center; gap: 2px; }
+.mw-audio__controls > button, .mw-audio__controls > a {
+  display: grid; place-items: center; width: 38px; height: 38px; border: none; border-radius: 50%;
+  background: transparent; color: var(--md-sys-color-on-surface-variant); cursor: pointer;
+  text-decoration: none; transition: background-color .15s, color .15s;
+}
+.mw-audio__controls > button:hover, .mw-audio__controls > a:hover {
+  background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent);
+  color: var(--md-sys-color-on-surface);
+}
+.mw-audio__controls .material-symbols-rounded { font-size: 21px; }
+.mw-audio__spacer { flex: 1; }
+
+/* ---------------------------------------------------------------------------
+   PDF download card (::pdf[...])
+   -------------------------------------------------------------------------- */
+.mw-pdf {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  margin: 32px 0; padding: 18px 20px;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-corner-extra-large);
+  background: var(--md-sys-color-surface-container-low);
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+.mw-pdf:hover {
+  border-color: color-mix(in srgb, var(--md-sys-color-primary) 45%, var(--md-sys-color-outline-variant));
+  box-shadow: 0 8px 26px -14px color-mix(in srgb, var(--md-sys-color-on-surface) 55%, transparent);
+}
+.mw-pdf__icon {
+  flex: none; display: grid; place-items: center; width: 48px; height: 48px;
+  border-radius: var(--md-sys-shape-corner-large);
+  background: color-mix(in srgb, var(--md-sys-color-error) 14%, transparent);
+  color: var(--md-sys-color-error);
+}
+.mw-pdf__icon .material-symbols-rounded { font-size: 26px; }
+.mw-pdf__meta { flex: 1; min-width: 170px; }
+.mw-pdf__label {
+  font-family: var(--md-sys-typescale-font-plain);
+  font-size: var(--md-sys-typescale-title-medium-size, 16px);
+  font-weight: 600; line-height: 1.35; color: var(--md-sys-color-on-surface);
+}
+.mw-pdf__detail {
+  margin-top: 2px; font-size: 13px; letter-spacing: .2px;
+  color: var(--md-sys-color-on-surface-variant);
+}
+.mw-pdf__actions { display: flex; align-items: center; gap: 6px; flex: none; }
+a.mw-pdf__cta {
+  display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px 11px 16px;
+  border-radius: 999px; text-decoration: none;
+  font-family: var(--md-sys-typescale-font-plain); font-size: 14px; font-weight: 600;
+  background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary);
+  transition: filter .15s, transform .15s, box-shadow .15s;
+}
+a.mw-pdf__cta:hover {
+  filter: brightness(1.06); transform: translateY(-1px);
+  box-shadow: 0 6px 18px -8px color-mix(in srgb, var(--md-sys-color-primary) 90%, transparent);
+}
+a.mw-pdf__cta:active { transform: translateY(0); }
+.mw-pdf__cta .material-symbols-rounded { font-size: 19px; }
+a.mw-pdf__view {
+  padding: 11px 14px; border-radius: 999px; text-decoration: none;
+  font-family: var(--md-sys-typescale-font-plain); font-size: 14px; font-weight: 600;
+  color: var(--md-sys-color-on-surface-variant); transition: background-color .15s, color .15s;
+}
+a.mw-pdf__view:hover {
+  background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent);
+  color: var(--md-sys-color-on-surface);
+}
+@media (max-width: 560px) {
+  .mw-pdf__actions { width: 100%; }
+  .mw-pdf__cta { flex: 1; justify-content: center; }
+}

@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { renderMarkdown } from "@/lib/markdown";
+import ProseContent from "@/components/prose/ProseContent";
 
 interface PostData {
   id?: string;
@@ -55,6 +55,7 @@ export default function PostEditor({
   const imageInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
   const audioInputRef = useRef<HTMLInputElement>(null);
+  const pdfInputRef = useRef<HTMLInputElement>(null);
   const supabase = createClient();
   const router = useRouter();
 
@@ -131,7 +132,18 @@ export default function PostEditor({
     }, 0);
   }
 
-  async function uploadAndInsert(file: File, type: "image" | "video" | "audio") {
+  function formatBytes(bytes: number) {
+    if (!bytes) return "";
+    const mb = bytes / (1024 * 1024);
+    return mb >= 1 ? `${mb.toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  }
+
+  /** Shortcode fields are pipe-separated, so strip pipes and brackets from names. */
+  function cleanField(value: string) {
+    return value.replace(/[|\]\[]/g, " ").trim();
+  }
+
+  async function uploadAndInsert(file: File, type: "image" | "video" | "audio" | "pdf") {
     setUploading(type);
     const fd = new FormData();
     fd.append("file", file);
@@ -139,7 +151,17 @@ export default function PostEditor({
       const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
       const data = await res.json();
       if (data.error) throw new Error(data.error);
-      insertBlock(`::${type}[${data.url}]`);
+
+      if (type === "pdf") {
+        const name = cleanField(data.name ?? file.name);
+        insertBlock(
+          `::pdf[${data.url}|Download the full article|${name}|${formatBytes(data.size ?? file.size)}]`,
+        );
+      } else if (type === "audio") {
+        insertBlock(`::audio[${data.url}|Listen to this article]`);
+      } else {
+        insertBlock(`::${type}[${data.url}]`);
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Upload failed");
     } finally {
@@ -222,10 +244,7 @@ export default function PostEditor({
             <p className="text-sm text-[var(--md-sys-color-on-surface-variant)] mb-12">
               By {form.author_name || "Matt Martin"}
             </p>
-            <div
-              className="mw-prose"
-              dangerouslySetInnerHTML={{ __html: renderMarkdown(form.content) }}
-            />
+            <ProseContent content={form.content} />
           </div>
         ) : (
           /* Edit Mode */
@@ -292,6 +311,15 @@ export default function PostEditor({
                     </button>
                     <button
                       type="button"
+                      onClick={() => pdfInputRef.current?.click()}
+                      disabled={!!uploading}
+                      className="text-xs px-2.5 py-1.5 rounded-md border border-[var(--md-sys-color-outline-variant)] text-[var(--md-sys-color-on-surface-variant)] hover:text-[var(--md-sys-color-on-surface)] hover:border-[var(--md-sys-color-primary)]/50 transition-all disabled:opacity-50"
+                      title="Upload a PDF and insert a download card"
+                    >
+                      {uploading === "pdf" ? "Uploading..." : "📄 PDF"}
+                    </button>
+                    <button
+                      type="button"
                       onClick={() => insertBlock("::iframe[https://www.youtube.com/embed/VIDEO_ID]")}
                       className="text-xs px-2.5 py-1.5 rounded-md border border-[var(--md-sys-color-outline-variant)] text-[var(--md-sys-color-on-surface-variant)] hover:text-[var(--md-sys-color-on-surface)] hover:border-[var(--md-sys-color-primary)]/50 transition-all"
                     >
@@ -323,6 +351,8 @@ export default function PostEditor({
                   onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadAndInsert(f, "video"); e.target.value = ""; }} />
                 <input ref={audioInputRef} type="file" accept="audio/*" className="hidden"
                   onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadAndInsert(f, "audio"); e.target.value = ""; }} />
+                <input ref={pdfInputRef} type="file" accept="application/pdf,.pdf" className="hidden"
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadAndInsert(f, "pdf"); e.target.value = ""; }} />
               </div>
             </div>
 

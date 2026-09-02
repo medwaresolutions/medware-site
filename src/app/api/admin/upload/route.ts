@@ -33,12 +33,21 @@ export async function POST(request: NextRequest) {
   const bytes = await file.arrayBuffer()
   const { error } = await admin.storage
     .from(BUCKET)
-    .upload(filename, Buffer.from(bytes), { contentType: file.type })
+    .upload(filename, Buffer.from(bytes), {
+      contentType: file.type || 'application/octet-stream',
+      cacheControl: '31536000',
+    })
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
   const { data: { publicUrl } } = admin.storage.from(BUCKET).getPublicUrl(filename)
-  return NextResponse.json({ url: publicUrl })
+  // name/size come back so the editor can label the PDF card without a re-read.
+  return NextResponse.json({
+    url: publicUrl,
+    name: file.name,
+    size: file.size,
+    type: file.type,
+  })
 }
