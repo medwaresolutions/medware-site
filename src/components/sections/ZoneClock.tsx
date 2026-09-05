@@ -9,7 +9,7 @@ export const ZONE_CLOCK_URL = "https://zoneclock.app";
    Sits just above "Get in touch" and opens the live app in a modal. */
 export default function ZoneClock({ onOpen }: { onOpen: () => void }) {
   return (
-    <section id="zoneclock" style={{ ...mwWrap, padding: "0 24px 24px", maxWidth: 720 }}>
+    <section id="zoneclock" style={{ ...mwWrap, padding: "64px 24px 24px", maxWidth: 720 }}>
       <Card
         variant="filled"
         interactive
