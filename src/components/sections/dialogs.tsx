@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button, Dialog, StatusPill } from "@/components/ds";
 import type { Product } from "@/data/portfolio";
+import { ZONE_CLOCK_URL } from "./ZoneClock";
 
 /* ---------- Product detail dialog ---------- */
 function Field({ label, body }: { label: string; body?: string }) {
@@ -67,6 +68,46 @@ export function ProductDialog({ product, onClose }: { product: Product | null; o
         <Field label="Revenue model" body={product.revenue} />
         <Field label="Market" body={product.market} />
         <Field label="Customers" body={product.customers} />
+      </div>
+    </Dialog>
+  );
+}
+
+/* ---------- Zone Clock (live app in a modal) ---------- */
+export function ZoneClockDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+  if (!open) return null;
+  return (
+    <Dialog
+      open
+      onClose={onClose}
+      className="mdc-dialog--app"
+      headline={
+        <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <span className="material-symbols-rounded" style={{ color: "var(--md-sys-color-primary)" }}>
+            schedule
+          </span>
+          Zone Clock
+        </span>
+      }
+      actions={
+        <>
+          <Button variant="text" onClick={onClose}>
+            Close
+          </Button>
+          <Button variant="tonal" href={ZONE_CLOCK_URL} target="_blank" rel="noopener noreferrer" icon="open_in_new">
+            Open full screen
+          </Button>
+        </>
+      }
+    >
+      <div className="mw-app-frame">
+        <iframe
+          src={ZONE_CLOCK_URL}
+          title="Zone Clock"
+          loading="lazy"
+          allow="clipboard-write"
+          referrerPolicy="strict-origin-when-cross-origin"
+        />
       </div>
     </Dialog>
   );

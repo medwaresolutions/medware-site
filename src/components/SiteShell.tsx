@@ -9,14 +9,16 @@ import Work from "./sections/Work";
 import About from "./sections/About";
 import Advisory from "./sections/Advisory";
 import Contact from "./sections/Contact";
+import ZoneClock from "./sections/ZoneClock";
 import Footer from "./sections/Footer";
-import { CookieBanner, LegalDialog, ProductDialog, type LegalDoc } from "./sections/dialogs";
+import { CookieBanner, LegalDialog, ProductDialog, ZoneClockDialog, type LegalDoc } from "./sections/dialogs";
 import { Snackbar } from "./ds";
 import type { Product } from "@/data/portfolio";
 
 export default function SiteShell({ posts }: { posts: SignalPost[] }) {
   const [product, setProduct] = useState<Product | null>(null);
   const [legal, setLegal] = useState<LegalDoc | null>(null);
+  const [zoneClock, setZoneClock] = useState(false);
   const [snack, setSnack] = useState<string | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -36,12 +38,14 @@ export default function SiteShell({ posts }: { posts: SignalPost[] }) {
         <SignalTeaser posts={posts} />
         <About />
         <Advisory />
+        <ZoneClock onOpen={() => setZoneClock(true)} />
         <Contact onSend={(email) => toast(email ? "Thanks — we'll be in touch" : "Enter your email so we can reply")} />
       </main>
       <Footer onOpenLegal={setLegal} />
 
       <ProductDialog product={product} onClose={() => setProduct(null)} />
       <LegalDialog doc={legal} onClose={() => setLegal(null)} />
+      <ZoneClockDialog open={zoneClock} onClose={() => setZoneClock(false)} />
       <CookieBanner onPolicy={() => setLegal("cookies")} />
       {snack ? <Snackbar message={snack} showClose onClose={() => setSnack(null)} /> : null}
     </>
