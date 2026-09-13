@@ -16,6 +16,8 @@ interface PostData {
   cover_image: string;
   author_name: string;
   published: boolean;
+  /** Comma separated in the form; saved as text[]. */
+  tags: string;
 }
 
 const CATEGORIES = [
@@ -46,6 +48,7 @@ export default function PostEditor({
     cover_image: initialData?.cover_image ?? "",
     author_name: initialData?.author_name ?? "Matt Martin",
     published: initialData?.published ?? false,
+    tags: initialData?.tags ?? "",
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -85,6 +88,11 @@ export default function PostEditor({
       excerpt: form.excerpt || null,
       category: form.category || null,
       cover_image: form.cover_image || null,
+      // "orvessa" here also publishes the post to the Orvessa Insights feed.
+      tags: form.tags
+        .split(",")
+        .map((t) => t.trim().toLowerCase())
+        .filter(Boolean),
       author_name: form.author_name || "Matt Martin",
       published: publish ?? form.published,
       published_at:
@@ -396,6 +404,24 @@ export default function PostEditor({
                     </option>
                   ))}
                 </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-[var(--md-sys-color-on-surface-variant)] mb-2">
+                  Tags
+                </label>
+                <input
+                  type="text"
+                  value={form.tags}
+                  onChange={(e) =>
+                    setForm((prev) => ({ ...prev, tags: e.target.value }))
+                  }
+                  className="w-full bg-[var(--md-sys-color-surface-container)] border border-[var(--md-sys-color-outline-variant)] rounded-lg px-4 py-3 text-[var(--md-sys-color-on-surface)] text-sm placeholder:text-[var(--md-sys-color-outline)] focus:outline-none focus:border-[var(--md-sys-color-primary)] transition-colors"
+                  placeholder="orvessa, ai, agency"
+                />
+                <p className="mt-2 text-xs text-[var(--md-sys-color-on-surface-variant)]">
+                  Comma separated. Add <code>orvessa</code> to show this post in the Orvessa Insights feed as well.
+                </p>
               </div>
 
               <div>

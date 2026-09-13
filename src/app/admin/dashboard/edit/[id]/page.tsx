@@ -35,6 +35,7 @@ export default async function EditPostPage({
         cover_image: post.cover_image ?? "",
         author_name: post.author_name ?? "Matt Martin",
         published: post.published,
+        tags: (post.tags ?? []).join(", "),
       }}
     />
   );
