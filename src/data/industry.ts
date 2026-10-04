@@ -158,7 +158,7 @@ export const PRODUCTS: IndustryProduct[] = [
       "Consulting one-on-one, for a team, or company-wide",
       "A review of how visuals are used across your products",
     ],
-    link: "https://cellmap-colonocyte.vercel.app",
+    link: "https://cellmap.medware.com.au",
   },
   {
     key: "medwareai", group: "educate", title: "Medware AI", aud: "Doctors, in the surgery", status: "dev",

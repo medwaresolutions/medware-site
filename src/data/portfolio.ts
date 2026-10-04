@@ -423,13 +423,13 @@ export const FAMILIES: Family[] = [
         problem:
           "Pharma MoA storytelling relies on stylised illustrations or static diagrams. Medical educators teaching cellular biology have nothing interactive to point at.",
         howItWorks:
-          "A web-based 3D atlas in Three.js, populated with real PDB atomic structures. Users zoom from organelle to atomic structure across five LOD tiers. Hover any protein for function and copy-number.",
+          "A web-based 3D cell in Three.js, built from real PDB atomic structures. Users zoom from the whole cell down to atoms across five levels, and tap any protein, the nucleus or a mitochondrion to open it in 3D.",
         revenue:
           "Licensing under development — direct pharma licensing for MoA assets, plus subscription for medical education.",
         market: "Pharma medical affairs and brand teams, plus medical schools and CME providers globally.",
         customers:
-          "Live. 1,230 proteins placed across 18 types in the human colonocyte; expandable to other cell types.",
-        link: "https://cellmap-colonocyte.vercel.app",
+          "Live. A human colonocyte with 24 protein types shown as real structures, and copy numbers for about 60 proteins measured from a published colon proteome; expandable to any cell type.",
+        link: "https://cellmap.medware.com.au",
       },
       {
         title: "AdSafe",
